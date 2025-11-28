@@ -3,9 +3,9 @@ import { Linkedin, Twitter } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 
 const productLinks = [
-  { label: "Features", href: "/#solution" },
+  { label: "Features", href: "/product" },
   { label: "Integrations", href: "/integrations" },
-  { label: "Pricing", href: "/#pricing" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Security", href: "/security" },
   { label: "API Documentation", href: "/api-docs" },
 ];
@@ -14,23 +14,23 @@ const companyLinks = [
   { label: "About Us", href: "/about" },
   { label: "Careers", href: "/careers" },
   { label: "Press", href: "/press" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
   { label: "Partners", href: "/partners" },
 ];
 
 const resourceLinks = [
-  { label: "Blog", href: "/blog" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Webinars", href: "/webinars" },
+  { label: "Resources", href: "/resources" },
+  { label: "Blog", href: "/resources" },
+  { label: "Case Studies", href: "/resources" },
   { label: "Help Center", href: "/help" },
   { label: "Status Page", href: "/status" },
 ];
 
 const legalLinks = [
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-  { label: "HIPAA Notice", href: "/hipaa" },
-  { label: "Cookie Policy", href: "/cookies" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: "HIPAA Notice", href: "/hipaa-notice" },
+  { label: "Cookie Policy", href: "/cookie-policy" },
 ];
 
 const Footer = () => {
