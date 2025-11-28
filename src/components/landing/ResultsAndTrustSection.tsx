@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
 import AnimatedCounter from "../shared/AnimatedCounter";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 
 const stats = [
