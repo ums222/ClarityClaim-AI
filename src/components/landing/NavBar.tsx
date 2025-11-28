@@ -33,19 +33,8 @@ const NavBar = () => {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6 lg:px-8">
         <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-clarity-primary/80 text-clarity-accent shadow-glow-primary">
-            <Shield className="h-5 w-5" />
-          </span>
-          <div className="flex flex-col leading-tight">
-            <span className="text-base font-semibold text-slate-50">
-              ClarityClaim
-            </span>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-slate-400">
-              AI Appeals
-            </span>
-          </div>
-        </Link>
-
+            <img src="/ClarityClaim AI logo.png" alt="ClarityClaim AI Logo" className="h-8 w-auto" />
+          </Link>
         {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
           <div className="flex items-center gap-6 text-sm text-slate-300">
