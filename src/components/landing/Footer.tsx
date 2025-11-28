@@ -8,7 +8,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-                <img src="/ClarityClaim AI logo.png" alt="ClarityClaim AI Logo" className="h-6 w-auto" />
+                <img src="/ClarityClaim%20AI%20logo.png" alt="ClarityClaim AI Logo" className="h-6 w-auto" />
             </div>
             <p className="text-xs text-slate-400">
               AI-powered healthcare claims management
