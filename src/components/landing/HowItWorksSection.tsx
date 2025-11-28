@@ -166,7 +166,10 @@ const HowItWorksSection = () => {
             >
               <div className="flex items-start gap-3">
                 <span className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-slate-950">
-                  <activeStep.icon className="h-4 w-4 text-clarity-secondary" />
+                  {(() => {
+                    const Icon = activeStep.icon;
+                    return <Icon className="h-4 w-4 text-clarity-secondary" />;
+                  })()}
                 </span>
                 <div>
                   <p className="text-xs font-semibold text-slate-400">

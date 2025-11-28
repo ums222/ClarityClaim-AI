@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { Shield, Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
@@ -10,17 +10,24 @@ const navItems = [
   { label: "Pricing", href: "#pricing" },
   { label: "About", href: "#about" },
   { label: "Resources", href: "#resources" },
-];
+] as const;
 
-const NavBar = () => {
+const NavBar = memo(() => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
     const handler = () => {
-      setScrolled(window.scrollY > 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handler);
+    window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
@@ -104,6 +111,8 @@ const NavBar = () => {
       )}
     </header>
   );
-};
+});
+
+NavBar.displayName = "NavBar";
 
 export default NavBar;
