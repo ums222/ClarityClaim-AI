@@ -33,7 +33,7 @@ const founders = [
 
 const FoundersSection = () => {
   return (
-    <SectionContainer id="founders"  className="bg-white dark:bg-slate-950">
+    <SectionContainer id="founders" className="section-bg-dark">
       <SectionHeader
         eyebrow="FOUNDING TEAM"
         title="Built by Healthcare, AI & Operations Leaders"
