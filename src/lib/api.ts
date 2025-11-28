@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig, type AxiosResponse, type AxiosError } from 'axios';
+import axios, { type InternalAxiosRequestConfig, type AxiosResponse, type AxiosError } from 'axios';
 
 // Get API URL from environment variable or use default
 // For Vercel: use relative path (serverless functions are at /api/*)
@@ -17,7 +17,7 @@ const apiClient = axios.create({
 
 // Request interceptor (for adding auth tokens, etc.)
 apiClient.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     // Add any auth tokens here if needed
     // const token = localStorage.getItem('token');
     // if (token && config.headers) {
