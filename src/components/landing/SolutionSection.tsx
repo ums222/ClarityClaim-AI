@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import AIPatternMapResponsive from "./AIPatternMap";
 import ValidationChecklist from "./ValidationChecklist";
 import AppealDraft from "./AppealDraft";
+import EquityDashboard from "./EquityDashboard";
 
 const features = [
   {
@@ -132,6 +133,8 @@ const SolutionSection = () => {
                     <ValidationChecklist />
                   ) : idx === 2 ? (
                     <AppealDraft />
+                  ) : idx === 3 ? (
+                    <EquityDashboard />
                   ) : (
                     <div className="relative h-40 rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:via-slate-900/40 dark:to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
                       <div className="flex h-full items-center justify-center text-xs text-slate-600 dark:text-slate-300">
