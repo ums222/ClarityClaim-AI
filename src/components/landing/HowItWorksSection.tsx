@@ -191,7 +191,7 @@ const HowItWorksSection = () => {
             <div className="relative h-40 rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
               <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(56,189,248,0.35),_transparent_55%)] opacity-60" />
               <div className="relative flex h-full items-center justify-center text-xs text-slate-200">
-                Subtle AI particle / dot-grid background placeholder
+                
               </div>
             </div>
             <div className="space-y-3">
