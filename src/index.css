@@ -106,3 +106,11 @@ html.dark .section-bg-solution {
 html.dark .section-bg-dark {
   background: #0f172a;
 }
+
+.section-bg-cta {
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+}
+
+html.dark .section-bg-cta {
+  background: linear-gradient(135deg, #1e3a5f, #0f172a);
+}

@@ -12,13 +12,9 @@ const FinalCTASection = () => {
   };
 
   return (
-    <SectionContainer
-      id="contact"
-      className="""bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 dark:text-slate-50"
-    >
-      <div className="rounded-3xl  p-6 md:p-10">
+    <SectionContainer id="contact" className="section-bg-cta">
+      <div className="rounded-3xl p-6 md:p-10">
         <div className="grid gap-8 md:grid-cols-2 md:items-start">
-bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 dark:text-slate-50
           {/* LEFT - HEADLINE */}
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clarity-secondary">
