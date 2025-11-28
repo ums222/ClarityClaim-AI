@@ -52,7 +52,7 @@ const ProblemSection = () => {
             <span className="bg-gradient-to-r from-clarity-warning via-clarity-accent to-clarity-error bg-clip-text text-transparent">
               The $25.7 Billion Problem
             </span>
-          } as any
+          }
           subtitle="Claim denials silently drain operating margins, burn out staff, and worsen health equity outcomes."
         />
 
