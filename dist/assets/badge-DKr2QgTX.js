@@ -1,0 +1,1 @@
+import{j as e}from"./motion-D9rjvgrP.js";import{a}from"./LandingPage-XQf0cjA2.js";const t=({className:t,children:r})=>e.jsx("span",{className:a("inline-flex items-center rounded-full border border-clarity-accent/30 bg-clarity-accent/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-clarity-accent",t),children:r});export{t as B};

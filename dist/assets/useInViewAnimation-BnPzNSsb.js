@@ -1,0 +1,1 @@
+import{r as e}from"./react-vendor-DM_ejLFS.js";const r=(r="-100px")=>{const t=e.useRef(null),[n,s]=e.useState(!1);return e.useEffect(()=>{const e=t.current;if(!e)return;const n=new IntersectionObserver(([e])=>{e.isIntersecting&&(s(!0),n.disconnect())},{rootMargin:r,threshold:0});return n.observe(e),()=>n.disconnect()},[r]),{ref:t,isInView:n}};export{r as u};

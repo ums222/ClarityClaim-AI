@@ -1,12 +1,11 @@
-import { motion } from "framer-motion";
+import { memo, useMemo } from "react";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import {
   Brain,
-  Sparkles,
   CheckCircle,
   FileText,
   Wand2,
   BarChart3,
-  LayoutDashboard,
   LineChart,
 } from "lucide-react";
 import SectionContainer from "../shared/SectionContainer";
@@ -50,93 +49,98 @@ const features = [
     visualLabel: "Equity Dashboard",
   },
   {
-    icon: LayoutDashboard,
+    icon: LineChart,
     title: "Executive Intelligence Dashboard",
     description:
       "Real-time KPIs on denial trends, appeal rates, revenue recovered, and equity metrics. AI-powered forecasting for strategic planning.",
     badge: "100K+ Claims/Day",
     visualLabel: "Exec KPIs",
   },
-];
+] as const;
 
-const SolutionSection = () => {
+// Map icon overrides
+const getIcon = (idx: number, DefaultIcon: typeof Brain) => {
+  if (idx === 4) return LineChart;
+  if (idx === 2) return Wand2;
+  return DefaultIcon;
+};
+
+const SolutionSection = memo(() => {
   const { ref, isInView } = useInViewAnimation();
 
-  return (
-    <SectionContainer
-      id="solution"
-      className="bg-solution-gradient text-slate-50"
-    >
-      <div ref={ref}>
-        <SectionHeader
-          eyebrow="THE SOLUTION"
-          title="Meet Your AI Claims Expert"
-          subtitle="ClarityClaim AI is a vertical AI platform purpose-built for healthcare claims. Unlike generic AI, we're trained on real claims data, payer policies, clinical guidelines, and regulatory requirements."
-          align="center"
-        />
-
-        <div className="mt-10 space-y-8">
-          {features.map((f, idx) => {
-            const Icon = f.icon;
-            const left = idx % 2 === 0;
-            return (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, x: left ? -40 : 40 }}
-                animate={
-                  isInView ? { opacity: 1, x: 0 } : undefined
-                }
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="grid gap-6 md:grid-cols-2 md:items-center"
-              >
-                <div className={left ? "" : "md:order-2"}>
-                  <Card className="bg-slate-950/50 hover:shadow-glow-primary transition-all duration-200 border-slate-800/80">
-                    <CardHeader>
-                      <div className="mb-3 flex items-center gap-3">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-clarity-secondary/15 text-clarity-secondary">
-                          {idx === 4 ? (
-                            <LineChart className="h-4 w-4" />
-                          ) : idx === 2 ? (
-                            <Wand2 className="h-4 w-4" />
-                          ) : (
-                            <Icon className="h-4 w-4" />
-                          )}
-                        </span>
-                        <CardTitle>{f.title}</CardTitle>
-                      </div>
-                      <Badge>{f.badge}</Badge>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-sm text-slate-300">
-                        {f.description}
-                      </CardDescription>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="mt-3 px-0 text-clarity-accent hover:bg-transparent"
-                      >
-                        Learn more \u2192
-                      </Button>
-                    </CardContent>
-                  </Card>
+  const featureCards = useMemo(() => (
+    features.map((f, idx) => {
+      const Icon = getIcon(idx, f.icon);
+      const left = idx % 2 === 0;
+      return (
+        <m.div
+          key={f.title}
+          initial={{ opacity: 0, x: left ? -40 : 40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : undefined}
+          transition={{ duration: 0.5, delay: idx * 0.08 }}
+          className="grid gap-6 md:grid-cols-2 md:items-center"
+        >
+          <div className={left ? "" : "md:order-2"}>
+            <Card className="bg-slate-950/50 hover:shadow-glow-primary transition-all duration-200 border-slate-800/80">
+              <CardHeader>
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-clarity-secondary/15 text-clarity-secondary">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <CardTitle>{f.title}</CardTitle>
                 </div>
-                <div
-                  className={left ? "" : "md:order-1"}
+                <Badge>{f.badge}</Badge>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-sm text-slate-300">
+                  {f.description}
+                </CardDescription>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="mt-3 px-0 text-clarity-accent hover:bg-transparent"
                 >
-                  <div className="relative h-40 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-900/40 to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
-                    <div className="flex h-full items-center justify-center text-xs text-slate-300">
-                      {f.visualLabel}
-                    </div>
-                    <div className="pointer-events-none absolute inset-0 rounded-2xl border border-clarity-secondary/20" />
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                  Learn more →
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+          <div className={left ? "" : "md:order-1"}>
+            <div className="relative h-40 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-900/40 to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
+              <div className="flex h-full items-center justify-center text-xs text-slate-300">
+                {f.visualLabel}
+              </div>
+              <div className="pointer-events-none absolute inset-0 rounded-2xl border border-clarity-secondary/20" />
+            </div>
+          </div>
+        </m.div>
+      );
+    })
+  ), [isInView]);
+
+  return (
+    <LazyMotion features={domAnimation} strict>
+      <SectionContainer
+        id="solution"
+        className="bg-solution-gradient text-slate-50"
+      >
+        <div ref={ref}>
+          <SectionHeader
+            eyebrow="THE SOLUTION"
+            title="Meet Your AI Claims Expert"
+            subtitle="ClarityClaim AI is a vertical AI platform purpose-built for healthcare claims. Unlike generic AI, we're trained on real claims data, payer policies, clinical guidelines, and regulatory requirements."
+            align="center"
+          />
+
+          <div className="mt-10 space-y-8">
+            {featureCards}
+          </div>
         </div>
-      </div>
-    </SectionContainer>
+      </SectionContainer>
+    </LazyMotion>
   );
-};
+});
+
+SolutionSection.displayName = "SolutionSection";
 
 export default SolutionSection;

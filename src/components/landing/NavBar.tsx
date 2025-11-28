@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Shield, Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
@@ -8,11 +8,11 @@ const navItems = [
   { label: "Features", href: "#features" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
-  { label: "About", href: "#about" },
+  { label: "About", href: "#founders" },
   { label: "Resources", href: "#resources" },
-];
+] as const;
 
-const NavBar = () => {
+const NavBar = memo(() => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -20,8 +20,17 @@ const NavBar = () => {
     const handler = () => {
       setScrolled(window.scrollY > 10);
     };
-    window.addEventListener("scroll", handler);
+    // Use passive event listener for better scroll performance
+    window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setOpen((v) => !v);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setOpen(false);
   }, []);
 
   return (
@@ -53,7 +62,7 @@ const NavBar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="relative hover:text-slate-50"
+                className="relative hover:text-slate-50 transition-colors"
               >
                 {item.label}
               </a>
@@ -70,8 +79,9 @@ const NavBar = () => {
         {/* Mobile */}
         <button
           className="inline-flex items-center justify-center rounded-full border border-slate-700/60 bg-slate-900/70 p-2 text-slate-100 md:hidden"
-          onClick={() => setOpen((v) => !v)}
+          onClick={toggleMenu}
           aria-label="Toggle navigation"
+          aria-expanded={open}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -86,7 +96,7 @@ const NavBar = () => {
                 key={item.label}
                 href={item.href}
                 className="text-sm text-slate-200"
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
               >
                 {item.label}
               </a>
@@ -104,6 +114,8 @@ const NavBar = () => {
       )}
     </header>
   );
-};
+});
+
+NavBar.displayName = "NavBar";
 
 export default NavBar;

@@ -1,3 +1,4 @@
+import { memo, useCallback } from "react";
 import SectionContainer from "../shared/SectionContainer";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -5,17 +6,14 @@ import { Select } from "../ui/select";
 import { Phone, Mail } from "lucide-react";
 import { Card } from "../ui/card";
 
-const FinalCTASection = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+const FinalCTASection = memo(() => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     console.log("Demo request submitted");
-  };
+  }, []);
 
   return (
-    <SectionContainer
-      id="contact"
-      className="bg-cta-gradient text-slate-50"
-    >
+    <SectionContainer id="contact" className="bg-cta-gradient text-slate-50">
       <div className="rounded-3xl bg-slate-950/80 p-6 md:p-10">
         <div className="grid gap-8 md:grid-cols-2 md:items-start">
 
@@ -84,8 +82,8 @@ const FinalCTASection = () => {
                   <Select defaultValue="">
                     <option value="" disabled>Select volume</option>
                     <option>&lt;1K</option>
-                    <option>1K\u201310K</option>
-                    <option>10K\u201350K</option>
+                    <option>1K–10K</option>
+                    <option>10K–50K</option>
                     <option>50K+</option>
                   </Select>
                 </div>
@@ -146,6 +144,8 @@ const FinalCTASection = () => {
       </div>
     </SectionContainer>
   );
-};
+});
+
+FinalCTASection.displayName = "FinalCTASection";
 
 export default FinalCTASection;
