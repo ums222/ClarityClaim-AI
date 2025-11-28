@@ -25,10 +25,13 @@ const cardVariants = {
 const HeroSection = () => {
   const { theme } = useTheme();
 
+  // Hero Section with AI/Healthcare neural network background pattern
+  // Background: /backgrounds/hero-pattern.svg - represents data flow and AI processing
   return (
     <SectionContainer 
       id="top" 
       className={cn(
+        "hero-bg-pattern",
         theme === "dark" ? "bg-hero-gradient" : "bg-gradient-to-br from-slate-50 via-white to-slate-100"
       )}
     >

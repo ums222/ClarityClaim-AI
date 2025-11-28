@@ -1,0 +1,18 @@
+<!--
+  Grid Pattern: Subtle data grid for Results/Trust section
+  Represents data analytics, metrics, and precision
+  Colors: Subtle teal grid lines
+  Commercial use: Custom created, free to use
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0D9488" stroke-width="0.3" opacity="0.15"/>
+    </pattern>
+    <pattern id="gridLarge" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="url(#grid)"/>
+      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#0D9488" stroke-width="0.5" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#gridLarge)"/>
+</svg>

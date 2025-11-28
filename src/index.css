@@ -123,3 +123,141 @@ section {
   overflow: hidden;
   contain: layout;
 }
+
+/* =============================================================================
+   BACKGROUND IMAGES & PATTERNS
+   Healthcare AI theme with Deep Blue (#1E3A5F), Teal (#0D9488), Gold (#F59E0B)
+   ============================================================================= */
+
+/* Hero Section Background - Neural network / data flow pattern */
+.hero-bg-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/backgrounds/hero-pattern.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Light theme hero overlay - keeps content readable */
+html.light .hero-bg-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(248,250,252,0.92) 0%, rgba(255,255,255,0.88) 50%, rgba(240,253,250,0.9) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Dark theme hero overlay */
+html.dark .hero-bg-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(30,58,95,0.8) 50%, rgba(15,23,42,0.9) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ensure hero content stays above background */
+.hero-bg-pattern > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Results Section Background - Subtle grid pattern */
+.results-bg-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.results-bg-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/backgrounds/grid-pattern.svg');
+  background-size: 100px 100px;
+  background-repeat: repeat;
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Light theme results overlay */
+html.light .results-bg-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(248,250,252,0.95) 0%, rgba(248,250,252,0.85) 50%, rgba(248,250,252,0.95) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Dark theme results overlay */
+html.dark .results-bg-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.88) 50%, rgba(15,23,42,0.95) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.results-bg-pattern > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Integrations Section Background - Dots pattern */
+.integrations-bg-dots {
+  position: relative;
+  overflow: hidden;
+}
+
+.integrations-bg-dots::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/backgrounds/dots-pattern.svg');
+  background-size: 100px 100px;
+  background-repeat: repeat;
+  opacity: 0.6;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Wave decoration for section transitions */
+.wave-decoration {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-image: url('/backgrounds/wave-pattern.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Responsive background adjustments */
+@media (max-width: 768px) {
+  .hero-bg-pattern::before {
+    opacity: 0.4;
+    background-size: 200% auto;
+    background-position: center;
+  }
+  
+  .results-bg-pattern::before {
+    opacity: 0.3;
+  }
+}

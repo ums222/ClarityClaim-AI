@@ -1,0 +1,14 @@
+<!--
+  Dots Pattern: Subtle dot matrix for backgrounds
+  Represents data points and analytics
+  Colors: Teal dots with varying opacity
+  Commercial use: Custom created, free to use
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <defs>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1" fill="#0D9488" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#dots)"/>
+</svg>

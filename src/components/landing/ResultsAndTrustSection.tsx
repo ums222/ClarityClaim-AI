@@ -32,9 +32,11 @@ const testimonials = [
   },
 ];
 
+// Results & Trust Section with subtle grid pattern background
+// Background: /backgrounds/grid-pattern.svg - represents data analytics precision
 const ResultsAndTrustSection = () => {
   return (
-    <SectionContainer id="resources" className="bg-slate-50 dark:bg-slate-950">
+    <SectionContainer id="resources" className="results-bg-pattern bg-slate-50 dark:bg-slate-950">
       <div>
         {/* Gradient banner */}
         <motion.div 
@@ -176,11 +178,13 @@ const ResultsAndTrustSection = () => {
             )}
           </div>
 
-          <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+          {/* Integrations area with subtle dots pattern background */}
+          <div className="space-y-3 relative">
+            <div className="absolute inset-0 -m-4 rounded-2xl integrations-bg-dots" style={{ zIndex: 0 }} />
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 relative z-10">
               Seamless Integration With Your Stack
             </p>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 relative z-10">
               {[
                 { name: "Epic", logo: "/logos/epic.svg" },
                 { name: "Cerner", logo: "/logos/cerner.svg" },
@@ -191,7 +195,7 @@ const ResultsAndTrustSection = () => {
               ].map((partner) => (
                 <div
                   key={partner.name}
-                  className="flex h-12 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/40 hover:border-slate-400 dark:hover:border-slate-500 transition-colors px-2"
+                  className="flex h-12 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/60 hover:border-slate-400 dark:hover:border-slate-500 transition-colors px-2 backdrop-blur-sm"
                 >
                   <img 
                     src={partner.logo} 
