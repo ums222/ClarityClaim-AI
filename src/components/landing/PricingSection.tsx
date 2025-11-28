@@ -20,7 +20,7 @@ const PricingSection = () => {
       <SectionHeader
         eyebrow="PRICING"
         title="Plans That Scale With You"
-        subtitle="From community clinics to enterprise health systems\u2014AI-powered claims management for everyone."
+        subtitle="From community clinics to enterprise health systems—AI-powered claims management for everyone."
         align="center"
       />
 
