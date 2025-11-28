@@ -14,6 +14,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui
 import { Badge } from "../ui/badge";
 import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 import { Button } from "../ui/button";
+import AIPatternMapResponsive from "./AIPatternMap";
+import ValidationChecklist from "./ValidationChecklist";
+import AppealDraft from "./AppealDraft";
+import EquityDashboard from "./EquityDashboard";
+import ExecKPIs from "./ExecKPIs";
 
 const features = [
   {
@@ -121,14 +126,26 @@ const SolutionSection = () => {
                   </Card>
                 </div>
                 <div
-                  className={left ? "" : "md:order-1"}
+                  className={`animation-container ${left ? "" : "md:order-1"}`}
                 >
-                  <div className="relative h-40 rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:via-slate-900/40 dark:to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
-                    <div className="flex h-full items-center justify-center text-xs text-slate-600 dark:text-slate-300">
-                      {f.visualLabel}
+                  {idx === 0 ? (
+                    <AIPatternMapResponsive />
+                  ) : idx === 1 ? (
+                    <ValidationChecklist />
+                  ) : idx === 2 ? (
+                    <AppealDraft />
+                  ) : idx === 3 ? (
+                    <EquityDashboard />
+                  ) : idx === 4 ? (
+                    <ExecKPIs />
+                  ) : (
+                    <div className="relative h-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:via-slate-900/40 dark:to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
+                      <div className="flex h-full items-center justify-center text-xs text-slate-600 dark:text-slate-300">
+                        {f.visualLabel}
+                      </div>
+                      <div className="pointer-events-none absolute inset-0 rounded-2xl border border-clarity-secondary/20" />
                     </div>
-                    <div className="pointer-events-none absolute inset-0 rounded-2xl border border-clarity-secondary/20" />
-                  </div>
+                  )}
                 </div>
               </motion.div>
             );
