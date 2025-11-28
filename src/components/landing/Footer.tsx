@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Linkedin, Twitter } from "lucide-react";
 const Footer = () => {
   return (
-    <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pt-10 pb-6">
+    <footer className="border-t border-slate-200 dark:border-slate-800 section-bg-dark pt-10 pb-6">
       <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
