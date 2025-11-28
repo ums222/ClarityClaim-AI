@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import {
   Brain,
-
   CheckCircle,
   FileText,
   Wand2,
@@ -65,7 +64,7 @@ const SolutionSection = () => {
   return (
     <SectionContainer
       id="solution"
-      className="bg-solution-gradient text-slate-50"
+      className="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:bg-solution-gradient text-slate-900 dark:text-slate-50"
     >
       <div ref={ref}>
         <SectionHeader
@@ -79,6 +78,7 @@ const SolutionSection = () => {
           {features.map((f, idx) => {
             const Icon = f.icon;
             const left = idx % 2 === 0;
+
             return (
               <motion.div
                 key={f.title}
@@ -90,7 +90,7 @@ const SolutionSection = () => {
                 className="grid gap-6 md:grid-cols-2 md:items-center"
               >
                 <div className={left ? "" : "md:order-2"}>
-                  <Card className="bg-slate-950/50 hover:shadow-glow-primary transition-all duration-200 border-slate-800/80">
+                  <Card className="bg-white/80 dark:bg-slate-950/50 hover:shadow-glow-primary transition-all duration-200 border-slate-200 dark:border-slate-800/80">
                     <CardHeader>
                       <div className="mb-3 flex items-center gap-3">
                         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-clarity-secondary/15 text-clarity-secondary">
@@ -107,7 +107,7 @@ const SolutionSection = () => {
                       <Badge>{f.badge}</Badge>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="text-sm text-slate-300">
+                      <CardDescription className="text-sm text-slate-600 dark:text-slate-300">
                         {f.description}
                       </CardDescription>
                       <Button
@@ -123,8 +123,8 @@ const SolutionSection = () => {
                 <div
                   className={left ? "" : "md:order-1"}
                 >
-                  <div className="relative h-40 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-900/40 to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
-                    <div className="flex h-full items-center justify-center text-xs text-slate-300">
+                  <div className="relative h-40 rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:via-slate-900/40 dark:to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
+                    <div className="flex h-full items-center justify-center text-xs text-slate-600 dark:text-slate-300">
                       {f.visualLabel}
                     </div>
                     <div className="pointer-events-none absolute inset-0 rounded-2xl border border-clarity-secondary/20" />
