@@ -14,11 +14,11 @@ const FinalCTASection = () => {
   return (
     <SectionContainer
       id="contact"
-      className="bg-cta-gradient text-slate-50"
+      className="""bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 dark:text-slate-50"
     >
-      <div className="rounded-3xl bg-slate-950/80 p-6 md:p-10">
+      <div className="rounded-3xl  p-6 md:p-10">
         <div className="grid gap-8 md:grid-cols-2 md:items-start">
-
+bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 dark:text-slate-50
           {/* LEFT - HEADLINE */}
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clarity-secondary">
@@ -27,7 +27,7 @@ const FinalCTASection = () => {
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Ready to Stop Losing Revenue?
             </h2>
-            <p className="text-sm text-slate-300">
+            <p className="text-sm ">
               Join hundreds of healthcare organizations using ClarityClaim AI to fight denials and
               recover millions.
             </p>
@@ -39,13 +39,13 @@ const FinalCTASection = () => {
 
               <div className="grid gap-3 md:grid-cols-2">
                 <div>
-                  <label className="text-[11px] font-medium text-slate-300">
+                  <label className="text-[11px] font-medium ">
                     Full Name
                   </label>
                   <Input required placeholder="Jane Doe" />
                 </div>
                 <div>
-                  <label className="text-[11px] font-medium text-slate-300">
+                  <label className="text-[11px] font-medium ">
                     Work Email
                   </label>
                   <Input
@@ -57,7 +57,7 @@ const FinalCTASection = () => {
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-slate-300">
+                <label className="text-[11px] font-medium ">
                   Organization Name
                 </label>
                 <Input required placeholder="Regional Medical Center" />
@@ -65,7 +65,7 @@ const FinalCTASection = () => {
 
               <div className="grid gap-3 md:grid-cols-2">
                 <div>
-                  <label className="text-[11px] font-medium text-slate-300">
+                  <label className="text-[11px] font-medium ">
                     Organization Type
                   </label>
                   <Select defaultValue="">
@@ -78,7 +78,7 @@ const FinalCTASection = () => {
                   </Select>
                 </div>
                 <div>
-                  <label className="text-[11px] font-medium text-slate-300">
+                  <label className="text-[11px] font-medium ">
                     Monthly Claim Volume
                   </label>
                   <Select defaultValue="">
@@ -130,7 +130,7 @@ const FinalCTASection = () => {
               </a>
             </p>
 
-            <div className="flex flex-wrap gap-2 text-[10px] text-slate-300">
+            <div className="flex flex-wrap gap-2 text-[10px] ">
               <span className="rounded-full border border-slate-700 px-3 py-1">
                 HIPAA
               </span>
