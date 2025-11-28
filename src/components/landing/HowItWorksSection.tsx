@@ -4,7 +4,7 @@ import {
   Scan,
   Zap,
   FileEdit,
-  Send,
+
   BadgeCheck,
   Banknote,
 } from "lucide-react";
