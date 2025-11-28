@@ -106,3 +106,20 @@ html.dark .section-bg-solution {
 html.dark .section-bg-dark {
   background: #0f172a;
 }
+
+/* Prevent scroll anchoring from causing page jumps during animations */
+.animation-container {
+  overflow-anchor: none;
+  contain: layout style;
+}
+
+/* Sections with animations should not anchor scroll */
+section {
+  overflow-anchor: none;
+}
+
+/* Smooth height transitions without affecting scroll position */
+.animate-height-smooth {
+  overflow: hidden;
+  contain: layout;
+}

@@ -146,7 +146,7 @@ ClarityClaim AI`;
   return (
     <motion.div 
       ref={containerRef} 
-      className={`relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
+      className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-amber-900/20 border-slate-700/80 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-amber-50/50 border-slate-200 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20'
@@ -256,11 +256,11 @@ ClarityClaim AI`;
         <AnimatePresence>
           {showCitations && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="mb-3"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="overflow-hidden mb-3"
             >
               <div className="flex items-center gap-1.5 mb-2">
                 <BookOpen className="w-3 h-3 text-clarity-secondary" />

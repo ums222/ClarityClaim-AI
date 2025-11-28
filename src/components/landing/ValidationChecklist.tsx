@@ -123,7 +123,7 @@ const ValidationChecklist: React.FC = () => {
   return (
     <motion.div 
       ref={containerRef} 
-      className={`relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
+      className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-emerald-900/20 border-slate-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-emerald-50/50 border-slate-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
@@ -285,11 +285,11 @@ const ValidationChecklist: React.FC = () => {
                 <AnimatePresence>
                   {(isCurrent || activeCategory === category.id) && isActive && (
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                      className={`border-t ${isDark ? 'border-slate-700' : 'border-slate-100'}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: 'easeInOut' }}
+                      className={`overflow-hidden border-t ${isDark ? 'border-slate-700' : 'border-slate-100'}`}
                     >
                       <div className="p-2 space-y-1">
                         {category.checks.map((check, checkIndex) => (

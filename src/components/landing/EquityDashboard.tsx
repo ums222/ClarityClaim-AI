@@ -104,7 +104,7 @@ const EquityDashboard: React.FC = () => {
   return (
     <motion.div 
       ref={containerRef} 
-      className={`relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
+      className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-rose-900/20 border-slate-700/80 hover:border-rose-500/50 hover:shadow-lg hover:shadow-rose-500/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-rose-50/50 border-slate-200 hover:border-rose-400/50 hover:shadow-lg hover:shadow-rose-300/20'
@@ -154,11 +154,11 @@ const EquityDashboard: React.FC = () => {
         <AnimatePresence>
           {showAlert && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className={`rounded-lg ${isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'} border px-2.5 py-2 mb-3`}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className={`overflow-hidden rounded-lg ${isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'} border px-2.5 py-2 mb-3`}
             >
               <div className="flex items-center gap-2">
                 <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />

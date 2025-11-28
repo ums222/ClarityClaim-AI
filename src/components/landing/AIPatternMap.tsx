@@ -283,7 +283,7 @@ const AIPatternMap: React.FC = () => {
   return (
     <motion.div 
       ref={containerRef} 
-      className={`relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
+      className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-clarity-primary/20 border-slate-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-clarity-secondary/10 border-slate-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
@@ -612,7 +612,7 @@ const AIPatternMapMobile: React.FC = () => {
   return (
     <motion.div 
       ref={containerRef} 
-      className={`relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] ${
+      className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] ${
         isDark 
           ? 'bg-gradient-to-br from-slate-900 to-clarity-primary/20 border-slate-700/80 hover:border-clarity-secondary/50' 
           : 'bg-gradient-to-br from-slate-50 to-clarity-secondary/10 border-slate-200 hover:border-clarity-secondary/50'

@@ -135,7 +135,7 @@ const ExecKPIs: React.FC = () => {
   return (
     <motion.div 
       ref={containerRef} 
-      className={`relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
+      className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-900/20 border-slate-700/80 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-500/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-blue-50/50 border-slate-200 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-300/20'
@@ -373,11 +373,11 @@ const ExecKPIs: React.FC = () => {
         <AnimatePresence>
           {showForecast && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="mt-3"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="overflow-hidden mt-3"
             >
               <div className={`rounded-xl p-2.5 border ${isDark ? 'bg-violet-500/10 border-violet-500/30' : 'bg-violet-50 border-violet-200'}`}>
                 <div className="flex items-center gap-2 mb-2">
