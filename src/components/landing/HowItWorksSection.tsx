@@ -107,7 +107,7 @@ const HowItWorksSection = () => {
                       "flex h-8 w-8 items-center justify-center rounded-full border text-xs " +
                       (activeStep.id >= step.id
                         ? "border-clarity-secondary bg-clarity-secondary/20 text-clarity-secondary"
-                        : "border-slate-700 bg-slate-900 text-slate-400")
+                        : "border-slate-700 bg-slate-900 text-slate-500 dark:text-slate-400")
                     }
                   >
                     {step.id}
@@ -139,7 +139,7 @@ const HowItWorksSection = () => {
                       <Icon className="h-4 w-4 text-clarity-secondary" />
                     </span>
                     <div>
-                      <p className="text-xs font-semibold text-slate-400">
+                      <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                         {step.label}
                       </p>
                       <p className="text-sm font-semibold text-slate-50">
@@ -169,7 +169,7 @@ const HowItWorksSection = () => {
                   <activeStep.icon className="h-4 w-4 text-clarity-secondary" />
                 </span>
                 <div>
-                  <p className="text-xs font-semibold text-slate-400">
+                  <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                     {activeStep.label}
                   </p>
                   <p className="text-base font-semibold text-slate-50">
@@ -190,7 +190,7 @@ const HowItWorksSection = () => {
           <div className="flex flex-col justify-between gap-6">
             <div className="relative h-40 rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
               <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(56,189,248,0.35),_transparent_55%)] opacity-60" />
-              <div className="relative flex h-full items-center justify-center text-xs text-slate-200">
+              <div className="relative flex h-full items-center justify-center text-xs text-slate-700 dark:text-slate-200">
                 
               </div>
             </div>
@@ -199,7 +199,7 @@ const HowItWorksSection = () => {
                 <BadgeCheck className="h-4 w-4" />
                 <span>See ClarityClaim in Action</span>
               </Button>
-              <p className="text-xs text-slate-400 text-center">
+              <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
                 Schedule a personalized demo
               </p>
             </div>
