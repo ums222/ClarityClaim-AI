@@ -12,7 +12,6 @@ import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 import { Button } from "../ui/button";
 
 const features = [
@@ -59,14 +58,12 @@ const features = [
 ];
 
 const SolutionSection = () => {
-  const { ref, isInView } = useInViewAnimation();
-
   return (
     <SectionContainer
       id="solution"
       className="section-bg-solution text-slate-900 dark:text-slate-50"
     >
-      <div ref={ref}>
+      <div>
         <SectionHeader
           eyebrow="THE SOLUTION"
           title="Meet Your AI Claims Expert"
@@ -83,10 +80,9 @@ const SolutionSection = () => {
               <motion.div
                 key={f.title}
                 initial={{ opacity: 0, x: left ? -40 : 40 }}
-                animate={
-                  isInView ? { opacity: 1, x: 0 } : undefined
-                }
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
                 className="grid gap-6 md:grid-cols-2 md:items-center"
               >
                 <div className={left ? "" : "md:order-2"}>

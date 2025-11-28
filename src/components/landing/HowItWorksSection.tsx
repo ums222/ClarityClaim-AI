@@ -4,14 +4,12 @@ import {
   Scan,
   Zap,
   FileEdit,
-
   BadgeCheck,
   Banknote,
 } from "lucide-react";
 import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
 import { useState } from "react";
-import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 import { Button } from "../ui/button";
 
 const steps = [
@@ -64,7 +62,6 @@ const steps = [
 
 const HowItWorksSection = () => {
   const [activeStep, setActiveStep] = useState(steps[0]);
-  const { ref, isInView } = useInViewAnimation();
 
   return (
     <SectionContainer
@@ -75,7 +72,7 @@ const HowItWorksSection = () => {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.25),_transparent_55%)]"
         aria-hidden="true"
       />
-      <div ref={ref} className="relative">
+      <div className="relative">
         <SectionHeader
           eyebrow="HOW IT WORKS"
           title="From Submission to Success in 5 Steps"
@@ -91,10 +88,8 @@ const HowItWorksSection = () => {
               <motion.div
                 className="absolute h-px bg-clarity-secondary"
                 initial={{ width: 0 }}
-                animate={
-                  isInView ? { width: `${(activeStep.id / steps.length) * 100}%` } : {}
-                }
-                transition={{ duration: 0.5 }}
+                animate={{ width: `${(activeStep.id / steps.length) * 100}%` }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               />
               {steps.map((step) => (
                 <button

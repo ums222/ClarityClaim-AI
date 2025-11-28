@@ -3,7 +3,6 @@ import { DollarSign, Clock, Users, AlertTriangle } from "lucide-react";
 import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
-import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 
 const cards = [
   {
@@ -30,8 +29,6 @@ const cards = [
 ];
 
 const ProblemSection = () => {
-  const { ref, isInView } = useInViewAnimation();
-
   return (
     <SectionContainer
       id="features"
@@ -45,7 +42,7 @@ const ProblemSection = () => {
         <div className="absolute right-10 bottom-0 h-40 w-40 rounded-full bg-clarity-warning/20 dark:bg-clarity-warning/30 blur-3xl" />
       </div>
 
-      <div ref={ref} className="relative">
+      <div className="relative">
         <SectionHeader
           align="center"
           title={
@@ -57,7 +54,13 @@ const ProblemSection = () => {
         />
 
         {/* Stat + gauge */}
-        <div className="mb-10 flex flex-col items-center gap-4">
+        <motion.div 
+          className="mb-10 flex flex-col items-center gap-4"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <div className="relative h-32 w-32">
             <svg viewBox="0 0 120 120" className="h-full w-full">
               <defs>
@@ -83,17 +86,11 @@ const ProblemSection = () => {
                 strokeWidth="12"
                 strokeLinecap="round"
                 strokeDasharray={2 * Math.PI * 50}
-                strokeDashoffset={2 * Math.PI * 50}
+                initial={{ strokeDashoffset: 2 * Math.PI * 50 }}
+                whileInView={{ strokeDashoffset: 2 * Math.PI * 50 * (1 - 0.1181) }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
                 transform="rotate(-90 60 60)"
-                animate={
-                  isInView
-                    ? {
-                        strokeDashoffset:
-                          2 * Math.PI * 50 * (1 - 0.1181) // 11.81%
-                      }
-                    : undefined
-                }
-                transition={{ duration: 1.2, ease: "easeOut" }}
               />
             </svg>
             <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
@@ -106,7 +103,7 @@ const ProblemSection = () => {
           <p className="text-xs text-slate-500 dark:text-slate-300">
             Average Claim Denial Rate in 2024
           </p>
-        </div>
+        </motion.div>
 
         {/* Cards */}
         <div className="grid gap-5 md:grid-cols-3">
@@ -114,8 +111,9 @@ const ProblemSection = () => {
             <motion.div
               key={card.title}
               initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : undefined}
-              transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: 0.1 + i * 0.15, duration: 0.6, ease: "easeOut" }}
             >
               <Card className="bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-transparent hover:-translate-y-1 hover:shadow-glow-accent transition-all duration-200">
                 <CardHeader>
@@ -146,8 +144,9 @@ const ProblemSection = () => {
         {/* Quote */}
         <motion.blockquote
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
           className="mt-10 rounded-2xl border border-clarity-warning/40 bg-white/80 dark:bg-slate-900/80 p-6 text-sm text-slate-700 dark:text-slate-200"
         >
           <p className="italic">

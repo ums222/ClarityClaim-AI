@@ -3,7 +3,6 @@ import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
 import AnimatedCounter from "../shared/AnimatedCounter";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 
 const stats = [
   { label: "Denial Rate Reduction", value: 35, suffix: "%" },
@@ -34,22 +33,25 @@ const testimonials = [
 ];
 
 const ResultsAndTrustSection = () => {
-  const { ref, isInView } = useInViewAnimation();
-
   return (
-    <SectionContainer id="resources"  className="section-bg-dark">
-      <div ref={ref}>
+    <SectionContainer id="resources" className="section-bg-dark">
+      <div>
         {/* Gradient banner */}
-        <div className="rounded-3xl bg-gradient-to-r from-clarity-primary via-clarity-secondary to-clarity-accent p-[1px]">
+        <motion.div 
+          className="rounded-3xl bg-gradient-to-r from-clarity-primary via-clarity-secondary to-clarity-accent p-[1px]"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <div className="flex flex-col gap-6 rounded-3xl bg-slate-950/95 px-6 py-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-10">
             {stats.map((stat, idx) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
-                animate={
-                  isInView ? { opacity: 1, y: 0 } : undefined
-                }
-                transition={{ delay: 0.1 + idx * 0.1 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 + idx * 0.1, duration: 0.5, ease: "easeOut" }}
                 className="flex flex-col items-start gap-1 text-left md:items-center md:text-center"
               >
                 <p className="text-2xl font-semibold text-slate-50">
@@ -66,7 +68,7 @@ const ResultsAndTrustSection = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Testimonials */}
         <div className="mt-12">
@@ -75,10 +77,16 @@ const ResultsAndTrustSection = () => {
             align="center"
           />
           <div className="hidden gap-6 md:grid md:grid-cols-3">
-            {testimonials.map((t) => (
-              <Card
+            {testimonials.map((t, idx) => (
+              <motion.div
                 key={t.author}
-                className="bg-slate-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: idx * 0.15, duration: 0.6, ease: "easeOut" }}
+              >
+              <Card
+                className="h-full bg-slate-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all"
               >
                 <CardHeader>
                   <CardTitle className="text-sm">
@@ -109,6 +117,7 @@ const ResultsAndTrustSection = () => {
                   </div>
                 </CardContent>
               </Card>
+              </motion.div>
             ))}
           </div>
 
