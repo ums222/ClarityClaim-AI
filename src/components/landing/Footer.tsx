@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Linkedin, Twitter } from "lucide-react";
-import logo from "../../../ClarityClaim AI logo.png";
 const Footer = () => {
   return (
     <footer className="border-t border-slate-800 bg-slate-950 pt-10 pb-6">
@@ -9,7 +8,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-            <img src={logo} alt="ClarityClaim AI Logo" className="h-6 w-auto" />
+            <img src="/logo.png" alt="ClarityClaim AI Logo" className="h-6 w-auto" />
                         </div>
             <p className="text-xs text-slate-400">
               AI-powered healthcare claims management
