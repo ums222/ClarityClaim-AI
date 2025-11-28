@@ -1,118 +1,121 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Shield, Linkedin, Twitter } from "lucide-react";
 
-const navigation = {
-  product: [
-    { name: 'Features', href: '#features' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'Results', href: '#results' },
-  ],
-  company: [
-    { name: 'About', href: '#about' },
-    { name: 'Careers', href: '#careers' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Press', href: '#press' },
-  ],
-  legal: [
-    { name: 'Privacy', href: '#privacy' },
-    { name: 'Terms', href: '#terms' },
-    { name: 'HIPAA Compliance', href: '#hipaa' },
-    { name: 'Security', href: '#security' },
-  ],
-  social: [
-    { name: 'LinkedIn', href: 'https://linkedin.com' },
-    { name: 'Twitter', href: 'https://twitter.com' },
-  ],
-};
-
-export function Footer() {
+const Footer = () => {
   return (
-    <footer className="bg-slate-900 border-t border-slate-800">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <footer className="border-t border-slate-800 bg-slate-950 pt-10 pb-6">
+      <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8">
+        <div className="grid gap-8 md:grid-cols-4">
+          {/* Brand */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-clarity-primary/80 text-clarity-accent">
+                <Shield className="h-4 w-4" />
+              </span>
+              <span className="text-sm font-semibold text-slate-50">
+                ClarityClaim AI
+              </span>
+            </div>
+            <p className="text-xs text-slate-400">
+              AI-powered healthcare claims management
+            </p>
+            <div className="flex items-center gap-3 text-slate-400">
+              <a href="#" aria-label="LinkedIn" className="hover:text-slate-100">
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a href="#" aria-label="Twitter/X" className="hover:text-slate-100">
+                <Twitter className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Product */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-50 tracking-wider uppercase">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Product
-            </h3>
-            <ul className="mt-4 space-y-3">
-              {navigation.product.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="text-sm text-slate-400 hover:text-clarity-secondary transition-colors"
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              ))}
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-slate-400">
+              {["Features", "Integrations", "Pricing", "Security", "API Documentation"].map(
+                (item) => (
+                  <li key={item}>
+                    <a
+                      href="#"
+                      className="hover:text-slate-100 hover:underline underline-offset-4"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
+
+          {/* Company */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-50 tracking-wider uppercase">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Company
-            </h3>
-            <ul className="mt-4 space-y-3">
-              {navigation.company.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="text-sm text-slate-400 hover:text-clarity-secondary transition-colors"
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              ))}
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-slate-400">
+              {["About Us", "Careers", "Press", "Contact", "Partners"].map(
+                (item) => (
+                  <li key={item}>
+                    <a
+                      href="#"
+                      className="hover:text-slate-100 hover:underline underline-offset-4"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
+
+          {/* Resources */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-50 tracking-wider uppercase">
-              Legal
-            </h3>
-            <ul className="mt-4 space-y-3">
-              {navigation.legal.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="text-sm text-slate-400 hover:text-clarity-secondary transition-colors"
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-slate-50 tracking-wider uppercase">
-              Connect
-            </h3>
-            <ul className="mt-4 space-y-3">
-              {navigation.social.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-slate-400 hover:text-clarity-secondary transition-colors"
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              ))}
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              Resources
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-slate-400">
+              {["Blog", "Case Studies", "Webinars", "Help Center", "Status Page"].map(
+                (item) => (
+                  <li key={item}>
+                    <a
+                      href="#"
+                      className="hover:text-slate-100 hover:underline underline-offset-4"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-slate-800">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <Link to="/" className="text-xl font-bold text-slate-50">
-              Clarity<span className="text-clarity-secondary">Claim</span>
-            </Link>
-            <p className="text-sm text-slate-400">
-              &copy; {new Date().getFullYear()} ClarityClaim AI. All rights
-              reserved.
-            </p>
+
+        {/* Bottom bar */}
+        <div className="mt-8 flex flex-col gap-2 border-t border-slate-800 pt-4 text-[11px] text-slate-500 md:flex-row md:items-center md:justify-between">
+          <p>© 2025 ClarityClaim AI. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-3">
+            {["Privacy Policy", "Terms of Service", "HIPAA Notice", "Cookie Policy"].map(
+              (item) => (
+                <Link
+                  key={item}
+                  to="#"
+                  className="hover:text-slate-100 hover:underline underline-offset-4"
+                >
+                  {item}
+                </Link>
+              )
+            )}
           </div>
+          <p>
+            Made with <span className="text-rose-400">heart</span> for healthcare
+          </p>
         </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;
