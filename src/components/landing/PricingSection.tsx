@@ -16,7 +16,7 @@ const PricingSection = () => {
   const proPrice = cycle === "monthly" ? "$1,499/mo" : "$1,199/mo";
 
   return (
-    <SectionContainer id="pricing"  className="bg-white dark:bg-slate-950">
+    <SectionContainer id="pricing"  className="section-bg-dark">
       <SectionHeader
         eyebrow="PRICING"
         title="Plans That Scale With You"
