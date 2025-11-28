@@ -35,7 +35,7 @@ const ProblemSection = () => {
   return (
     <SectionContainer
       id="features"
-      className="relative overflow-hidden bg-gradient-to-br from-red-50 via-orange-50 to-amber-50 dark:bg-problem-gradient text-slate-900 dark:text-slate-50"
+      className="relative overflow-hidden section-bg-problem text-slate-900 dark:text-slate-50"
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-40"
