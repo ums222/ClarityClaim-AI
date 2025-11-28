@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { DollarSign, TrendingDown, Clock, FileX, Users, AlertTriangle } from "lucide-react";
+import { DollarSign, Clock, Users, AlertTriangle } from "lucide-react";
 import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 
 const cards = [
