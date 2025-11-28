@@ -33,7 +33,7 @@ const founders = [
 
 const FoundersSection = () => {
   return (
-    <SectionContainer id="founders"  className="bg-white dark:bg-slate-950">
+    <SectionContainer id="founders" className="bg-white dark:bg-slate-950">
       <SectionHeader
         eyebrow="FOUNDING TEAM"
         title="Built by Healthcare, AI & Operations Leaders"
@@ -50,10 +50,10 @@ const FoundersSection = () => {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.4, delay: i * 0.1 }}
           >
-            <Card className="flex h-full flex-col bg-slate-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all duration-200">
+            <Card className="flex h-full flex-col bg-white/80 border border-slate-200 dark:border-transparent dark:bg-slate-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all duration-200">
               <CardHeader>
                 <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-sm font-semibold text-slate-200">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-700 dark:text-slate-200">
                     {f.name
                       .split(" ")
                       .map((n) => n[0])
@@ -62,7 +62,7 @@ const FoundersSection = () => {
                   </div>
 
                   <div>
-                    <CardTitle className="text-base">{f.name}</CardTitle>
+                    <CardTitle className="text-base text-slate-900 dark:text-slate-50">{f.name}</CardTitle>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-clarity-secondary">
                       {f.role}
                     </p>
@@ -71,7 +71,7 @@ const FoundersSection = () => {
               </CardHeader>
 
               <CardContent className="flex flex-1 flex-col justify-between">
-                <CardDescription className="text-sm text-slate-300">
+                <CardDescription className="text-sm text-slate-600 dark:text-slate-300">
                   {f.bio}
                 </CardDescription>
 
@@ -88,7 +88,7 @@ const FoundersSection = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`LinkedIn profile of ${f.name}`}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-700 bg-slate-900/70 text-slate-300 hover:text-slate-50 hover:border-slate-500"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white/70 dark:border-slate-700 dark:bg-slate-900/70 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 hover:border-slate-400 dark:hover:border-slate-500"
                   >
                     <Linkedin className="h-4 w-4" />
                   </a>

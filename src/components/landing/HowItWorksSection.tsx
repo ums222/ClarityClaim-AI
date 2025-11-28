@@ -72,7 +72,7 @@ const HowItWorksSection = () => {
       className="relative overflow-hidden section-bg-dark"
     >
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.25),_transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.15),_transparent_55%)] dark:bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.25),_transparent_55%)]"
         aria-hidden="true"
       />
       <div ref={ref} className="relative">
@@ -87,7 +87,7 @@ const HowItWorksSection = () => {
           {/* Timeline */}
           <div>
             <div className="relative hidden md:flex items-center justify-between mb-6">
-              <div className="absolute left-0 right-0 h-px bg-slate-800" />
+              <div className="absolute left-0 right-0 h-px bg-slate-300 dark:bg-slate-800" />
               <motion.div
                 className="absolute h-px bg-clarity-secondary"
                 initial={{ width: 0 }}
@@ -107,7 +107,7 @@ const HowItWorksSection = () => {
                       "flex h-8 w-8 items-center justify-center rounded-full border text-xs " +
                       (activeStep.id >= step.id
                         ? "border-clarity-secondary bg-clarity-secondary/20 text-clarity-secondary"
-                        : "border-slate-700 bg-slate-900 text-slate-500 dark:text-slate-400")
+                        : "border-slate-300 bg-white text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400")
                     }
                   >
                     {step.id}
@@ -131,21 +131,21 @@ const HowItWorksSection = () => {
                     className={
                       "flex items-start gap-3 rounded-2xl border p-3 text-left " +
                       (active
-                        ? "border-clarity-secondary bg-slate-900/80"
-                        : "border-slate-800 bg-slate-900/40")
+                        ? "border-clarity-secondary bg-slate-100 dark:bg-slate-900/80"
+                        : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/40")
                     }
                   >
-                    <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-slate-900">
+                    <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-white dark:bg-slate-900">
                       <Icon className="h-4 w-4 text-clarity-secondary" />
                     </span>
                     <div>
                       <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                         {step.label}
                       </p>
-                      <p className="text-sm font-semibold text-slate-50">
+                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
                         {step.title}
                       </p>
-                      <p className="mt-1 text-xs text-slate-300">
+                      <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">
                         {step.description}
                       </p>
                       <p className="mt-1 text-[11px] text-clarity-accent">
@@ -162,20 +162,20 @@ const HowItWorksSection = () => {
               key={activeStep.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-8 hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5 md:block"
+              className="mt-8 hidden rounded-2xl border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/80 p-5 md:block"
             >
               <div className="flex items-start gap-3">
-                <span className="mt-1 flex h-9 w-9 items-center justify-center rounded-full section-bg-dark">
+                <span className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
                   <activeStep.icon className="h-4 w-4 text-clarity-secondary" />
                 </span>
                 <div>
                   <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                     {activeStep.label}
                   </p>
-                  <p className="text-base font-semibold text-slate-50">
+                  <p className="text-base font-semibold text-slate-900 dark:text-slate-50">
                     {activeStep.title}
                   </p>
-                  <p className="mt-2 text-sm text-slate-300">
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
                     {activeStep.description}
                   </p>
                   <p className="mt-2 text-xs text-clarity-accent">
@@ -188,9 +188,9 @@ const HowItWorksSection = () => {
 
           {/* Right side visual + CTA */}
           <div className="flex flex-col justify-between gap-6">
-            <div className="relative h-40 rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
-              <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(56,189,248,0.35),_transparent_55%)] opacity-60" />
-              <div className="relative flex h-full items-center justify-center text-xs text-slate-700 dark:text-slate-200">
+            <div className="relative h-40 rounded-2xl border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/80 p-4">
+              <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(56,189,248,0.2),_transparent_55%)] dark:bg-[radial-gradient(circle,_rgba(56,189,248,0.35),_transparent_55%)] opacity-60" />
+              <div className="relative flex h-full items-center justify-center text-xs text-slate-500 dark:text-slate-200">
                 
               </div>
             </div>

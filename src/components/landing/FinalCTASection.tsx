@@ -14,20 +14,19 @@ const FinalCTASection = () => {
   return (
     <SectionContainer
       id="contact"
-      className="""bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 dark:text-slate-50"
+      className="bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 dark:text-slate-50"
     >
-      <div className="rounded-3xl  p-6 md:p-10">
+      <div className="rounded-3xl p-6 md:p-10">
         <div className="grid gap-8 md:grid-cols-2 md:items-start">
-bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 dark:text-slate-50
           {/* LEFT - HEADLINE */}
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clarity-secondary">
               GET STARTED
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
               Ready to Stop Losing Revenue?
             </h2>
-            <p className="text-sm ">
+            <p className="text-sm text-slate-600 dark:text-slate-300">
               Join hundreds of healthcare organizations using ClarityClaim AI to fight denials and
               recover millions.
             </p>
@@ -36,16 +35,15 @@ bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 d
           {/* RIGHT - FORM */}
           <div className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-3">
-
               <div className="grid gap-3 md:grid-cols-2">
                 <div>
-                  <label className="text-[11px] font-medium ">
+                  <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
                     Full Name
                   </label>
                   <Input required placeholder="Jane Doe" />
                 </div>
                 <div>
-                  <label className="text-[11px] font-medium ">
+                  <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
                     Work Email
                   </label>
                   <Input
@@ -57,7 +55,7 @@ bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 d
               </div>
 
               <div>
-                <label className="text-[11px] font-medium ">
+                <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
                   Organization Name
                 </label>
                 <Input required placeholder="Regional Medical Center" />
@@ -65,7 +63,7 @@ bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 d
 
               <div className="grid gap-3 md:grid-cols-2">
                 <div>
-                  <label className="text-[11px] font-medium ">
+                  <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
                     Organization Type
                   </label>
                   <Select defaultValue="">
@@ -78,7 +76,7 @@ bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 d
                   </Select>
                 </div>
                 <div>
-                  <label className="text-[11px] font-medium ">
+                  <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
                     Monthly Claim Volume
                   </label>
                   <Select defaultValue="">
@@ -95,49 +93,49 @@ bg-gradient-to-br from-blue-50 to-slate-50 dark:bg-cta-gradient text-slate-900 d
                 Request Demo
               </Button>
 
-              <p className="text-[11px] text-slate-400 text-center">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center">
                 We respect your privacy. No spam, ever.
               </p>
             </form>
 
             {/* CONTACT INFO BOXES */}
             <div className="grid gap-3 text-sm md:grid-cols-2">
-              <Card className="flex items-center gap-3 bg-slate-900/80 p-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950">
+              <Card className="flex items-center gap-3 bg-white/80 border border-slate-200 dark:border-transparent dark:bg-slate-900/80 p-4">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-950">
                   <Phone className="h-4 w-4 text-clarity-secondary" />
                 </span>
                 <div>
-                  <p className="font-semibold">Prefer to talk?</p>
-                  <p className="text-xs text-slate-400">+1 (555) 123-4567</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-50">Prefer to talk?</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">+1 (555) 123-4567</p>
                 </div>
               </Card>
 
-              <Card className="flex items-center gap-3 bg-slate-900/80 p-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950">
+              <Card className="flex items-center gap-3 bg-white/80 border border-slate-200 dark:border-transparent dark:bg-slate-900/80 p-4">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-950">
                   <Mail className="h-4 w-4 text-clarity-secondary" />
                 </span>
                 <div>
-                  <p className="font-semibold">Email us</p>
-                  <p className="text-xs text-slate-400">hello@clarityclaim.ai</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-50">Email us</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">hello@clarityclaim.ai</p>
                 </div>
               </Card>
             </div>
 
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Already a customer?{" "}
               <a href="/login" className="text-clarity-accent underline">
                 Sign in
               </a>
             </p>
 
-            <div className="flex flex-wrap gap-2 text-[10px] ">
-              <span className="rounded-full border border-slate-700 px-3 py-1">
+            <div className="flex flex-wrap gap-2 text-[10px] text-slate-600 dark:text-slate-300">
+              <span className="rounded-full border border-slate-300 dark:border-slate-700 px-3 py-1">
                 HIPAA
               </span>
-              <span className="rounded-full border border-slate-700 px-3 py-1">
+              <span className="rounded-full border border-slate-300 dark:border-slate-700 px-3 py-1">
                 SOC 2
               </span>
-              <span className="rounded-full border border-slate-700 px-3 py-1">
+              <span className="rounded-full border border-slate-300 dark:border-slate-700 px-3 py-1">
                 99.99% uptime
               </span>
             </div>
