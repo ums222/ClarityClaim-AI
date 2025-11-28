@@ -6,6 +6,7 @@ import SolutionSection from "../components/landing/SolutionSection";
 import HowItWorksSection from "../components/landing/HowItWorksSection";
 import ResultsAndTrustSection from "../components/landing/ResultsAndTrustSection";
 import PricingSection from "../components/landing/PricingSection";
+import FoundersSection from "../components/landing/FoundersSection";
 import FinalCTASection from "../components/landing/FinalCTASection";
 import Footer from "../components/landing/Footer";
 
@@ -21,6 +22,7 @@ const LandingPage = () => {
         <HowItWorksSection />
         <ResultsAndTrustSection />
         <PricingSection />
+                <FoundersSection />
         <FinalCTASection />
       </main>
       <Footer />
