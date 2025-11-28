@@ -21,7 +21,7 @@ const testimonials = [
   },
   {
     quote:
-      "The appeal letters are indistinguishable from those written by our best medical directors\u2014but generated in seconds instead of hours.",
+      "The appeal letters are indistinguishable from those written by our best medical directors—but generated in seconds instead of hours.",
     author: "Michael Rodriguez",
     title: "Revenue Cycle Director, Community Health System",
   },
@@ -103,7 +103,7 @@ const ResultsAndTrustSection = () => {
                   <div className="mt-3 flex gap-1">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span key={i} className="text-xs text-amber-400">
-                        \u2605
+                        ★
                       </span>
                     ))}
                   </div>
@@ -142,7 +142,7 @@ const ResultsAndTrustSection = () => {
                   <div className="mt-3 flex gap-1">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span key={i} className="text-xs text-amber-400">
-                        \u2605
+                        ★
                       </span>
                     ))}
                   </div>
