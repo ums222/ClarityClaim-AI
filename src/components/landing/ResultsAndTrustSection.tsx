@@ -181,16 +181,25 @@ const ResultsAndTrustSection = () => {
               Seamless Integration With Your Stack
             </p>
             <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-              {["Epic", "Cerner", "Meditech", "Athena", "Change", "Availity"].map(
-                (logo) => (
-                  <div
-                    key={logo}
-                    className="flex h-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white/40 dark:bg-slate-900/40 text-[11px] font-medium text-slate-500 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-800 dark:hover:text-slate-100 transition-colors"
-                  >
-                    {logo}
-                  </div>
-                )
-              )}
+              {[
+                { name: "Epic", logo: "/logos/epic.svg" },
+                { name: "Cerner", logo: "/logos/cerner.svg" },
+                { name: "Meditech", logo: "/logos/meditech.svg" },
+                { name: "Athena", logo: "/logos/athena.svg" },
+                { name: "Change", logo: "/logos/change.svg" },
+                { name: "Availity", logo: "/logos/availity.svg" },
+              ].map((partner) => (
+                <div
+                  key={partner.name}
+                  className="flex h-12 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/40 hover:border-slate-400 dark:hover:border-slate-500 transition-colors px-2"
+                >
+                  <img 
+                    src={partner.logo} 
+                    alt={`${partner.name} logo`}
+                    className="h-6 w-auto max-w-full object-contain dark:brightness-0 dark:invert dark:opacity-70 hover:dark:opacity-100 transition-opacity"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
