@@ -64,7 +64,7 @@ const SolutionSection = () => {
   return (
     <SectionContainer
       id="solution"
-      className="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:bg-solution-gradient text-slate-900 dark:text-slate-50"
+      className="section-bg-solution text-slate-900 dark:text-slate-50"
     >
       <div ref={ref}>
         <SectionHeader
