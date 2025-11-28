@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Linkedin, Twitter } from "lucide-react";
 const Footer = () => {
   return (
-    <footer className="border-t border-slate-800 bg-slate-950 pt-10 pb-6">
+    <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pt-10 pb-6">
       <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
@@ -10,14 +10,14 @@ const Footer = () => {
             <div className="flex items-center gap-2">
             <img src="/logo.png" alt="ClarityClaim AI Logo" className="h-6 w-auto" />
                         </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
               AI-powered healthcare claims management
             </p>
-            <div className="flex items-center gap-3 text-slate-400">
-              <a href="#" aria-label="LinkedIn" className="hover:text-slate-100">
+            <div className="flex items-center gap-3 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+              <a href="#" aria-label="LinkedIn" className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
                 <Linkedin className="h-4 w-4" />
               </a>
-              <a href="#" aria-label="Twitter/X" className="hover:text-slate-100">
+              <a href="#" aria-label="Twitter/X" className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
                 <Twitter className="h-4 w-4" />
               </a>
             </div>
@@ -28,13 +28,13 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Product
             </p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
+            <ul className="mt-3 space-y-2 text-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
               {["Features", "Integrations", "Pricing", "Security", "API Documentation"].map(
                 (item) => (
                   <li key={item}>
                     <a
                       href="#"
-                      className="hover:text-slate-100 hover:underline underline-offset-4"
+                      className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
                     >
                       {item}
                     </a>
@@ -49,13 +49,13 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Company
             </p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
+            <ul className="mt-3 space-y-2 text-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
               {["About Us", "Careers", "Press", "Contact", "Partners"].map(
                 (item) => (
                   <li key={item}>
                     <a
                       href="#"
-                      className="hover:text-slate-100 hover:underline underline-offset-4"
+                      className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
                     >
                       {item}
                     </a>
@@ -70,13 +70,13 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Resources
             </p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
+            <ul className="mt-3 space-y-2 text-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
               {["Blog", "Case Studies", "Webinars", "Help Center", "Status Page"].map(
                 (item) => (
                   <li key={item}>
                     <a
                       href="#"
-                      className="hover:text-slate-100 hover:underline underline-offset-4"
+                      className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
                     >
                       {item}
                     </a>
@@ -96,7 +96,7 @@ const Footer = () => {
                 <Link
                   key={item}
                   to="#"
-                  className="hover:text-slate-100 hover:underline underline-offset-4"
+                  className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
                 >
                   {item}
                 </Link>
