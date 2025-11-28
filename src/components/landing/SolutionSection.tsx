@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import {
   Brain,
-  Sparkles,
+
   CheckCircle,
   FileText,
   Wand2,
@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { useInViewAnimation } from "../../hooks/useInViewAnimation";
 import { Button } from "../ui/button";
