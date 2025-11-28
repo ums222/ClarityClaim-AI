@@ -285,10 +285,10 @@ const ValidationChecklist: React.FC = () => {
                 <AnimatePresence>
                   {(isCurrent || activeCategory === category.id) && isActive && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.15 }}
                       className={`border-t ${isDark ? 'border-slate-700' : 'border-slate-100'}`}
                     >
                       <div className="p-2 space-y-1">

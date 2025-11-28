@@ -154,9 +154,10 @@ const EquityDashboard: React.FC = () => {
         <AnimatePresence>
           {showAlert && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className={`rounded-lg ${isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'} border px-2.5 py-2 mb-3`}
             >
               <div className="flex items-center gap-2">

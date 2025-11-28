@@ -270,14 +270,14 @@ const HowItWorksSection = () => {
         />
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center mt-12 mb-16">
+        <div className="grid lg:grid-cols-2 gap-12 items-start mt-12 mb-16">
           
           {/* Left - Step Cards */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-3"
+            className="space-y-3 min-h-[600px]"
           >
             {steps.map((step, index) => {
               const isActive = activeStep === index;
@@ -373,14 +373,13 @@ const HowItWorksSection = () => {
                     </div>
 
                     {/* Expanded Content */}
-                    <AnimatePresence>
+                    <AnimatePresence initial={false}>
                       {isActive && (
                         <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
                         >
                           <div className={`pt-4 mt-4 border-t ${isDark ? 'border-slate-700/50' : 'border-slate-200'}`}>
                             <p className={`text-sm mb-4 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
