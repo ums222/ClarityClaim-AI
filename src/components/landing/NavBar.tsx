@@ -40,7 +40,12 @@ const NavBar = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center gap-2"
         >
-          <img src="/orbitlogo.svg" alt="ClarityClaim AI Logo" className="h-8 w-auto" />
+          {/* Theme-aware logo: light version for light mode, dark version for dark mode */}
+          <img 
+            src={theme === "dark" ? "/orbitlogo-dark.svg" : "/orbitlogo.svg"} 
+            alt="ClarityClaim AI Logo" 
+            className="h-8 w-auto" 
+          />
         </Link>
 
         {/* Desktop nav - Aegis style */}

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Linkedin, Twitter } from "lucide-react";
+import { useTheme } from "../../hooks/useTheme";
 
 const productLinks = [
   { label: "Features", href: "/#solution" },
@@ -33,6 +34,8 @@ const legalLinks = [
 ];
 
 const Footer = () => {
+  const { theme } = useTheme();
+  
   return (
     <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pt-10 pb-6">
       <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8">
@@ -40,7 +43,12 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-3">
             <Link to="/" className="flex items-center gap-2">
-              <img src="/orbitlogo.svg" alt="ClarityClaim AI Logo" className="h-6 w-auto" />
+              {/* Theme-aware logo */}
+              <img 
+                src={theme === "dark" ? "/orbitlogo-dark.svg" : "/orbitlogo.svg"} 
+                alt="ClarityClaim AI Logo" 
+                className="h-6 w-auto" 
+              />
             </Link>
             <p className="text-xs text-slate-600 dark:text-slate-400">
               AI-powered healthcare claims management
