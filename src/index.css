@@ -127,9 +127,13 @@ section {
 /* =============================================================================
    BACKGROUND IMAGES & PATTERNS
    Healthcare AI theme with Deep Blue (#1E3A5F), Teal (#0D9488), Gold (#F59E0B)
+   
+   Images from Unsplash (free for commercial use):
+   - Hero: Medical technology / digital health visualization
+   - Results: Abstract data / technology pattern
    ============================================================================= */
 
-/* Hero Section Background - Neural network / data flow pattern */
+/* Hero Section Background - Medical technology / AI visualization */
 .hero-bg-pattern {
   position: relative;
   overflow: hidden;
@@ -139,11 +143,11 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/backgrounds/hero-pattern.svg');
+  /* Unsplash: Abstract blue technology/data visualization - free commercial use */
+  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.6;
   z-index: 0;
   pointer-events: none;
 }
@@ -153,7 +157,7 @@ html.light .hero-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(248,250,252,0.92) 0%, rgba(255,255,255,0.88) 50%, rgba(240,253,250,0.9) 100%);
+  background: linear-gradient(135deg, rgba(248,250,252,0.88) 0%, rgba(255,255,255,0.85) 40%, rgba(240,253,250,0.88) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -163,7 +167,7 @@ html.dark .hero-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(30,58,95,0.8) 50%, rgba(15,23,42,0.9) 100%);
+  background: linear-gradient(135deg, rgba(15,23,42,0.75) 0%, rgba(30,58,95,0.7) 40%, rgba(13,148,136,0.3) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -174,7 +178,7 @@ html.dark .hero-bg-pattern::after {
   z-index: 2;
 }
 
-/* Results Section Background - Subtle grid pattern */
+/* Results Section Background - Abstract technology/data pattern */
 .results-bg-pattern {
   position: relative;
   overflow: hidden;
@@ -184,10 +188,11 @@ html.dark .hero-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/backgrounds/grid-pattern.svg');
-  background-size: 100px 100px;
-  background-repeat: repeat;
-  opacity: 0.5;
+  /* Unsplash: Abstract network/connection visualization - free commercial use */
+  background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 0;
   pointer-events: none;
 }
@@ -197,7 +202,7 @@ html.light .results-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(248,250,252,0.95) 0%, rgba(248,250,252,0.85) 50%, rgba(248,250,252,0.95) 100%);
+  background: linear-gradient(180deg, rgba(248,250,252,0.92) 0%, rgba(248,250,252,0.88) 50%, rgba(248,250,252,0.92) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -207,7 +212,7 @@ html.dark .results-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.88) 50%, rgba(15,23,42,0.95) 100%);
+  background: linear-gradient(180deg, rgba(15,23,42,0.88) 0%, rgba(15,23,42,0.82) 50%, rgba(15,23,42,0.88) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -252,12 +257,14 @@ html.dark .results-bg-pattern::after {
 /* Responsive background adjustments */
 @media (max-width: 768px) {
   .hero-bg-pattern::before {
-    opacity: 0.4;
-    background-size: 200% auto;
-    background-position: center;
+    background-position: 60% center;
   }
   
-  .results-bg-pattern::before {
-    opacity: 0.3;
+  html.light .hero-bg-pattern::after {
+    background: linear-gradient(135deg, rgba(248,250,252,0.92) 0%, rgba(255,255,255,0.9) 100%);
+  }
+  
+  html.dark .hero-bg-pattern::after {
+    background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(30,58,95,0.8) 100%);
   }
 }
