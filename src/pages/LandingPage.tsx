@@ -9,10 +9,17 @@ import PricingSection from "../components/landing/PricingSection";
 import FoundersSection from "../components/landing/FoundersSection";
 import FinalCTASection from "../components/landing/FinalCTASection";
 import Footer from "../components/landing/Footer";
+import { useTheme } from "../hooks/useTheme";
+import { cn } from "../lib/utils";
 
 const LandingPage = () => {
+  const { theme } = useTheme();
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50">
+    <div className={cn(
+      "min-h-screen transition-colors duration-300",
+      theme === "dark" ? "bg-slate-950 text-slate-50" : "bg-white text-slate-900"
+    )}>
       <NavBar />
       <main className="pt-20 md:pt-24">
         <HeroSection />
