@@ -1,18 +1,82 @@
+import { useState } from "react";
 import SectionContainer from "../shared/SectionContainer";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Select } from "../ui/select";
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Card } from "../ui/card";
 import { useTheme } from "../../hooks/useTheme";
+import { api, type DemoRequestData } from "../../lib/api";
 
 const FinalCTASection = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  
+  const [formData, setFormData] = useState<DemoRequestData>({
+    fullName: "",
+    email: "",
+    organizationName: "",
+    organizationType: "",
+    monthlyClaimVolume: "",
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear status when user starts typing
+    if (submitStatus.type) {
+      setSubmitStatus({ type: null, message: "" });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Demo request submitted");
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: "" });
+
+    try {
+      const response = await api.submitDemoRequest(formData);
+      
+      setSubmitStatus({
+        type: "success",
+        message: response.message || "Demo request submitted successfully! We'll be in touch soon.",
+      });
+      
+      // Reset form
+      setFormData({
+        fullName: "",
+        email: "",
+        organizationName: "",
+        organizationType: "",
+        monthlyClaimVolume: "",
+      });
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus({ type: null, message: "" });
+      }, 5000);
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        "Failed to submit demo request. Please try again later.";
+      
+      setSubmitStatus({
+        type: "error",
+        message: errorMessage,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -38,18 +102,57 @@ const FinalCTASection = () => {
           {/* RIGHT - FORM */}
           <div className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Status Messages */}
+              {submitStatus.type && (
+                <div
+                  className={`flex items-center gap-2 rounded-lg p-3 text-sm ${
+                    submitStatus.type === "success"
+                      ? isDark
+                        ? "bg-teal-500/10 text-teal-400 ring-1 ring-teal-500/20"
+                        : "bg-teal-50 text-teal-700 ring-1 ring-teal-500/20"
+                      : isDark
+                      ? "bg-red-500/10 text-red-400 ring-1 ring-red-500/20"
+                      : "bg-red-50 text-red-700 ring-1 ring-red-500/20"
+                  }`}
+                >
+                  {submitStatus.type === "success" ? (
+                    <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
+                  ) : (
+                    <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                  )}
+                  <p className="text-xs">{submitStatus.message}</p>
+                </div>
+              )}
+
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className={`text-xs font-medium ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     Full Name
                   </label>
-                  <Input required placeholder="Jane Doe" className="mt-1" />
+                  <Input
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Jane Doe"
+                    className="mt-1"
+                    disabled={isSubmitting}
+                  />
                 </div>
                 <div>
                   <label className={`text-xs font-medium ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     Work Email
                   </label>
-                  <Input required type="email" placeholder="jane.doe@hospital.org" className="mt-1" />
+                  <Input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="jane.doe@hospital.org"
+                    className="mt-1"
+                    disabled={isSubmitting}
+                  />
                 </div>
               </div>
 
@@ -57,7 +160,15 @@ const FinalCTASection = () => {
                 <label className={`text-xs font-medium ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                   Organization Name
                 </label>
-                <Input required placeholder="Regional Medical Center" className="mt-1" />
+                <Input
+                  name="organizationName"
+                  value={formData.organizationName}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Regional Medical Center"
+                  className="mt-1"
+                  disabled={isSubmitting}
+                />
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
@@ -65,31 +176,55 @@ const FinalCTASection = () => {
                   <label className={`text-xs font-medium ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     Organization Type
                   </label>
-                  <Select defaultValue="" className="mt-1">
+                  <Select
+                    name="organizationType"
+                    value={formData.organizationType}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                    disabled={isSubmitting}
+                  >
                     <option value="" disabled>Select type</option>
-                    <option>Hospital</option>
-                    <option>Health System</option>
-                    <option>Clinic</option>
-                    <option>FQHC</option>
-                    <option>Other</option>
+                    <option value="Hospital">Hospital</option>
+                    <option value="Health System">Health System</option>
+                    <option value="Clinic">Clinic</option>
+                    <option value="FQHC">FQHC</option>
+                    <option value="Other">Other</option>
                   </Select>
                 </div>
                 <div>
                   <label className={`text-xs font-medium ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     Monthly Claim Volume
                   </label>
-                  <Select defaultValue="" className="mt-1">
+                  <Select
+                    name="monthlyClaimVolume"
+                    value={formData.monthlyClaimVolume}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                    disabled={isSubmitting}
+                  >
                     <option value="" disabled>Select volume</option>
-                    <option>&lt;1K</option>
-                    <option>1K–10K</option>
-                    <option>10K–50K</option>
-                    <option>50K+</option>
+                    <option value="<1K">&lt;1K</option>
+                    <option value="1K–10K">1K–10K</option>
+                    <option value="10K–50K">10K–50K</option>
+                    <option value="50K+">50K+</option>
                   </Select>
                 </div>
               </div>
 
-              <Button type="submit" size="lg" className="w-full">
-                Request Demo
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Request Demo"
+                )}
               </Button>
 
               <p className={`text-xs text-center ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
