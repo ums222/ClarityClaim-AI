@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:server": "node server/index.js",
-    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
+    "dev:server": "PORT=3001 node server/index.js",
+    "dev:all": "PORT=3001 concurrently \"npm run dev\" \"npm run dev:server\"",
     "build": "tsc && vite build",
     "build:server": "echo 'Server build complete'",
-    "start": "node server/index.js",
+    "start": "PORT=3001 node server/index.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

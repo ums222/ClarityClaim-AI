@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-// Load environment variables
-dotenv.config();
-
+// Load environment variables from server directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+// Override existing env vars with .env file values
+dotenv.config({ path: join(__dirname, '.env'), override: true });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
