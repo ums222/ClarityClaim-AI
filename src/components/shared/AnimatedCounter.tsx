@@ -1,28 +1,32 @@
-import { useCountUp } from '@/hooks/useCountUp';
-import { cn } from '@/lib/utils';
+import { useCountUp } from "../../hooks/useCountUp";
 
 interface AnimatedCounterProps {
-  end: number;
-  duration?: number;
+  to: number;
   prefix?: string;
   suffix?: string;
-  className?: string;
+  decimals?: number;
+  duration?: number;
 }
 
-export function AnimatedCounter({
-  end,
-  duration = 2000,
-  prefix = '',
-  suffix = '',
-  className,
-}: AnimatedCounterProps) {
-  const count = useCountUp(end, duration);
+const AnimatedCounter = ({
+  to,
+  prefix = "",
+  suffix = "",
+  decimals = 0,
+  duration = 1500,
+}: AnimatedCounterProps) => {
+  const value = useCountUp(to, duration, decimals);
 
   return (
-    <span className={cn('tabular-nums', className)}>
+    <span>
       {prefix}
-      {count.toLocaleString()}
+      {value.toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}
       {suffix}
     </span>
   );
-}
+};
+
+export default AnimatedCounter;
