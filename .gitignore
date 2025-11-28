@@ -37,3 +37,6 @@ lerna-debug.log*
 
 # Server environment files
 /server/.env
+
+# Vercel
+.vercel

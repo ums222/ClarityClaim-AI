@@ -1,7 +1,10 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse, type AxiosError } from 'axios';
 
 // Get API URL from environment variable or use default
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+// For Vercel: use relative path (serverless functions are at /api/*)
+// For local dev: use the Express server URL
+const API_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD ? '/api' : 'http://localhost:3001/api');
 
 // Create axios instance with default config
 const apiClient = axios.create({
