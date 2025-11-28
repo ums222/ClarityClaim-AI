@@ -115,7 +115,7 @@ const SolutionSection = () => {
                         size="sm"
                         className="mt-3 px-0 text-clarity-accent hover:bg-transparent"
                       >
-                        Learn more \u2192
+                        Learn more →
                       </Button>
                     </CardContent>
                   </Card>
