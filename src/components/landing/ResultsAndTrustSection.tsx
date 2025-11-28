@@ -37,7 +37,7 @@ const ResultsAndTrustSection = () => {
   const { ref, isInView } = useInViewAnimation();
 
   return (
-    <SectionContainer id="resources" className="bg-slate-950">
+    <SectionContainer id="resources"  className="bg-white dark:bg-slate-950">
       <div ref={ref}>
         {/* Gradient banner */}
         <div className="rounded-3xl bg-gradient-to-r from-clarity-primary via-clarity-secondary to-clarity-accent p-[1px]">
