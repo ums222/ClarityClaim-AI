@@ -101,28 +101,28 @@ const FinalCTASection = () => {
 
             {/* CONTACT INFO BOXES */}
             <div className="grid gap-3 text-sm md:grid-cols-2">
-              <Card className="flex items-center gap-3 bg-slate-900/80 p-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950">
+              <Card className="flex items-center gap-3 bg-white dark:bg-slate-900/80 p-4">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-950">
                   <Phone className="h-4 w-4 text-clarity-secondary" />
                 </span>
                 <div>
-                  <p className="font-semibold">Prefer to talk?</p>
-                  <p className="text-xs text-slate-400">+1 (555) 123-4567</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-50">Prefer to talk?</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">+1 (555) 123-4567</p>
                 </div>
               </Card>
 
-              <Card className="flex items-center gap-3 bg-slate-900/80 p-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950">
+              <Card className="flex items-center gap-3 bg-white dark:bg-slate-900/80 p-4">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-950">
                   <Mail className="h-4 w-4 text-clarity-secondary" />
                 </span>
                 <div>
-                  <p className="font-semibold">Email us</p>
-                  <p className="text-xs text-slate-400">hello@clarityclaim.ai</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-50">Email us</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">hello@clarityclaim.ai</p>
                 </div>
               </Card>
             </div>
 
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Already a customer?{" "}
               <a href="/login" className="text-clarity-accent underline">
                 Sign in
@@ -130,13 +130,13 @@ const FinalCTASection = () => {
             </p>
 
             <div className="flex flex-wrap gap-2 text-[10px] ">
-              <span className="rounded-full border border-slate-700 px-3 py-1">
+              <span className="rounded-full border border-slate-300 dark:border-slate-700 px-3 py-1 text-slate-600 dark:text-slate-300">
                 HIPAA
               </span>
-              <span className="rounded-full border border-slate-700 px-3 py-1">
+              <span className="rounded-full border border-slate-300 dark:border-slate-700 px-3 py-1 text-slate-600 dark:text-slate-300">
                 SOC 2
               </span>
-              <span className="rounded-full border border-slate-700 px-3 py-1">
+              <span className="rounded-full border border-slate-300 dark:border-slate-700 px-3 py-1 text-slate-600 dark:text-slate-300">
                 99.99% uptime
               </span>
             </div>

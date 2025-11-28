@@ -31,7 +31,7 @@ const PricingSection = () => {
             "rounded-full px-4 py-1 transition-colors " +
             (cycle === "monthly"
               ? "bg-clarity-secondary text-white"
-              : "bg-slate-900 text-slate-400")
+              : "bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400")
           }
           onClick={() => setCycle("monthly")}
         >
@@ -42,7 +42,7 @@ const PricingSection = () => {
             "rounded-full px-4 py-1 transition-colors " +
             (cycle === "annual"
               ? "bg-clarity-secondary text-white"
-              : "bg-slate-900 text-slate-400")
+              : "bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400")
           }
           onClick={() => setCycle("annual")}
         >
@@ -53,19 +53,19 @@ const PricingSection = () => {
       {/* Cards */}
       <div className="grid gap-6 md:grid-cols-3">
         {/* Starter */}
-        <Card className="bg-slate-900/70">
+        <Card className="bg-white dark:bg-slate-900/70">
           <CardHeader>
             <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
               Starter
             </p>
             <CardTitle>Small Practices & Clinics</CardTitle>
-            <CardDescription className="mt-4 text-2xl font-semibold text-slate-50">
+            <CardDescription className="mt-4 text-2xl font-semibold text-slate-900 dark:text-slate-50">
               {starterPrice}
             </CardDescription>
-            <p className="text-xs text-slate-400">per provider location</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">per provider location</p>
           </CardHeader>
           <CardContent className="space-y-3">
-            <ul className="space-y-1 text-sm text-slate-300">
+            <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
               <li>Up to 1,000 claims/month</li>
               <li>Denial prediction engine</li>
               <li>Pre-submission validation</li>
@@ -83,7 +83,7 @@ const PricingSection = () => {
         </Card>
 
         {/* Professional */}
-        <Card className="relative bg-slate-900/90 shadow-glow-primary">
+        <Card className="relative bg-white dark:bg-slate-900/90 shadow-glow-primary">
           <div className="absolute right-4 top-4">
             <Badge className="bg-clarity-accent/20 text-[10px] text-clarity-accent">
               MOST POPULAR
@@ -94,13 +94,13 @@ const PricingSection = () => {
               Professional
             </p>
             <CardTitle>Regional Health Systems</CardTitle>
-            <CardDescription className="mt-4 text-2xl font-semibold text-slate-50">
+            <CardDescription className="mt-4 text-2xl font-semibold text-slate-900 dark:text-slate-50">
               {proPrice}
             </CardDescription>
-            <p className="text-xs text-slate-400">per facility</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">per facility</p>
           </CardHeader>
           <CardContent className="space-y-3">
-            <ul className="space-y-1 text-sm text-slate-300">
+            <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
               <li>Up to 10,000 claims/month</li>
               <li>Everything in Starter, plus:</li>
               <li>Advanced AI appeal engine</li>
@@ -118,19 +118,19 @@ const PricingSection = () => {
         </Card>
 
         {/* Enterprise */}
-        <Card className="bg-slate-900/70">
+        <Card className="bg-white dark:bg-slate-900/70">
           <CardHeader>
             <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
               Enterprise
             </p>
             <CardTitle>Large Health Systems & IDNs</CardTitle>
-            <CardDescription className="mt-4 text-2xl font-semibold text-slate-50">
+            <CardDescription className="mt-4 text-2xl font-semibold text-slate-900 dark:text-slate-50">
               Custom
             </CardDescription>
-            <p className="text-xs text-slate-400">volume-based pricing</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">volume-based pricing</p>
           </CardHeader>
           <CardContent className="space-y-3">
-            <ul className="space-y-1 text-sm text-slate-300">
+            <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
               <li>Unlimited claims</li>
               <li>Everything in Professional, plus:</li>
               <li>Custom AI model training</li>
@@ -150,16 +150,16 @@ const PricingSection = () => {
       </div>
 
       {/* Mission pricing callout */}
-      <div className="mt-8 rounded-2xl border border-clarity-secondary/40 bg-slate-900/80 p-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div className="mt-8 rounded-2xl border border-clarity-secondary/40 bg-slate-50 dark:bg-slate-900/80 p-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-clarity-secondary/15 text-clarity-secondary">
             <Heart className="h-4 w-4" />
           </span>
           <div>
-            <p className="text-sm font-semibold text-slate-50">
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
               Mission-Driven Pricing
             </p>
-            <p className="text-xs text-slate-300">
+            <p className="text-xs text-slate-600 dark:text-slate-300">
               Special pricing available for FQHCs, rural hospitals, and safety-net providers. We
               believe every healthcare organization deserves access to AI-powered claims
               management.

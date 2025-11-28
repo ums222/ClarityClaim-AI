@@ -41,7 +41,7 @@ const ResultsAndTrustSection = () => {
       <div ref={ref}>
         {/* Gradient banner */}
         <div className="rounded-3xl bg-gradient-to-r from-clarity-primary via-clarity-secondary to-clarity-accent p-[1px]">
-          <div className="flex flex-col gap-6 rounded-3xl bg-slate-950/95 px-6 py-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-10">
+          <div className="flex flex-col gap-6 rounded-3xl bg-white dark:bg-slate-950/95 px-6 py-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-10">
             {stats.map((stat, idx) => (
               <motion.div
                 key={stat.label}
@@ -52,7 +52,7 @@ const ResultsAndTrustSection = () => {
                 transition={{ delay: 0.1 + idx * 0.1 }}
                 className="flex flex-col items-start gap-1 text-left md:items-center md:text-center"
               >
-                <p className="text-2xl font-semibold text-slate-50">
+                <p className="text-2xl font-semibold text-slate-900 dark:text-slate-50">
                   <AnimatedCounter
                     to={stat.value}
                     prefix={stat.prefix}
@@ -60,7 +60,7 @@ const ResultsAndTrustSection = () => {
                     decimals={stat.decimals}
                   />
                 </p>
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600 dark:text-slate-300">
                   {stat.label}
                 </p>
               </motion.div>
@@ -78,7 +78,7 @@ const ResultsAndTrustSection = () => {
             {testimonials.map((t) => (
               <Card
                 key={t.author}
-                className="bg-slate-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all"
+                className="bg-white dark:bg-slate-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all"
               >
                 <CardHeader>
                   <CardTitle className="text-sm">
@@ -90,14 +90,14 @@ const ResultsAndTrustSection = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="mt-3 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-xs text-slate-300">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300">
                       {t.author.split(" ")[1]?.[0] ?? "A"}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-50">
+                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
                         {t.author}
                       </p>
-                      <p className="text-xs text-slate-400">{t.title}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{t.title}</p>
                     </div>
                   </div>
                   <div className="mt-3 flex gap-1">
@@ -117,7 +117,7 @@ const ResultsAndTrustSection = () => {
             {testimonials.map((t) => (
               <Card
                 key={t.author}
-                className="min-w-[260px] flex-1 bg-slate-900/80"
+                className="min-w-[260px] flex-1 bg-white dark:bg-slate-900/80"
               >
                 <CardHeader>
                   <CardTitle className="text-sm">
@@ -129,14 +129,14 @@ const ResultsAndTrustSection = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="mt-3 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-xs text-slate-300">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300">
                       {t.author.split(" ")[1]?.[0] ?? "A"}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-50">
+                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
                         {t.author}
                       </p>
-                      <p className="text-xs text-slate-400">{t.title}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{t.title}</p>
                     </div>
                   </div>
                   <div className="mt-3 flex gap-1">
@@ -159,7 +159,7 @@ const ResultsAndTrustSection = () => {
               (badge) => (
                 <span
                   key={badge}
-                  className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs text-slate-300"
+                  className="inline-flex items-center rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/70 px-3 py-1 text-xs text-slate-600 dark:text-slate-300"
                 >
                   {badge}
                 </span>
@@ -168,7 +168,7 @@ const ResultsAndTrustSection = () => {
           </div>
 
           <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 dark:text-slate-500">
               Seamless Integration With Your Stack
             </p>
             <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
@@ -176,7 +176,7 @@ const ResultsAndTrustSection = () => {
                 (logo) => (
                   <div
                     key={logo}
-                    className="flex h-10 items-center justify-center rounded-xl border border-slate-800 bg-slate-900/40 text-[11px] font-medium text-slate-500 hover:border-slate-500 hover:text-slate-100 transition-colors"
+                    className="flex h-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 text-[11px] font-medium text-slate-500 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                   >
                     {logo}
                   </div>

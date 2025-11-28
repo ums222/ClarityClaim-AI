@@ -21,17 +21,17 @@ export const Accordion: React.FC<AccordionProps> = ({ items }) => {
         return (
           <div
             key={item.id}
-            className="rounded-2xl border border-slate-800 bg-slate-900/70"
+            className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70"
           >
             <button
-              className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-slate-50"
+              className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-slate-900 dark:text-slate-50"
               onClick={() => setOpenId(open ? null : item.id)}
               aria-expanded={open}
             >
               <span>{item.question}</span>
               <span
                 className={cn(
-                  "transition-transform",
+                  "transition-transform text-slate-500 dark:text-slate-400",
                   open ? "rotate-180" : "rotate-0"
                 )}
               >
@@ -39,7 +39,7 @@ export const Accordion: React.FC<AccordionProps> = ({ items }) => {
               </span>
             </button>
             {open && (
-              <div className="border-t border-slate-800 px-4 py-3 text-sm text-slate-300">
+              <div className="border-t border-slate-200 dark:border-slate-800 px-4 py-3 text-sm text-slate-600 dark:text-slate-300">
                 {item.answer}
               </div>
             )}
