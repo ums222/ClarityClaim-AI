@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
+import { useTheme } from "../../hooks/useTheme";
 
 const navItems = [
-  { label: "Features", href: "#features" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "About", href: "#about" },
-  { label: "Resources", href: "#resources" },
+  { label: "Product", href: "#features", hasDropdown: true },
+  { label: "Contact Us", href: "#contact" },
 ];
 
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handler = () => {
@@ -28,64 +27,146 @@ const NavBar = () => {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-40 transition-all",
-        scrolled ? "bg-slate-950/85 backdrop-blur-md border-b border-slate-800" : "bg-transparent"
+        scrolled
+          ? theme === "dark"
+            ? "bg-slate-950/85 backdrop-blur-md border-b border-slate-800"
+            : "bg-white/85 backdrop-blur-md border-b border-slate-200 shadow-sm"
+          : "bg-transparent"
       )}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6 lg:px-8">
-        <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-            <img src="/logo.png" alt="ClarityClaim AI Logo" className="h-8 w-auto" />
-          </Link>
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-8 md:flex">
-          <div className="flex items-center gap-6 text-sm text-slate-300">
+        <Link
+          to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="flex items-center gap-2"
+        >
+          <img src="/logo.png" alt="ClarityClaim AI Logo" className="h-8 w-auto" />
+        </Link>
+
+        {/* Desktop nav - Aegis style */}
+        <div className="hidden items-center gap-6 md:flex">
+          <div className={cn(
+            "flex items-center gap-6 text-sm",
+            theme === "dark" ? "text-slate-300" : "text-slate-600"
+          )}>
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="relative hover:text-slate-50"
+                className={cn(
+                  "relative flex items-center gap-1 transition-colors",
+                  theme === "dark" ? "hover:text-slate-50" : "hover:text-slate-900"
+                )}
               >
                 {item.label}
+                {item.hasDropdown && <ChevronDown className="h-4 w-4" />}
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm">
-              Book Demo
-            </Button>
-            <Button size="sm">Get Started</Button>
-          </div>
+
+          {/* Theme toggle button - Aegis style */}
+          <button
+            onClick={toggleTheme}
+            className={cn(
+              "rounded-full p-2 transition-colors",
+              theme === "dark"
+                ? "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-slate-100"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+            )}
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </button>
+
+          {/* CTA Button - Aegis style */}
+          <Button
+            size="sm"
+            className={cn(
+              "rounded-full px-5",
+              theme === "dark"
+                ? "bg-white text-slate-900 hover:bg-slate-100"
+                : "bg-slate-900 text-white hover:bg-slate-800"
+            )}
+          >
+            Request Demo
+            <ChevronDown className="ml-1 h-4 w-4 rotate-[-90deg]" />
+          </Button>
         </div>
 
-        {/* Mobile */}
-        <button
-          className="inline-flex items-center justify-center rounded-full border border-slate-700/60 bg-slate-900/70 p-2 text-slate-100 md:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle navigation"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile menu button */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleTheme}
+            className={cn(
+              "rounded-full p-2 transition-colors",
+              theme === "dark"
+                ? "bg-slate-800 text-slate-300"
+                : "bg-slate-100 text-slate-600"
+            )}
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </button>
+          <button
+            className={cn(
+              "inline-flex items-center justify-center rounded-full border p-2",
+              theme === "dark"
+                ? "border-slate-700/60 bg-slate-900/70 text-slate-100"
+                : "border-slate-200 bg-white text-slate-700"
+            )}
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle navigation"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-slate-800 bg-slate-950/95 md:hidden">
+        <div
+          className={cn(
+            "border-t md:hidden",
+            theme === "dark"
+              ? "border-slate-800 bg-slate-950/95"
+              : "border-slate-200 bg-white/95"
+          )}
+        >
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-sm text-slate-200"
+                className={cn(
+                  "text-sm flex items-center gap-1",
+                  theme === "dark" ? "text-slate-200" : "text-slate-700"
+                )}
                 onClick={() => setOpen(false)}
               >
                 {item.label}
+                {item.hasDropdown && <ChevronDown className="h-4 w-4" />}
               </a>
             ))}
-            <div className="mt-2 flex flex-col gap-2">
-              <Button variant="outline" size="md" className="w-full">
-                Book Demo
-              </Button>
-              <Button size="md" className="w-full">
-                Get Started
+            <div className="mt-2">
+              <Button
+                size="md"
+                className={cn(
+                  "w-full rounded-full",
+                  theme === "dark"
+                    ? "bg-white text-slate-900 hover:bg-slate-100"
+                    : "bg-slate-900 text-white hover:bg-slate-800"
+                )}
+              >
+                Request Demo
+                <ChevronDown className="ml-1 h-4 w-4 rotate-[-90deg]" />
               </Button>
             </div>
           </div>
