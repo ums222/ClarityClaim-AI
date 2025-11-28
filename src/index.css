@@ -126,14 +126,14 @@ section {
 
 /* =============================================================================
    BACKGROUND IMAGES & PATTERNS
-   Healthcare AI theme with Deep Blue (#1E3A5F), Teal (#0D9488), Gold (#F59E0B)
+   ClarityClaim AI - Healthcare Claims Management
    
    Images from Unsplash (free for commercial use):
-   - Hero: Medical technology / digital health visualization
-   - Results: Abstract data / technology pattern
+   - Hero: Healthcare professional using technology for medical data/claims
+   - Results: Medical data analytics and healthcare dashboard
    ============================================================================= */
 
-/* Hero Section Background - Medical technology / AI visualization */
+/* Hero Section Background - Healthcare professional with medical technology */
 .hero-bg-pattern {
   position: relative;
   overflow: hidden;
@@ -143,10 +143,11 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  /* Unsplash: Abstract blue technology/data visualization - free commercial use */
-  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80');
+  /* Unsplash: Healthcare professional using digital tablet with medical data
+     Represents: AI-assisted healthcare claims processing, medical professionals empowered by technology */
+  background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   z-index: 0;
   pointer-events: none;
@@ -167,7 +168,7 @@ html.dark .hero-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15,23,42,0.75) 0%, rgba(30,58,95,0.7) 40%, rgba(13,148,136,0.3) 100%);
+  background: linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(30,58,95,0.75) 40%, rgba(13,148,136,0.25) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -178,7 +179,7 @@ html.dark .hero-bg-pattern::after {
   z-index: 2;
 }
 
-/* Results Section Background - Abstract technology/data pattern */
+/* Results Section Background - Medical/Healthcare data analytics */
 .results-bg-pattern {
   position: relative;
   overflow: hidden;
@@ -188,8 +189,9 @@ html.dark .hero-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  /* Unsplash: Abstract network/connection visualization - free commercial use */
-  background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1920&q=80');
+  /* Unsplash: Medical research and healthcare data visualization
+     Represents: Healthcare analytics, claims data processing, revenue cycle metrics */
+  background-image: url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -202,7 +204,7 @@ html.light .results-bg-pattern::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(248,250,252,0.92) 0%, rgba(248,250,252,0.88) 50%, rgba(248,250,252,0.92) 100%);
+  background: linear-gradient(180deg, rgba(248,250,252,0.9) 0%, rgba(248,250,252,0.85) 50%, rgba(248,250,252,0.9) 100%);
   z-index: 1;
   pointer-events: none;
 }
