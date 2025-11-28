@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
-import logo from "../../../ClarityClaim AI logo.png";
 
 const navItems = [
   { label: "Features", href: "#features" },
@@ -34,7 +33,7 @@ const NavBar = () => {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6 lg:px-8">
         <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-            <img src={logo} alt="ClarityClaim AI Logo" className="h-8 w-auto" />
+            <img src="/logo.png" alt="ClarityClaim AI Logo" className="h-8 w-auto" />
           </Link>
         {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
