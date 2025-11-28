@@ -33,7 +33,7 @@ const NavBar = () => {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6 lg:px-8">
         <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-            <img src="/ClarityClaim AI logo.png" alt="ClarityClaim AI Logo" className="h-8 w-auto" />
+            <img src="/ClarityClaim%20AI%20logo.png" alt="ClarityClaim AI Logo" className="h-8 w-auto" />
           </Link>
         {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
