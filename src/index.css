@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --clr-primary: #1e3a5f;
   --clr-secondary: #0d9488;
