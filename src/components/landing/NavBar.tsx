@@ -32,7 +32,7 @@ const NavBar = () => {
       )}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-clarity-primary/80 text-clarity-accent shadow-glow-primary">
             <Shield className="h-5 w-5" />
           </span>
