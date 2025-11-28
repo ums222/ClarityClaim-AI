@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import { ThemeProvider } from "./hooks/useTheme";
+import { AuthProvider } from "./hooks/useAuth";
 
 // Main pages
 import PricingPage from "./pages/PricingPage";
@@ -34,6 +35,10 @@ import CookiesPage from "./pages/CookiesPage";
 
 // Auth pages
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import DashboardPage from "./pages/DashboardPage";
 
 // Error pages
 import NotFoundPage from "./pages/NotFoundPage";
@@ -41,7 +46,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 function App() {
   return (
     <ThemeProvider>
-      <Routes>
+      <AuthProvider>
+        <Routes>
         {/* Main routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/pricing" element={<PricingPage />} />
@@ -79,11 +85,15 @@ function App() {
         
         {/* Auth routes */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         
         {/* 404 - catch all unmatched routes */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

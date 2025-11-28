@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Mail,
   Lock,
@@ -17,28 +17,52 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { useTheme } from "../hooks/useTheme";
+import { useAuth } from "../hooks/useAuth";
 import { cn } from "../lib/utils";
 
 const LoginPage = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const navigate = useNavigate();
+  const { user, signIn, signInWithGoogle } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
-    // Simulate login
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const { error: signInError } = await signIn(email, password);
 
-    // For demo purposes, show an error
-    setError("Invalid email or password. Please try again.");
+    if (signInError) {
+      setError(signInError.message || "Invalid email or password. Please try again.");
+      setIsLoading(false);
+      return;
+    }
+
+    // Successful login - will redirect via useEffect
     setIsLoading(false);
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+    const { error: googleError } = await signInWithGoogle();
+    if (googleError) {
+      setError(googleError.message);
+    }
   };
 
   return (
@@ -170,6 +194,8 @@ const LoginPage = () => {
                       <input
                         type="checkbox"
                         id="remember"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
                         className="rounded border-slate-300 dark:border-slate-700"
                       />
                       <label
@@ -230,6 +256,7 @@ const LoginPage = () => {
                       variant="outline"
                       className="w-full"
                       size="lg"
+                      onClick={handleGoogleSignIn}
                     >
                       <img
                         src="https://www.google.com/favicon.ico"
@@ -247,10 +274,10 @@ const LoginPage = () => {
                     >
                       Don't have an account?{" "}
                       <Link
-                        to="/contact"
+                        to="/signup"
                         className="text-clarity-secondary hover:underline font-medium"
                       >
-                        Request a Demo
+                        Sign Up
                       </Link>
                     </p>
                   </form>

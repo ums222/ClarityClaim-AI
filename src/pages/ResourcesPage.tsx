@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Clock,
   Users,
+  CheckCircle,
 } from "lucide-react";
 import NavBar from "../components/landing/NavBar";
 import Footer from "../components/landing/Footer";
@@ -22,6 +23,7 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { useTheme } from "../hooks/useTheme";
+import { subscribeToNewsletter } from "../lib/api";
 import { cn } from "../lib/utils";
 
 type ResourceCategory = "all" | "blog" | "case-studies" | "webinars" | "help" | "status";
@@ -32,6 +34,9 @@ const ResourcesPage = () => {
   const [activeCategory, setActiveCategory] = useState<ResourceCategory>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+  const [subscribeError, setSubscribeError] = useState("");
 
   const categories = [
     { id: "all" as const, label: "All Resources", icon: BookOpen },
@@ -125,11 +130,21 @@ const ResourcesPage = () => {
     return matchesCategory && matchesSearch;
   });
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Subscribed:", email);
-    setEmail("");
-    alert("Thanks for subscribing! Check your email for confirmation.");
+    setSubscribeError("");
+    setIsSubscribing(true);
+
+    const result = await subscribeToNewsletter(email, "resources-page");
+
+    if (!result.success) {
+      setSubscribeError(result.error || "An error occurred. Please try again.");
+      setIsSubscribing(false);
+      return;
+    }
+
+    setSubscribed(true);
+    setIsSubscribing(false);
   };
 
   return (
@@ -449,46 +464,86 @@ const ResourcesPage = () => {
                 : "bg-white border border-slate-200"
             )}
           >
-            <Users className="h-12 w-12 mx-auto mb-4 text-clarity-secondary" />
-            <h2
-              className={cn(
-                "text-2xl md:text-3xl font-bold mb-3",
-                isDark ? "text-white" : "text-slate-900"
-              )}
-            >
-              Stay Updated
-            </h2>
-            <p
-              className={cn(
-                "text-base mb-6 max-w-xl mx-auto",
-                isDark ? "text-slate-400" : "text-slate-600"
-              )}
-            >
-              Get the latest insights on AI-powered revenue cycle management
-              delivered to your inbox.
-            </p>
-            <form
-              onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-            >
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="flex-1"
-              />
-              <Button type="submit">Subscribe</Button>
-            </form>
-            <p
-              className={cn(
-                "text-xs mt-3",
-                isDark ? "text-slate-500" : "text-slate-500"
-              )}
-            >
-              No spam, unsubscribe anytime.
-            </p>
+            {subscribed ? (
+              <>
+                <CheckCircle className="h-12 w-12 mx-auto mb-4 text-emerald-500" />
+                <h2
+                  className={cn(
+                    "text-2xl md:text-3xl font-bold mb-3",
+                    isDark ? "text-white" : "text-slate-900"
+                  )}
+                >
+                  You're Subscribed!
+                </h2>
+                <p
+                  className={cn(
+                    "text-base mb-6 max-w-xl mx-auto",
+                    isDark ? "text-slate-400" : "text-slate-600"
+                  )}
+                >
+                  Thanks for subscribing. Check your inbox for our latest updates on AI-powered revenue cycle management.
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSubscribed(false);
+                    setEmail("");
+                  }}
+                >
+                  Subscribe Another Email
+                </Button>
+              </>
+            ) : (
+              <>
+                <Users className="h-12 w-12 mx-auto mb-4 text-clarity-secondary" />
+                <h2
+                  className={cn(
+                    "text-2xl md:text-3xl font-bold mb-3",
+                    isDark ? "text-white" : "text-slate-900"
+                  )}
+                >
+                  Stay Updated
+                </h2>
+                <p
+                  className={cn(
+                    "text-base mb-6 max-w-xl mx-auto",
+                    isDark ? "text-slate-400" : "text-slate-600"
+                  )}
+                >
+                  Get the latest insights on AI-powered revenue cycle management
+                  delivered to your inbox.
+                </p>
+                {subscribeError && (
+                  <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 text-sm mb-4 max-w-md mx-auto">
+                    {subscribeError}
+                  </div>
+                )}
+                <form
+                  onSubmit={handleSubscribe}
+                  className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+                >
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="flex-1"
+                  />
+                  <Button type="submit" disabled={isSubscribing}>
+                    {isSubscribing ? "Subscribing..." : "Subscribe"}
+                  </Button>
+                </form>
+                <p
+                  className={cn(
+                    "text-xs mt-3",
+                    isDark ? "text-slate-500" : "text-slate-500"
+                  )}
+                >
+                  No spam, unsubscribe anytime.
+                </p>
+              </>
+            )}
           </motion.div>
         </SectionContainer>
       </main>

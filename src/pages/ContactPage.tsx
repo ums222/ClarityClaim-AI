@@ -21,6 +21,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Select } from "../components/ui/select";
 import { useTheme } from "../hooks/useTheme";
+import { submitContactForm, type ContactFormData } from "../lib/api";
 import { cn } from "../lib/utils";
 
 const ContactPage = () => {
@@ -28,14 +29,38 @@ const ContactPage = () => {
   const isDark = theme === "dark";
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  // Form state
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    organizationName: "",
+    organizationType: "",
+    monthlyClaimVolume: "",
+    message: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
+
+    const result = await submitContactForm(formData as ContactFormData);
+
+    if (!result.success) {
+      setError(result.error || "An error occurred. Please try again.");
+      setIsSubmitting(false);
+      return;
+    }
+
     setFormSubmitted(true);
+    setIsSubmitting(false);
   };
 
   const trustBadges = [
@@ -122,7 +147,17 @@ const ContactPage = () => {
                     </p>
                     <Button
                       variant="outline"
-                      onClick={() => setFormSubmitted(false)}
+                      onClick={() => {
+                        setFormSubmitted(false);
+                        setFormData({
+                          fullName: "",
+                          email: "",
+                          organizationName: "",
+                          organizationType: "",
+                          monthlyClaimVolume: "",
+                          message: "",
+                        });
+                      }}
                     >
                       Submit Another Request
                     </Button>
@@ -148,6 +183,12 @@ const ContactPage = () => {
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
+                      {error && (
+                        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 text-sm">
+                          {error}
+                        </div>
+                      )}
+
                       <div className="grid gap-4 md:grid-cols-2">
                         <div>
                           <label
@@ -158,7 +199,13 @@ const ContactPage = () => {
                           >
                             Full Name *
                           </label>
-                          <Input required placeholder="Jane Doe" />
+                          <Input
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleInputChange}
+                            required
+                            placeholder="Jane Doe"
+                          />
                         </div>
                         <div>
                           <label
@@ -170,6 +217,9 @@ const ContactPage = () => {
                             Work Email *
                           </label>
                           <Input
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
                             required
                             type="email"
                             placeholder="jane.doe@hospital.org"
@@ -186,7 +236,13 @@ const ContactPage = () => {
                         >
                           Organization Name *
                         </label>
-                        <Input required placeholder="Regional Medical Center" />
+                        <Input
+                          name="organizationName"
+                          value={formData.organizationName}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="Regional Medical Center"
+                        />
                       </div>
 
                       <div className="grid gap-4 md:grid-cols-2">
@@ -199,18 +255,23 @@ const ContactPage = () => {
                           >
                             Organization Type *
                           </label>
-                          <Select required defaultValue="">
+                          <Select
+                            name="organizationType"
+                            value={formData.organizationType}
+                            onChange={handleInputChange}
+                            required
+                          >
                             <option value="" disabled>
                               Select type
                             </option>
-                            <option>Hospital</option>
-                            <option>Health System</option>
-                            <option>Physician Practice</option>
-                            <option>Clinic</option>
-                            <option>FQHC</option>
-                            <option>Ambulatory Surgery Center</option>
-                            <option>Billing Company</option>
-                            <option>Other</option>
+                            <option value="Hospital">Hospital</option>
+                            <option value="Health System">Health System</option>
+                            <option value="Physician Practice">Physician Practice</option>
+                            <option value="Clinic">Clinic</option>
+                            <option value="FQHC">FQHC</option>
+                            <option value="Ambulatory Surgery Center">Ambulatory Surgery Center</option>
+                            <option value="Billing Company">Billing Company</option>
+                            <option value="Other">Other</option>
                           </Select>
                         </div>
                         <div>
@@ -222,15 +283,20 @@ const ContactPage = () => {
                           >
                             Monthly Claim Volume *
                           </label>
-                          <Select required defaultValue="">
+                          <Select
+                            name="monthlyClaimVolume"
+                            value={formData.monthlyClaimVolume}
+                            onChange={handleInputChange}
+                            required
+                          >
                             <option value="" disabled>
                               Select volume
                             </option>
-                            <option>&lt; 1,000</option>
-                            <option>1,000 – 5,000</option>
-                            <option>5,000 – 10,000</option>
-                            <option>10,000 – 50,000</option>
-                            <option>50,000+</option>
+                            <option value="< 1,000">&lt; 1,000</option>
+                            <option value="1,000 - 5,000">1,000 – 5,000</option>
+                            <option value="5,000 - 10,000">5,000 – 10,000</option>
+                            <option value="10,000 - 50,000">10,000 – 50,000</option>
+                            <option value="50,000+">50,000+</option>
                           </Select>
                         </div>
                       </div>
@@ -245,6 +311,9 @@ const ContactPage = () => {
                           How can we help? (Optional)
                         </label>
                         <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
                           className={cn(
                             "flex w-full rounded-xl border px-3 py-2 text-sm min-h-[100px] resize-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-clarity-secondary focus-visible:ring-offset-2",
                             isDark
@@ -282,7 +351,7 @@ const ContactPage = () => {
                       >
                         By submitting this form, you agree to our{" "}
                         <Link
-                          to="/privacy"
+                          to="/privacy-policy"
                           className="text-clarity-secondary hover:underline"
                         >
                           Privacy Policy
@@ -435,8 +504,7 @@ const ContactPage = () => {
 
                   <div
                     className={cn(
-                      "flex items-center gap-4 p-3 rounded-xl",
-                      isDark ? "" : ""
+                      "flex items-center gap-4 p-3 rounded-xl"
                     )}
                   >
                     <span
