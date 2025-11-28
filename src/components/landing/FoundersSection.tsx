@@ -37,7 +37,7 @@ const FoundersSection = () => {
       <SectionHeader
         eyebrow="FOUNDING TEAM"
         title="Built by Healthcare, AI & Operations Leaders"
-        subtitle="A team with complementary strengths\u2014combining healthcare domain expertise, advanced AI engineering, and world-class operational execution."
+        subtitle="A team with complementary strengths—combining healthcare domain expertise, advanced AI engineering, and world-class operational execution."
         align="center"
       />
 
@@ -80,7 +80,7 @@ const FoundersSection = () => {
                     className="text-[11px] font-medium text-clarity-accent hover:underline underline-offset-4"
                     type="button"
                   >
-                    View full bio \u2192
+                    View full bio →
                   </button>
 
                   <a
