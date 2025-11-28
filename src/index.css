@@ -16,8 +16,8 @@ html {
   --clr-error: #f43f5e;
 }
 
-/* Dark theme (default) */
-.dark {
+/* Dark theme (default) - applied to html element */
+html.dark {
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
   --bg-tertiary: #334155;
@@ -25,12 +25,10 @@ html {
   --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
   --border-color: #334155;
-  --nav-bg: rgba(15, 23, 42, 0.85);
-  --card-bg: rgba(30, 41, 59, 0.5);
 }
 
-/* Light theme */
-.light {
+/* Light theme - applied to html element */
+html.light {
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
   --bg-tertiary: #f1f5f9;
@@ -38,22 +36,21 @@ html {
   --text-secondary: #475569;
   --text-muted: #64748b;
   --border-color: #e2e8f0;
-  --nav-bg: rgba(255, 255, 255, 0.85);
-  --card-bg: rgba(248, 250, 252, 0.8);
 }
 
-/* Apply theme to body */
-.dark body {
-  @apply bg-slate-950 text-slate-50 antialiased;
+/* Apply background to body based on theme */
+html.dark body {
+  background-color: #0f172a;
+  color: #f8fafc;
 }
 
-.light body {
-  @apply bg-white text-slate-900 antialiased;
+html.light body {
+  background-color: #ffffff;
+  color: #0f172a;
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  @apply antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -62,23 +59,25 @@ body {
   width: 8px;
 }
 
-.dark ::-webkit-scrollbar-track {
-  @apply bg-slate-900;
+html.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  @apply bg-slate-700 rounded-full;
+html.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 9999px;
 }
 
-.light ::-webkit-scrollbar-track {
-  @apply bg-slate-100;
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
 }
 
-.light ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full;
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
 }
 
 /* Theme transition for all elements */
 * {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
