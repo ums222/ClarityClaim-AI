@@ -3,6 +3,8 @@ import { Play, ArrowRight } from "lucide-react";
 import SectionContainer from "../shared/SectionContainer";
 import AnimatedCounter from "../shared/AnimatedCounter";
 import { Button } from "../ui/button";
+import { useTheme } from "../../hooks/useTheme";
+import { cn } from "../../lib/utils";
 
 const stats = [
   { label: "Denial Rate Reduction", value: 35, suffix: "%" },
@@ -21,8 +23,15 @@ const cardVariants = {
 };
 
 const HeroSection = () => {
+  const { theme } = useTheme();
+
   return (
-    <SectionContainer id="top" className="bg-hero-gradient">
+    <SectionContainer 
+      id="top" 
+      className={cn(
+        theme === "dark" ? "bg-hero-gradient" : "bg-gradient-to-br from-slate-50 via-white to-slate-100"
+      )}
+    >
       <div className="grid gap-12 md:grid-cols-2 md:items-center">
         {/* LEFT */}
         <motion.div
@@ -37,13 +46,24 @@ const HeroSection = () => {
             },
           }}
         >
-          <p className="inline-flex items-center rounded-full border border-clarity-secondary/40 bg-clarity-secondary/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-clarity-secondary">
+          <p className={cn(
+            "inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium uppercase tracking-[0.2em]",
+            theme === "dark" 
+              ? "border-clarity-secondary/40 bg-clarity-secondary/10 text-clarity-secondary"
+              : "border-teal-500/40 bg-teal-500/10 text-teal-600"
+          )}>
             AI-Powered Healthcare Claims Management
           </p>
-          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-slate-50">
+          <h1 className={cn(
+            "mt-4 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight",
+            theme === "dark" ? "text-slate-50" : "text-slate-900"
+          )}>
             Stop Losing Revenue to Claim Denials
           </h1>
-          <p className="mt-4 text-sm md:text-base text-slate-300">
+          <p className={cn(
+            "mt-4 text-sm md:text-base",
+            theme === "dark" ? "text-slate-300" : "text-slate-600"
+          )}>
             ClarityClaim AI uses advanced artificial intelligence to predict
             denials, optimize submissions, and generate winning appeals—
             recovering millions in lost revenue.
@@ -58,7 +78,12 @@ const HeroSection = () => {
                 variants={cardVariants}
                 initial="hidden"
                 animate="show"
-                className="rounded-2xl border border-slate-800 bg-slate-900/60 px-4 py-3"
+                className={cn(
+                  "rounded-2xl border px-4 py-3",
+                  theme === "dark" 
+                    ? "border-slate-800 bg-slate-900/60" 
+                    : "border-slate-200 bg-white/80 shadow-sm"
+                )}
               >
                 <div className="text-xl font-semibold text-clarity-accent">
                   <AnimatedCounter
@@ -68,7 +93,10 @@ const HeroSection = () => {
                     decimals={stat.decimals}
                   />
                 </div>
-                <p className="mt-1 text-xs text-slate-400">{stat.label}</p>
+                <p className={cn(
+                  "mt-1 text-xs",
+                  theme === "dark" ? "text-slate-400" : "text-slate-500"
+                )}>{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -93,22 +121,32 @@ const HeroSection = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-gradient-to-br from-clarity-primary/40 via-slate-900 to-clarity-secondary/40 blur-3xl opacity-70" />
+          <div className={cn(
+            "pointer-events-none absolute inset-0 rounded-[2rem] blur-3xl opacity-70",
+            theme === "dark" 
+              ? "bg-gradient-to-br from-clarity-primary/40 via-slate-900 to-clarity-secondary/40"
+              : "bg-gradient-to-br from-teal-200/40 via-white to-blue-200/40"
+          )} />
           <div className="relative h-full w-full">
             {/* Dashboard card */}
             <motion.div
-              className="absolute left-4 top-6 w-64 rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-glow-primary"
+              className={cn(
+                "absolute left-4 top-6 w-64 rounded-2xl border p-4",
+                theme === "dark" 
+                  ? "border-slate-800 bg-slate-900/90 shadow-glow-primary"
+                  : "border-slate-200 bg-white shadow-lg"
+              )}
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
             >
-              <p className="text-xs text-slate-400">Appeals Dashboard</p>
-              <p className="mt-1 text-lg font-semibold text-slate-50">
+              <p className={cn("text-xs", theme === "dark" ? "text-slate-400" : "text-slate-500")}>Appeals Dashboard</p>
+              <p className={cn("mt-1 text-lg font-semibold", theme === "dark" ? "text-slate-50" : "text-slate-900")}>
                 $2.3M recovered
               </p>
-              <div className="mt-3 h-2 w-full rounded-full bg-slate-800">
+              <div className={cn("mt-3 h-2 w-full rounded-full", theme === "dark" ? "bg-slate-800" : "bg-slate-200")}>
                 <div className="h-2 w-3/4 rounded-full bg-clarity-secondary" />
               </div>
-              <div className="mt-3 flex justify-between text-[11px] text-slate-400">
+              <div className={cn("mt-3 flex justify-between text-[11px]", theme === "dark" ? "text-slate-400" : "text-slate-500")}>
                 <span>Denials - 35%</span>
                 <span>Appeals + 87%</span>
               </div>
@@ -116,28 +154,38 @@ const HeroSection = () => {
 
             {/* Success notification */}
             <motion.div
-              className="absolute right-4 top-20 w-56 rounded-2xl border border-clarity-success/40 bg-slate-900/95 p-3"
+              className={cn(
+                "absolute right-4 top-20 w-56 rounded-2xl border p-3",
+                theme === "dark" 
+                  ? "border-clarity-success/40 bg-slate-900/95"
+                  : "border-green-200 bg-white shadow-md"
+              )}
               animate={{ y: [-4, 6, -4] }}
               transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
             >
               <p className="text-xs font-medium text-clarity-success">
                 Appeal Approved
               </p>
-              <p className="mt-1 text-xs text-slate-300">
+              <p className={cn("mt-1 text-xs", theme === "dark" ? "text-slate-300" : "text-slate-600")}>
                 Claim #84521 recovered <span className="font-semibold">$42,870</span>
               </p>
             </motion.div>
 
             {/* Denial alert */}
             <motion.div
-              className="absolute bottom-6 right-10 w-60 rounded-2xl border border-clarity-warning/40 bg-slate-900/95 p-3"
+              className={cn(
+                "absolute bottom-6 right-10 w-60 rounded-2xl border p-3",
+                theme === "dark" 
+                  ? "border-clarity-warning/40 bg-slate-900/95"
+                  : "border-amber-200 bg-white shadow-md"
+              )}
               animate={{ y: [6, -4, 6] }}
               transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }}
             >
               <p className="text-xs font-semibold text-clarity-warning">
                 Denial Risk: High
               </p>
-              <p className="mt-1 text-xs text-slate-300">
+              <p className={cn("mt-1 text-xs", theme === "dark" ? "text-slate-300" : "text-slate-600")}>
                 Prior auth missing. Suggested fix ready.
               </p>
             </motion.div>
