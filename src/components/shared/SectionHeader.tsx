@@ -1,42 +1,37 @@
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
-
 interface SectionHeaderProps {
-  badge?: string;
+  eyebrow?: string;
   title: string;
-  description?: string;
-  className?: string;
-  align?: 'left' | 'center';
+  subtitle?: string;
+  align?: "left" | "center";
 }
 
-export function SectionHeader({
-  badge,
+const SectionHeader = ({
+  eyebrow,
   title,
-  description,
-  className,
-  align = 'center',
-}: SectionHeaderProps) {
+  subtitle,
+  align = "left",
+}: SectionHeaderProps) => {
+  const baseClass = "mb-8";
+  const alignClass =
+    align === "center" ? "text-center mx-auto max-w-2xl" : "";
+
   return (
-    <div
-      className={cn(
-        'mb-12 md:mb-16',
-        align === 'center' && 'text-center',
-        className
+    <div className={`${baseClass} ${alignClass}`}>
+      {eyebrow && (
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-clarity-secondary">
+          {eyebrow}
+        </p>
       )}
-    >
-      {badge && (
-        <Badge variant="outline" className="mb-4">
-          {badge}
-        </Badge>
-      )}
-      <h2 className="text-3xl font-bold tracking-tight text-slate-50 sm:text-4xl md:text-5xl">
+      <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-50">
         {title}
       </h2>
-      {description && (
-        <p className="mt-4 text-lg text-slate-400 max-w-3xl mx-auto">
-          {description}
+      {subtitle && (
+        <p className="mt-3 text-sm md:text-base text-slate-400">
+          {subtitle}
         </p>
       )}
     </div>
   );
-}
+};
+
+export default SectionHeader;
