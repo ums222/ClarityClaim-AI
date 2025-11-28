@@ -8,16 +8,16 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="ClarityClaim AI Logo" className="h-6 w-auto" />
-                        </div>
-            <p className="text-xs border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+              <img src="/logo.png" alt="ClarityClaim AI Logo" className="h-6 w-auto" />
+            </div>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
               AI-powered healthcare claims management
             </p>
-            <div className="flex items-center gap-3 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
-              <a href="#" aria-label="LinkedIn" className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+            <div className="flex items-center gap-3">
+              <a href="#" aria-label="LinkedIn" className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
                 <Linkedin className="h-4 w-4" />
               </a>
-              <a href="#" aria-label="Twitter/X" className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+              <a href="#" aria-label="Twitter/X" className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
                 <Twitter className="h-4 w-4" />
               </a>
             </div>
@@ -28,13 +28,13 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Product
             </p>
-            <ul className="mt-3 space-y-2 text-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+            <ul className="mt-3 space-y-2 text-sm">
               {["Features", "Integrations", "Pricing", "Security", "API Documentation"].map(
                 (item) => (
                   <li key={item}>
                     <a
                       href="#"
-                      className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
+                      className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline underline-offset-4 transition-colors"
                     >
                       {item}
                     </a>
@@ -49,13 +49,13 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Company
             </p>
-            <ul className="mt-3 space-y-2 text-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+            <ul className="mt-3 space-y-2 text-sm">
               {["About Us", "Careers", "Press", "Contact", "Partners"].map(
                 (item) => (
                   <li key={item}>
                     <a
                       href="#"
-                      className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
+                      className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline underline-offset-4 transition-colors"
                     >
                       {item}
                     </a>
@@ -70,13 +70,13 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Resources
             </p>
-            <ul className="mt-3 space-y-2 text-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+            <ul className="mt-3 space-y-2 text-sm">
               {["Blog", "Case Studies", "Webinars", "Help Center", "Status Page"].map(
                 (item) => (
                   <li key={item}>
                     <a
                       href="#"
-                      className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
+                      className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline underline-offset-4 transition-colors"
                     >
                       {item}
                     </a>
@@ -88,7 +88,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 flex flex-col gap-2 border-t border-slate-800 pt-4 text-[11px] text-slate-500 md:flex-row md:items-center md:justify-between">
+        <div className="mt-8 flex flex-col gap-2 border-t border-slate-200 dark:border-slate-800 pt-4 text-[11px] text-slate-500 md:flex-row md:items-center md:justify-between">
           <p>© 2025 ClarityClaim AI. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-3">
             {["Privacy Policy", "Terms of Service", "HIPAA Notice", "Cookie Policy"].map(
@@ -96,7 +96,7 @@ const Footer = () => {
                 <Link
                   key={item}
                   to="#"
-                  className="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:underline underline-offset-4"
+                  className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline underline-offset-4 transition-colors"
                 >
                   {item}
                 </Link>
