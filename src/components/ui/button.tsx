@@ -3,23 +3,26 @@ import { cn } from "../../lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline" | "ghost";
+  variant?: "default" | "outline" | "ghost" | "secondary";
   size?: "sm" | "md" | "lg";
 }
 
+// Modern minimalist button styles - single accent color
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   default:
-    "bg-clarity-primary text-white hover:bg-clarity-secondary shadow-glow-primary",
+    "bg-clarity-secondary text-white hover:bg-teal-600 shadow-sm hover:shadow-md",
+  secondary:
+    "bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100",
   outline:
-    "border border-slate-600 dark:border-slate-600 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-900/40",
+    "border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-700",
   ghost:
-    "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60",
+    "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800/50",
 };
 
 const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {
   sm: "h-8 px-3 text-xs",
   md: "h-10 px-4 text-sm",
-  lg: "h-12 px-6 text-base",
+  lg: "h-11 px-6 text-sm font-medium",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -27,7 +30,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-clarity-secondary disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-clarity-secondary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950 disabled:pointer-events-none disabled:opacity-50",
           variantClasses[variant],
           sizeClasses[size],
           className

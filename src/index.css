@@ -6,105 +6,128 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Base color variables */
+/* =============================================================================
+   MODERN MINIMALIST COLOR SYSTEM
+   Single accent color (Teal #0D9488) with clean neutrals
+   ============================================================================= */
+
 :root {
-  --clr-primary: #1e3a5f;
-  --clr-secondary: #0d9488;
-  --clr-accent: #f59e0b;
-  --clr-success: #10b981;
-  --clr-warning: #f59e0b;
-  --clr-error: #f43f5e;
+  /* Primary accent - Teal (only accent color) */
+  --accent: #0D9488;
+  --accent-hover: #0F766E;
+  --accent-light: rgba(13, 148, 136, 0.1);
+  
+  /* Status colors (used sparingly) */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
 }
 
-/* Dark theme (default) - applied to html element */
+/* Dark theme - Deep, modern dark */
 html.dark {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --border-color: #334155;
+  --bg-primary: #09090B;
+  --bg-secondary: #18181B;
+  --bg-tertiary: #27272A;
+  --bg-elevated: #1F1F23;
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --border-color: #27272A;
+  --border-subtle: #3F3F46;
 }
 
-/* Light theme - applied to html element */
+/* Light theme - Clean, bright */
 html.light {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-tertiary: #f1f5f9;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #FAFAFA;
+  --bg-tertiary: #F4F4F5;
+  --bg-elevated: #FFFFFF;
+  --text-primary: #09090B;
+  --text-secondary: #52525B;
+  --text-muted: #71717A;
+  --border-color: #E4E4E7;
+  --border-subtle: #F4F4F5;
 }
 
-/* Apply background to body based on theme */
+/* Apply background to body */
 html.dark body {
-  background-color: #0f172a;
-  color: #f8fafc;
+  background-color: #09090B;
+  color: #FAFAFA;
 }
 
 html.light body {
-  background-color: #ffffff;
-  color: #0f172a;
+  background-color: #FFFFFF;
+  color: #09090B;
 }
 
 body {
   @apply antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-feature-settings: "cv11", "ss01";
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Scrollbar styling */
+/* Modern scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 html.dark ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #18181B;
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #3F3F46;
   border-radius: 9999px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #52525B;
 }
 
 html.light ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #F4F4F5;
 }
 
 html.light ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #D4D4D8;
   border-radius: 9999px;
 }
 
-/* Theme transition for all elements */
-* {
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #A1A1AA;
 }
 
-/* Section background gradients */
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* =============================================================================
+   MODERN SECTION BACKGROUNDS - Subtle, monochromatic
+   ============================================================================= */
+
 .section-bg-problem {
-  background: linear-gradient(135deg, #fef2f2, #fff7ed);
+  background: #FAFAFA;
 }
 
 html.dark .section-bg-problem {
-  background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,64,175,0.96));
+  background: linear-gradient(180deg, #09090B 0%, #18181B 100%);
 }
 
 .section-bg-solution {
-  background: linear-gradient(135deg, #f8fafc, #f0fdfa);
+  background: #FFFFFF;
 }
 
 html.dark .section-bg-solution {
-  background: linear-gradient(135deg, rgba(15,23,42,1), rgba(13,148,136,0.9));
+  background: linear-gradient(180deg, #18181B 0%, #09090B 100%);
 }
 
 .section-bg-dark {
-  background: #ffffff;
+  background: #FAFAFA;
 }
 
 html.dark .section-bg-dark {
-  background: #0f172a;
+  background: #09090B;
 }
 
 /* Prevent scroll anchoring from causing page jumps during animations */

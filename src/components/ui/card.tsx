@@ -1,52 +1,83 @@
 import * as React from "react";
 import { cn } from "../../lib/utils";
 
-export const Card = React.forwardRef<
+// Modern minimalist card - clean borders, subtle shadows
+const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm p-6",
+      "rounded-xl bg-white dark:bg-neutral-900 ring-1 ring-neutral-200 dark:ring-neutral-800 transition-all duration-200",
       className
     )}
     {...props}
   />
 ));
-
 Card.displayName = "Card";
 
-export const CardHeader = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("mb-3", className)} {...props} />
-);
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-5", className)}
+    {...props}
+  />
+));
+CardHeader.displayName = "CardHeader";
 
-export const CardTitle = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLHeadingElement>) => (
+const CardTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
   <h3
+    ref={ref}
     className={cn(
-      "text-lg font-semibold text-slate-900 dark:text-slate-50 tracking-tight",
+      "font-semibold leading-snug text-neutral-900 dark:text-white",
       className
     )}
     {...props}
   />
-);
+));
+CardTitle.displayName = "CardTitle";
 
-export const CardDescription = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLParagraphElement>) => (
-  <p className={cn("text-sm text-slate-600 dark:text-slate-400", className)} {...props} />
-);
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn("text-sm text-neutral-500 dark:text-neutral-400", className)}
+    {...props}
+  />
+));
+CardDescription.displayName = "CardDescription";
 
-export const CardContent = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("text-sm text-slate-700 dark:text-slate-300", className)} {...props} />
-);
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("p-5 pt-0 text-neutral-600 dark:text-neutral-300", className)}
+    {...props}
+  />
+));
+CardContent.displayName = "CardContent";
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-5 pt-0", className)}
+    {...props}
+  />
+));
+CardFooter.displayName = "CardFooter";
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
