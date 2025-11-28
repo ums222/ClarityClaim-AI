@@ -69,7 +69,7 @@ const HowItWorksSection = () => {
   return (
     <SectionContainer
       id="how-it-works"
-      className="relative overflow-hidden bg-slate-950"
+      className="relative overflow-hidden section-bg-dark"
     >
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.25),_transparent_55%)]"
@@ -165,7 +165,7 @@ const HowItWorksSection = () => {
               className="mt-8 hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5 md:block"
             >
               <div className="flex items-start gap-3">
-                <span className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-slate-950">
+                <span className="mt-1 flex h-9 w-9 items-center justify-center rounded-full section-bg-dark">
                   <activeStep.icon className="h-4 w-4 text-clarity-secondary" />
                 </span>
                 <div>
