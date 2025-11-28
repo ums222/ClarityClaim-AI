@@ -136,7 +136,7 @@ const Footer = () => {
             ))}
           </div>
           <p>
-            Made with <span className="text-rose-400">♥</span> for healthcare
+            Made with <span className="text-teal-500">♥</span> for healthcare
           </p>
         </div>
       </div>

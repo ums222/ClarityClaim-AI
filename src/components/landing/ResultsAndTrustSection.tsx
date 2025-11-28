@@ -3,6 +3,7 @@ import SectionContainer from "../shared/SectionContainer";
 import SectionHeader from "../shared/SectionHeader";
 import AnimatedCounter from "../shared/AnimatedCounter";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { useTheme } from "../../hooks/useTheme";
 
 const stats = [
   { label: "Denial Rate Reduction", value: 35, suffix: "%" },
@@ -32,21 +33,22 @@ const testimonials = [
   },
 ];
 
-// Results & Trust Section with subtle grid pattern background
-// Background: /backgrounds/grid-pattern.svg - represents data analytics precision
 const ResultsAndTrustSection = () => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
-    <SectionContainer id="resources" className="results-bg-pattern bg-slate-50 dark:bg-slate-950">
+    <SectionContainer id="resources" className={isDark ? "bg-neutral-950" : "bg-neutral-50"}>
       <div>
-        {/* Gradient banner */}
+        {/* Stats banner - clean, minimal */}
         <motion.div 
-          className="rounded-3xl bg-gradient-to-r from-clarity-primary via-clarity-secondary to-clarity-accent p-[1px]"
+          className={`rounded-2xl p-6 md:p-8 ${isDark ? "bg-neutral-900 ring-1 ring-neutral-800" : "bg-white ring-1 ring-neutral-200"}`}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="flex flex-col gap-6 rounded-3xl bg-white/95 dark:bg-slate-950/95 px-6 py-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-10">
+          <div className="grid gap-6 md:grid-cols-4">
             {stats.map((stat, idx) => (
               <motion.div
                 key={stat.label}
@@ -54,9 +56,9 @@ const ResultsAndTrustSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 + idx * 0.1, duration: 0.5, ease: "easeOut" }}
-                className="flex flex-col items-start gap-1 text-left md:items-center md:text-center"
+                className="text-center"
               >
-                <p className="text-2xl font-semibold text-slate-900 dark:text-slate-50">
+                <p className="text-3xl font-semibold text-teal-500">
                   <AnimatedCounter
                     to={stat.value}
                     prefix={stat.prefix}
@@ -64,7 +66,7 @@ const ResultsAndTrustSection = () => {
                     decimals={stat.decimals}
                   />
                 </p>
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600 dark:text-slate-300">
+                <p className={`mt-1 text-xs font-medium ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                   {stat.label}
                 </p>
               </motion.div>
@@ -73,7 +75,7 @@ const ResultsAndTrustSection = () => {
         </motion.div>
 
         {/* Testimonials */}
-        <div className="mt-12">
+        <div className="mt-16">
           <SectionHeader
             title="Trusted by Healthcare Leaders"
             align="center"
@@ -87,34 +89,28 @@ const ResultsAndTrustSection = () => {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: idx * 0.15, duration: 0.6, ease: "easeOut" }}
               >
-              <Card
-                className="h-full bg-white/80 dark:bg-slate-900/70 border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-glow-primary transition-all"
-              >
+              <Card className="h-full hover:-translate-y-1 transition-all duration-200">
                 <CardHeader>
-                  <CardTitle className="text-sm text-slate-800 dark:text-slate-100">
-                    <span className="text-2xl leading-none text-clarity-accent">
-                      "
-                    </span>
+                  <CardTitle className="text-sm leading-relaxed">
+                    <span className="text-xl text-teal-500">"</span>
                     {t.quote}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="mt-3 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300">
+                    <div className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-medium ${isDark ? "bg-neutral-800 text-neutral-400" : "bg-neutral-100 text-neutral-600"}`}>
                       {t.author.split(" ")[1]?.[0] ?? "A"}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+                      <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {t.author}
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">{t.title}</p>
+                      <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>{t.title}</p>
                     </div>
                   </div>
-                  <div className="mt-3 flex gap-1">
+                  <div className="mt-3 flex gap-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <span key={i} className="text-xs text-amber-400">
-                        ★
-                      </span>
+                      <span key={i} className="text-xs text-teal-500">★</span>
                     ))}
                   </div>
                 </CardContent>
@@ -123,38 +119,31 @@ const ResultsAndTrustSection = () => {
             ))}
           </div>
 
-          {/* Mobile: simple horizontal scroll */}
+          {/* Mobile: horizontal scroll */}
           <div className="mt-4 flex gap-4 overflow-x-auto pb-3 md:hidden">
             {testimonials.map((t) => (
-              <Card
-                key={t.author}
-                className="min-w-[260px] flex-1 bg-white/80 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800"
-              >
+              <Card key={t.author} className="min-w-[280px] flex-1">
                 <CardHeader>
-                  <CardTitle className="text-sm text-slate-800 dark:text-slate-100">
-                    <span className="text-2xl leading-none text-clarity-accent">
-                      "
-                    </span>
+                  <CardTitle className="text-sm leading-relaxed">
+                    <span className="text-xl text-teal-500">"</span>
                     {t.quote}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="mt-3 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300">
+                    <div className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-medium ${isDark ? "bg-neutral-800 text-neutral-400" : "bg-neutral-100 text-neutral-600"}`}>
                       {t.author.split(" ")[1]?.[0] ?? "A"}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+                      <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {t.author}
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">{t.title}</p>
+                      <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>{t.title}</p>
                     </div>
                   </div>
-                  <div className="mt-3 flex gap-1">
+                  <div className="mt-3 flex gap-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <span key={i} className="text-xs text-amber-400">
-                        ★
-                      </span>
+                      <span key={i} className="text-xs text-teal-500">★</span>
                     ))}
                   </div>
                 </CardContent>
@@ -163,14 +152,18 @@ const ResultsAndTrustSection = () => {
           </div>
         </div>
 
-        {/* Trust badges */}
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <div className="flex flex-wrap items-center gap-3">
+        {/* Trust badges & Integrations */}
+        <div className="mt-16 grid gap-8 md:grid-cols-2">
+          <div className="flex flex-wrap items-center gap-2">
             {["HIPAA Compliant", "SOC 2 Type II", "HITRUST Certified", "99.99% Uptime"].map(
               (badge) => (
                 <span
                   key={badge}
-                  className="inline-flex items-center rounded-full border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 px-3 py-1 text-xs text-slate-700 dark:text-slate-300"
+                  className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
+                    isDark 
+                      ? "bg-neutral-900 text-neutral-400 ring-1 ring-neutral-800" 
+                      : "bg-white text-neutral-600 ring-1 ring-neutral-200"
+                  }`}
                 >
                   {badge}
                 </span>
@@ -178,13 +171,11 @@ const ResultsAndTrustSection = () => {
             )}
           </div>
 
-          {/* Integrations area with subtle dots pattern background */}
-          <div className="space-y-3 relative">
-            <div className="absolute inset-0 -m-4 rounded-2xl integrations-bg-dots" style={{ zIndex: 0 }} />
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 relative z-10">
+          <div className="space-y-3">
+            <p className={`text-xs font-medium uppercase tracking-wider ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
               Seamless Integration With Your Stack
             </p>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 relative z-10">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
               {[
                 { name: "Epic", logo: "/logos/epic.svg" },
                 { name: "Cerner", logo: "/logos/cerner.svg" },
@@ -195,12 +186,16 @@ const ResultsAndTrustSection = () => {
               ].map((partner) => (
                 <div
                   key={partner.name}
-                  className="flex h-12 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/60 hover:border-slate-400 dark:hover:border-slate-500 transition-colors px-2 backdrop-blur-sm"
+                  className={`flex h-10 items-center justify-center rounded-lg px-2 ${
+                    isDark 
+                      ? "bg-neutral-900 ring-1 ring-neutral-800" 
+                      : "bg-white ring-1 ring-neutral-200"
+                  }`}
                 >
                   <img 
                     src={partner.logo} 
                     alt={`${partner.name} logo`}
-                    className="h-6 w-auto max-w-full object-contain dark:brightness-0 dark:invert dark:opacity-70 hover:dark:opacity-100 transition-opacity"
+                    className="h-5 w-auto max-w-full object-contain dark:brightness-0 dark:invert dark:opacity-60"
                   />
                 </div>
               ))}

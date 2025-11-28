@@ -173,8 +173,8 @@ const HeroSection = () => {
               transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
             >
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                <p className="text-xs font-medium text-emerald-500">Appeal Approved</p>
+                <div className="h-2 w-2 rounded-full bg-teal-500" />
+                <p className="text-xs font-medium text-teal-500">Appeal Approved</p>
               </div>
               <p className={cn("mt-1.5 text-xs", isDark ? "text-neutral-400" : "text-neutral-600")}>
                 Claim #84521 recovered <span className="font-semibold">$42,870</span>
@@ -193,8 +193,8 @@ const HeroSection = () => {
               transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }}
             >
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-amber-500" />
-                <p className="text-xs font-medium text-amber-500">Denial Risk: High</p>
+                <div className="h-2 w-2 rounded-full bg-neutral-400" />
+                <p className={cn("text-xs font-medium", isDark ? "text-neutral-300" : "text-neutral-600")}>Denial Risk: High</p>
               </div>
               <p className={cn("mt-1.5 text-xs", isDark ? "text-neutral-400" : "text-neutral-600")}>
                 Prior auth missing. Suggested fix ready.
