@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --clr-primary: #1e3a5f;
+  --clr-secondary: #0d9488;
+  --clr-accent: #f59e0b;
+  --clr-success: #10b981;
+  --clr-warning: #f59e0b;
+  --clr-error: #f43f5e;
+}
+
+body {
+  @apply bg-slate-950 text-slate-50 antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-700 rounded-full;
+}
