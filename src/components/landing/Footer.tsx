@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Shield, Linkedin, Twitter } from "lucide-react";
-
+import { Linkedin, Twitter } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="border-t border-slate-800 bg-slate-950 pt-10 pb-6">
