@@ -81,3 +81,28 @@ html.light ::-webkit-scrollbar-thumb {
 * {
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+
+/* Section background gradients */
+.section-bg-problem {
+  background: linear-gradient(135deg, #fef2f2, #fff7ed);
+}
+
+html.dark .section-bg-problem {
+  background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,64,175,0.96));
+}
+
+.section-bg-solution {
+  background: linear-gradient(135deg, #f8fafc, #f0fdfa);
+}
+
+html.dark .section-bg-solution {
+  background: linear-gradient(135deg, rgba(15,23,42,1), rgba(13,148,136,0.9));
+}
+
+.section-bg-dark {
+  background: #ffffff;
+}
+
+html.dark .section-bg-dark {
+  background: #0f172a;
+}
