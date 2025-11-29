@@ -1,3 +1,6 @@
+import { demoRequestsService } from './lib/database.js';
+import { syncDemoRequestToHubSpot } from './lib/hubspot.js';
+
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -44,13 +47,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // In a production environment, you would:
-    // 1. Save to database
-    // 2. Send email notification
-    // 3. Integrate with CRM (Salesforce, HubSpot, etc.)
-    // 4. Add to email marketing platform
-    
-    // For now, we'll log and return success
+    // Log the request
     console.log('Demo request received:', {
       fullName,
       email,
@@ -60,20 +57,50 @@ export default async function handler(req, res) {
       timestamp: new Date().toISOString()
     });
 
-    // Simulate async processing
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Save to database
+    const { data, error } = await demoRequestsService.create({
+      fullName,
+      email,
+      organizationName,
+      organizationType,
+      monthlyClaimVolume
+    });
+
+    if (error) {
+      console.error('Database error:', error);
+      // Still return success even if database fails - we logged the request
+    }
+
+    // Sync to HubSpot CRM
+    try {
+      const { contact, deal, error: hubspotError } = await syncDemoRequestToHubSpot({
+        fullName,
+        email,
+        organizationName,
+        organizationType,
+        monthlyClaimVolume
+      });
+      
+      if (hubspotError) {
+        console.error('HubSpot sync error:', hubspotError);
+      } else if (contact) {
+        console.log('✅ Synced to HubSpot - Contact:', contact.id);
+      }
+    } catch (hubspotErr) {
+      console.error('HubSpot sync failed:', hubspotErr);
+    }
 
     res.status(201).json({
       success: true,
       message: 'Demo request submitted successfully',
       data: {
-        id: `demo-${Date.now()}`,
+        id: data?.id || `demo-${Date.now()}`,
         fullName,
         email,
         organizationName,
         organizationType,
         monthlyClaimVolume,
-        submittedAt: new Date().toISOString()
+        submittedAt: data?.created_at || new Date().toISOString()
       }
     });
   } catch (error) {

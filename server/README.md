@@ -1,14 +1,16 @@
 # ClarityClaim AI Backend Server
 
-Express.js backend server for the ClarityClaim AI landing website.
+Express.js backend server for the ClarityClaim AI landing website with Supabase database integration.
 
 ## Features
 
 - RESTful API endpoints
+- **Supabase database integration** for data persistence
 - CORS configuration for frontend integration
 - Request validation
 - Error handling middleware
-- Health check endpoint
+- Health check endpoint with database status
+- Graceful fallback when database is not configured
 
 ## API Endpoints
 
@@ -16,13 +18,13 @@ Express.js backend server for the ClarityClaim AI landing website.
 ```
 GET /api/health
 ```
-Returns server status and timestamp.
+Returns server status, timestamp, and database connection status.
 
 ### Demo Request
 ```
 POST /api/demo-request
 ```
-Submit a demo request form.
+Submit a demo request form. Saves to `demo_requests` table.
 
 **Request Body:**
 ```json
@@ -35,20 +37,46 @@ Submit a demo request form.
 }
 ```
 
-**Response (201):**
+### Contact Form
+```
+POST /api/contact
+```
+Submit a contact message. Saves to `contact_submissions` table.
+
+**Request Body:**
 ```json
 {
-  "success": true,
-  "message": "Demo request submitted successfully",
-  "data": {
-    "id": "demo-1234567890",
-    "fullName": "Jane Doe",
-    "email": "jane.doe@hospital.org",
-    "organizationName": "Regional Medical Center",
-    "organizationType": "Hospital",
-    "monthlyClaimVolume": "10K–50K",
-    "submittedAt": "2024-01-01T00:00:00.000Z"
-  }
+  "name": "Jane Doe",
+  "email": "jane.doe@hospital.org",
+  "subject": "Partnership Inquiry",
+  "message": "I would like to discuss..."
+}
+```
+
+### Newsletter Subscribe
+```
+POST /api/newsletter/subscribe
+```
+Subscribe to newsletter. Saves to `newsletter_subscribers` table.
+
+**Request Body:**
+```json
+{
+  "email": "jane.doe@hospital.org",
+  "name": "Jane Doe"
+}
+```
+
+### Newsletter Unsubscribe
+```
+POST /api/newsletter/unsubscribe
+```
+Unsubscribe from newsletter.
+
+**Request Body:**
+```json
+{
+  "email": "jane.doe@hospital.org"
 }
 ```
 
@@ -69,9 +97,15 @@ cp server/.env.example server/.env
 PORT=3001
 NODE_ENV=development
 FRONTEND_URL=http://localhost:5173
+
+# Supabase (required for database)
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-4. Start the server:
+4. Set up the database (see `/supabase/README.md`)
+
+5. Start the server:
 ```bash
 # Development mode
 npm run dev:server
@@ -82,27 +116,37 @@ npm run dev:all
 
 ## Environment Variables
 
-- `PORT` - Server port (default: 3001)
-- `NODE_ENV` - Environment (development/production)
-- `FRONTEND_URL` - Frontend URL for CORS (default: http://localhost:5173)
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `PORT` | No | Server port (default: 3001) |
+| `NODE_ENV` | No | Environment (development/production) |
+| `FRONTEND_URL` | No | Frontend URL for CORS |
+| `SUPABASE_URL` | Yes* | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes* | Supabase service role key |
 
-## Future Enhancements
+*Required for database functionality. Server works without these but won't persist data.
 
-- Database integration (PostgreSQL, MongoDB, etc.)
-- Email notifications (SendGrid, AWS SES, etc.)
-- CRM integration (Salesforce, HubSpot, etc.)
-- Authentication and authorization
-- Rate limiting
-- Request logging
-- Data persistence
+## Database
+
+See `/supabase/README.md` for complete database setup instructions.
+
+### Tables
+- `demo_requests` - Demo request submissions
+- `contact_submissions` - Contact form messages
+- `newsletter_subscribers` - Newsletter subscriptions
 
 ## Development
 
 The server uses ES modules (`type: "module"` in package.json) and runs on Node.js.
 
-For production deployment, consider:
+### Without Database
+The server works without Supabase configured - it will log submissions but not persist them. This is useful for local development and testing.
+
+### Production Deployment
+Consider:
 - Using a process manager (PM2)
 - Setting up reverse proxy (Nginx)
 - Implementing proper logging
 - Adding monitoring and alerting
 - Setting up CI/CD pipeline
+- Rate limiting for API endpoints
