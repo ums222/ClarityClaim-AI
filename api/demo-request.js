@@ -1,4 +1,5 @@
 import { demoRequestsService } from './lib/database.js';
+import { syncDemoRequestToHubSpot } from './lib/hubspot.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -68,6 +69,25 @@ export default async function handler(req, res) {
     if (error) {
       console.error('Database error:', error);
       // Still return success even if database fails - we logged the request
+    }
+
+    // Sync to HubSpot CRM
+    try {
+      const { contact, deal, error: hubspotError } = await syncDemoRequestToHubSpot({
+        fullName,
+        email,
+        organizationName,
+        organizationType,
+        monthlyClaimVolume
+      });
+      
+      if (hubspotError) {
+        console.error('HubSpot sync error:', hubspotError);
+      } else if (contact) {
+        console.log('✅ Synced to HubSpot - Contact:', contact.id);
+      }
+    } catch (hubspotErr) {
+      console.error('HubSpot sync failed:', hubspotErr);
     }
 
     res.status(201).json({

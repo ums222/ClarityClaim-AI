@@ -1,4 +1,5 @@
 import { isSupabaseConfigured } from './lib/supabase.js';
+import { isHubSpotConfigured } from './lib/hubspot.js';
 
 export default function handler(req, res) {
   // Set CORS headers
@@ -25,6 +26,7 @@ export default function handler(req, res) {
     status: 'ok',
     timestamp: new Date().toISOString(),
     service: 'ClarityClaim AI Backend',
-    database: isSupabaseConfigured() ? 'connected' : 'not configured'
+    database: isSupabaseConfigured() ? 'connected' : 'not configured',
+    hubspot: isHubSpotConfigured() ? 'connected' : 'not configured'
   });
 }

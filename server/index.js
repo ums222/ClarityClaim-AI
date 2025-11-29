@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { isSupabaseConfigured } from './lib/supabase.js';
 import { demoRequestsService, contactSubmissionsService, newsletterService } from './lib/database.js';
+import { isHubSpotConfigured, syncDemoRequestToHubSpot } from './lib/hubspot.js';
 
 // Load environment variables from server directory
 const __filename = fileURLToPath(import.meta.url);
@@ -29,7 +30,8 @@ app.get('/api/health', (req, res) => {
     status: 'ok', 
     timestamp: new Date().toISOString(),
     service: 'ClarityClaim AI Backend',
-    database: isSupabaseConfigured() ? 'connected' : 'not configured'
+    database: isSupabaseConfigured() ? 'connected' : 'not configured',
+    hubspot: isHubSpotConfigured() ? 'connected' : 'not configured'
   });
 });
 
@@ -84,6 +86,23 @@ app.post('/api/demo-request', async (req, res) => {
       // Still return success even if database fails - we logged the request
       // This prevents losing leads due to database issues
     }
+
+    // Sync to HubSpot CRM (async, don't block response)
+    syncDemoRequestToHubSpot({
+      fullName,
+      email,
+      organizationName,
+      organizationType,
+      monthlyClaimVolume
+    }).then(({ contact, deal, error: hubspotError }) => {
+      if (hubspotError) {
+        console.error('HubSpot sync error:', hubspotError);
+      } else if (contact) {
+        console.log('✅ Synced to HubSpot - Contact:', contact.id, deal ? `Deal: ${deal.id}` : '');
+      }
+    }).catch(err => {
+      console.error('HubSpot sync failed:', err);
+    });
 
     res.status(201).json({
       success: true,
