@@ -140,7 +140,7 @@ const ExecKPIs: React.FC = () => {
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-900/20 border-slate-700/80 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-500/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-blue-50/50 border-slate-200 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-300/20'
       }`}
-      style={{ height: '480px' }}
+      style={{ height: '620px' }}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >

@@ -303,7 +303,7 @@ const HowItWorksSection = () => {
                   }`}
                   style={{
                     contain: 'layout style paint',
-                    height: '220px'
+                    height: '240px'
                   }}
                 >
                   {/* Active indicator bar - no layoutId to prevent layout shifts */}

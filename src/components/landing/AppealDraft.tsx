@@ -151,7 +151,7 @@ ClarityClaim AI`;
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-amber-900/20 border-slate-700/80 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-amber-50/50 border-slate-200 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20'
       }`}
-      style={{ height: '420px' }}
+      style={{ height: '520px' }}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
