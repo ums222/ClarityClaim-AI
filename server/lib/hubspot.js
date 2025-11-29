@@ -75,8 +75,6 @@ export const hubspotContacts = {
         company: contactData.organizationName || contactData.company || '',
         phone: contactData.phone || '',
         website: contactData.website || '',
-        // Use standard HubSpot property for lead source
-        hs_lead_status: 'NEW',
       };
 
       // Remove empty properties
