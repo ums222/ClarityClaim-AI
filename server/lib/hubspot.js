@@ -75,10 +75,8 @@ export const hubspotContacts = {
         company: contactData.organizationName || contactData.company || '',
         phone: contactData.phone || '',
         website: contactData.website || '',
-        // Custom properties (create these in HubSpot first)
-        organization_type: contactData.organizationType || '',
-        monthly_claim_volume: contactData.monthlyClaimVolume || '',
-        lead_source: contactData.source || 'Website - Demo Request',
+        // Use standard HubSpot property for lead source
+        hs_lead_status: 'NEW',
       };
 
       // Remove empty properties
@@ -161,8 +159,6 @@ export const hubspotContacts = {
         firstname: contactData.firstName || contactData.fullName?.split(' ')[0],
         lastname: contactData.lastName || contactData.fullName?.split(' ').slice(1).join(' '),
         company: contactData.organizationName || contactData.company,
-        organization_type: contactData.organizationType,
-        monthly_claim_volume: contactData.monthlyClaimVolume,
       };
 
       // Remove undefined properties
