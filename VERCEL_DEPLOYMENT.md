@@ -1,6 +1,6 @@
 # Vercel Deployment Guide
 
-This project is configured to deploy on Vercel with serverless functions for the backend API.
+This project is configured to deploy on Vercel with serverless functions for the backend API and Supabase for database storage.
 
 ## Project Structure
 
@@ -8,6 +8,10 @@ This project is configured to deploy on Vercel with serverless functions for the
 - **Backend API**: Serverless functions in `/api` directory
   - `/api/health.js` - Health check endpoint
   - `/api/demo-request.js` - Demo request submission endpoint
+  - `/api/contact.js` - Contact form endpoint
+  - `/api/newsletter/subscribe.js` - Newsletter subscription
+  - `/api/newsletter/unsubscribe.js` - Newsletter unsubscription
+- **Database**: Supabase (PostgreSQL)
 
 ## Deployment Steps
 
@@ -16,12 +20,20 @@ This project is configured to deploy on Vercel with serverless functions for the
    - Import the project in Vercel dashboard
    - Vercel will auto-detect Vite framework
 
-2. **Environment Variables**:
+2. **Set up Supabase Database**:
+   - Create a Supabase project at [supabase.com](https://supabase.com)
+   - Run the migration scripts in `/supabase/migrations/` via SQL Editor
+   - Get your API keys from Settings → API
+
+3. **Environment Variables**:
    In Vercel dashboard, go to Settings → Environment Variables and add:
    ```
    VITE_API_URL=/api
+   SUPABASE_URL=https://your-project-id.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
    ```
-   (This is optional - the code defaults to `/api` in production)
+   
+   > ⚠️ Make sure to add these to all environments (Production, Preview, Development)
 
 3. **Build Settings** (auto-detected by Vercel):
    - **Framework Preset**: Vite
@@ -32,8 +44,11 @@ This project is configured to deploy on Vercel with serverless functions for the
 ## API Endpoints
 
 Once deployed, your API endpoints will be available at:
-- `https://your-domain.vercel.app/api/health`
-- `https://your-domain.vercel.app/api/demo-request`
+- `GET  /api/health` - Health check with database status
+- `POST /api/demo-request` - Submit demo request
+- `POST /api/contact` - Submit contact form
+- `POST /api/newsletter/subscribe` - Subscribe to newsletter
+- `POST /api/newsletter/unsubscribe` - Unsubscribe from newsletter
 
 ## Local Development
 
@@ -67,9 +82,16 @@ The API client (`src/lib/api.ts`) automatically detects the environment:
 - Verify CORS headers in `vercel.json`
 - Check Vercel function logs in dashboard
 
+### Database Not Connecting
+- Verify `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set in Vercel
+- Check that the service role key is correct (not the anon key)
+- Ensure database tables exist (run migrations)
+- Check the `/api/health` endpoint - it shows database status
+
 ### Environment Variables
 - Make sure `VITE_API_URL` is set in Vercel dashboard
 - Environment variables prefixed with `VITE_` are exposed to the frontend
+- `SUPABASE_*` variables should NOT have `VITE_` prefix (server-side only)
 
 ## Serverless Functions
 

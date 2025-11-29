@@ -85,10 +85,42 @@ export interface DemoRequestResponse {
   };
 }
 
+export interface ContactData {
+  name: string;
+  email: string;
+  subject?: string;
+  message: string;
+}
+
+export interface ContactResponse {
+  success: boolean;
+  message: string;
+  data: {
+    id: string;
+    submittedAt: string;
+  };
+}
+
+export interface NewsletterSubscribeData {
+  email: string;
+  name?: string;
+}
+
+export interface NewsletterResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    id?: string;
+    email: string;
+    subscribedAt: string;
+  };
+}
+
 export interface HealthCheckResponse {
   status: string;
   timestamp: string;
   service: string;
+  database?: string;
 }
 
 // API Functions
@@ -102,6 +134,24 @@ export const api = {
   // Submit demo request
   async submitDemoRequest(data: DemoRequestData): Promise<DemoRequestResponse> {
     const response = await apiClient.post<DemoRequestResponse>('/demo-request', data);
+    return response.data;
+  },
+
+  // Submit contact form
+  async submitContact(data: ContactData): Promise<ContactResponse> {
+    const response = await apiClient.post<ContactResponse>('/contact', data);
+    return response.data;
+  },
+
+  // Subscribe to newsletter
+  async subscribeNewsletter(data: NewsletterSubscribeData): Promise<NewsletterResponse> {
+    const response = await apiClient.post<NewsletterResponse>('/newsletter/subscribe', data);
+    return response.data;
+  },
+
+  // Unsubscribe from newsletter
+  async unsubscribeNewsletter(email: string): Promise<NewsletterResponse> {
+    const response = await apiClient.post<NewsletterResponse>('/newsletter/unsubscribe', { email });
     return response.data;
   },
 };

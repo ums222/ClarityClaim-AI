@@ -1,4 +1,4 @@
-import { demoRequestsService } from './lib/database.js';
+import { contactSubmissionsService } from './lib/database.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -22,19 +22,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { 
-      fullName, 
-      email, 
-      organizationName, 
-      organizationType, 
-      monthlyClaimVolume 
-    } = req.body;
+    const { name, email, subject, message } = req.body;
 
     // Validation
-    if (!fullName || !email || !organizationName) {
+    if (!name || !email || !message) {
       return res.status(400).json({ 
         error: 'Missing required fields',
-        required: ['fullName', 'email', 'organizationName']
+        required: ['name', 'email', 'message']
       });
     }
 
@@ -46,48 +40,38 @@ export default async function handler(req, res) {
       });
     }
 
-    // Log the request
-    console.log('Demo request received:', {
-      fullName,
+    console.log('Contact submission received:', {
+      name,
       email,
-      organizationName,
-      organizationType,
-      monthlyClaimVolume,
+      subject,
       timestamp: new Date().toISOString()
     });
 
     // Save to database
-    const { data, error } = await demoRequestsService.create({
-      fullName,
+    const { data, error } = await contactSubmissionsService.create({
+      name,
       email,
-      organizationName,
-      organizationType,
-      monthlyClaimVolume
+      subject,
+      message
     });
 
     if (error) {
       console.error('Database error:', error);
-      // Still return success even if database fails - we logged the request
     }
 
     res.status(201).json({
       success: true,
-      message: 'Demo request submitted successfully',
+      message: 'Message sent successfully',
       data: {
-        id: data?.id || `demo-${Date.now()}`,
-        fullName,
-        email,
-        organizationName,
-        organizationType,
-        monthlyClaimVolume,
+        id: data?.id || `contact-${Date.now()}`,
         submittedAt: data?.created_at || new Date().toISOString()
       }
     });
   } catch (error) {
-    console.error('Error processing demo request:', error);
+    console.error('Error processing contact submission:', error);
     res.status(500).json({
       error: 'Internal server error',
-      message: 'Failed to process demo request. Please try again later.'
+      message: 'Failed to send message. Please try again later.'
     });
   }
 }

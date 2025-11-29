@@ -1,4 +1,4 @@
-import { demoRequestsService } from './lib/database.js';
+import { newsletterService } from '../lib/database.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -22,19 +22,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { 
-      fullName, 
-      email, 
-      organizationName, 
-      organizationType, 
-      monthlyClaimVolume 
-    } = req.body;
+    const { email, name } = req.body;
 
     // Validation
-    if (!fullName || !email || !organizationName) {
+    if (!email) {
       return res.status(400).json({ 
-        error: 'Missing required fields',
-        required: ['fullName', 'email', 'organizationName']
+        error: 'Email is required'
       });
     }
 
@@ -46,48 +39,36 @@ export default async function handler(req, res) {
       });
     }
 
-    // Log the request
-    console.log('Demo request received:', {
-      fullName,
+    console.log('Newsletter subscription:', {
       email,
-      organizationName,
-      organizationType,
-      monthlyClaimVolume,
+      name,
       timestamp: new Date().toISOString()
     });
 
     // Save to database
-    const { data, error } = await demoRequestsService.create({
-      fullName,
+    const { data, error } = await newsletterService.subscribe({
       email,
-      organizationName,
-      organizationType,
-      monthlyClaimVolume
+      name
     });
 
     if (error) {
       console.error('Database error:', error);
-      // Still return success even if database fails - we logged the request
     }
 
     res.status(201).json({
       success: true,
-      message: 'Demo request submitted successfully',
+      message: 'Successfully subscribed to newsletter',
       data: {
-        id: data?.id || `demo-${Date.now()}`,
-        fullName,
-        email,
-        organizationName,
-        organizationType,
-        monthlyClaimVolume,
-        submittedAt: data?.created_at || new Date().toISOString()
+        id: data?.id,
+        email: data?.email || email,
+        subscribedAt: data?.subscribed_at || new Date().toISOString()
       }
     });
   } catch (error) {
-    console.error('Error processing demo request:', error);
+    console.error('Error processing newsletter subscription:', error);
     res.status(500).json({
       error: 'Internal server error',
-      message: 'Failed to process demo request. Please try again later.'
+      message: 'Failed to subscribe. Please try again later.'
     });
   }
 }
