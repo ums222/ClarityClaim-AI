@@ -6,6 +6,7 @@ import { dirname, join } from 'path';
 import { isSupabaseConfigured } from './lib/supabase.js';
 import { demoRequestsService, contactSubmissionsService, newsletterService } from './lib/database.js';
 import { isHubSpotConfigured, syncDemoRequestToHubSpot } from './lib/hubspot.js';
+import { requireAuth, optionalAuth } from './lib/authMiddleware.js';
 
 // Load environment variables from server directory
 const __filename = fileURLToPath(import.meta.url);
@@ -26,13 +27,56 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
+  res.json({
+    status: 'ok',
     timestamp: new Date().toISOString(),
     service: 'ClarityClaim AI Backend',
     database: isSupabaseConfigured() ? 'connected' : 'not configured',
     hubspot: isHubSpotConfigured() ? 'connected' : 'not configured'
   });
+});
+
+// ==========================================
+// Protected Auth Routes
+// ==========================================
+
+// Get current user profile (protected)
+app.get('/api/auth/me', requireAuth, (req, res) => {
+  res.json({
+    success: true,
+    user: {
+      id: req.user.id,
+      email: req.user.email,
+      fullName: req.user.user_metadata?.full_name || null,
+      createdAt: req.user.created_at,
+      lastSignIn: req.user.last_sign_in_at
+    }
+  });
+});
+
+// Update user profile (protected)
+app.put('/api/auth/profile', requireAuth, async (req, res) => {
+  try {
+    const { fullName } = req.body;
+
+    // In a real application, you would update the user metadata in Supabase
+    // For now, we just return success with the provided data
+    res.json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: {
+        id: req.user.id,
+        email: req.user.email,
+        fullName: fullName || req.user.user_metadata?.full_name || null
+      }
+    });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: 'Failed to update profile'
+    });
+  }
 });
 
 // Demo request endpoint

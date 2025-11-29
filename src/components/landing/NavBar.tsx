@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, Sun, Moon, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, Sun, Moon, ArrowRight, User, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "../../hooks/useAuth";
 
 const navItems = [
   { label: "Product", href: "#solution" },
@@ -14,7 +15,10 @@ const navItems = [
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const isDark = theme === "dark";
 
   useEffect(() => {
@@ -22,6 +26,14 @@ const NavBar = () => {
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    setUserMenuOpen(false);
+    navigate("/");
+  };
+
+  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
 
   return (
     <header
@@ -82,11 +94,89 @@ const NavBar = () => {
               {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
 
-            {/* CTA */}
-            <Button size="sm" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
-              Get Started
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
+            {/* Auth buttons */}
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className={cn(
+                    "flex items-center gap-2 rounded-lg px-3 py-1.5 transition-colors",
+                    isDark
+                      ? "hover:bg-neutral-800"
+                      : "hover:bg-neutral-100"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium",
+                      isDark ? "bg-teal-500/20 text-teal-400" : "bg-teal-100 text-teal-700"
+                    )}
+                  >
+                    {displayName.charAt(0).toUpperCase()}
+                  </div>
+                  <span
+                    className={cn(
+                      "text-sm font-medium hidden sm:block",
+                      isDark ? "text-neutral-200" : "text-neutral-700"
+                    )}
+                  >
+                    {displayName}
+                  </span>
+                </button>
+
+                {/* Dropdown menu */}
+                {userMenuOpen && (
+                  <div
+                    className={cn(
+                      "absolute right-0 mt-2 w-48 rounded-lg shadow-lg border py-1 z-50",
+                      isDark
+                        ? "bg-neutral-900 border-neutral-800"
+                        : "bg-white border-neutral-200"
+                    )}
+                  >
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setUserMenuOpen(false)}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 text-sm transition-colors",
+                        isDark
+                          ? "text-neutral-300 hover:bg-neutral-800"
+                          : "text-neutral-700 hover:bg-neutral-100"
+                      )}
+                    >
+                      <User className="h-4 w-4" />
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className={cn(
+                        "flex items-center gap-2 w-full px-4 py-2 text-sm transition-colors",
+                        isDark
+                          ? "text-neutral-300 hover:bg-neutral-800"
+                          : "text-neutral-700 hover:bg-neutral-100"
+                      )}
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Sign out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link to="/login">
+                  <Button variant="ghost" size="sm">
+                    Sign in
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button size="sm">
+                    Get Started
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -141,11 +231,40 @@ const NavBar = () => {
                 {item.label}
               </a>
             ))}
-            <div className="mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800">
-              <Button size="md" className="w-full" onClick={() => { setOpen(false); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                Get Started
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+            <div className="mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800 space-y-2">
+              {user ? (
+                <>
+                  <Link to="/dashboard" onClick={() => setOpen(false)}>
+                    <Button size="md" className="w-full">
+                      <User className="h-4 w-4" />
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Button
+                    size="md"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => { handleSignOut(); setOpen(false); }}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" onClick={() => setOpen(false)}>
+                    <Button size="md" variant="outline" className="w-full">
+                      Sign in
+                    </Button>
+                  </Link>
+                  <Link to="/signup" onClick={() => setOpen(false)}>
+                    <Button size="md" className="w-full">
+                      Get Started
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

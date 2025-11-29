@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import SectionContainer from "../shared/SectionContainer";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -261,9 +262,9 @@ const FinalCTASection = () => {
 
             <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
               Already a customer?{" "}
-              <a href="/login" className="text-teal-500 hover:underline">
+              <Link to="/login" className="text-teal-500 hover:underline">
                 Sign in
-              </a>
+              </Link>
             </p>
 
             <div className="flex flex-wrap gap-2">
