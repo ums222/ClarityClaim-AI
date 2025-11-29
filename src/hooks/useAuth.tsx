@@ -44,20 +44,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     getInitialSession();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, currentSession) => {
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
-        setLoading(false);
+    let subscription: { unsubscribe: () => void } | null = null;
+    try {
+      const { data } = supabase.auth.onAuthStateChange(
+        async (event: string, currentSession) => {
+          setSession(currentSession);
+          setUser(currentSession?.user ?? null);
+          setLoading(false);
 
-        if (event === 'SIGNED_OUT') {
-          // Clear any local storage items if needed
+          if (event === 'SIGNED_OUT') {
+            // Clear any local storage items if needed
+          }
         }
-      }
-    );
+      );
+      subscription = data.subscription;
+    } catch (error) {
+      console.error('Error setting up auth listener:', error);
+      setLoading(false);
+    }
 
     return () => {
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
 
