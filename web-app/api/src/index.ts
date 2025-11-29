@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { registerClaimRoutes } from "./routes/claims";
 import { registerAppealRoutes } from "./routes/appeals";
 import { registerHealthRoutes } from "./routes/health";
+import { registerAiRoutes } from "./routes/ai";
 
 const prisma = new PrismaClient();
 
@@ -38,6 +39,7 @@ const buildServer = () => {
   registerHealthRoutes(app);
   registerClaimRoutes(app);
   registerAppealRoutes(app);
+  registerAiRoutes(app);
 
   return app;
 };
