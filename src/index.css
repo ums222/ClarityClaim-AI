@@ -4,6 +4,13 @@
 
 html {
   scroll-behavior: smooth;
+  /* Disable scroll anchoring globally to prevent page jumps during animations */
+  overflow-anchor: none;
+}
+
+/* Ensure body also doesn't anchor */
+body {
+  overflow-anchor: none;
 }
 
 /* =============================================================================

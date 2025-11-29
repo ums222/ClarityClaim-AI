@@ -285,24 +285,23 @@ const HowItWorksSection = () => {
               const StepIcon = step.icon;
 
               return (
-                <motion.div
+                <div
                   key={step.key}
                   onClick={() => handleStepClick(index)}
                   className={`relative cursor-pointer rounded-2xl border-2 transition-all duration-300 overflow-hidden ${
                     isActive
-                      ? isDark 
-                        ? 'border-transparent bg-slate-800/80 shadow-xl' 
+                      ? isDark
+                        ? 'border-transparent bg-slate-800/80 shadow-xl'
                         : 'border-transparent bg-white shadow-xl'
                       : isCompleted
-                        ? isDark 
-                          ? 'border-slate-700 bg-slate-800/40 hover:bg-slate-800/60' 
+                        ? isDark
+                          ? 'border-slate-700 bg-slate-800/40 hover:bg-slate-800/60'
                           : 'border-slate-300 bg-slate-100/60 hover:bg-slate-100'
-                        : isDark 
-                          ? 'border-slate-700/50 bg-slate-800/20 hover:bg-slate-800/40' 
+                        : isDark
+                          ? 'border-slate-700/50 bg-slate-800/20 hover:bg-slate-800/40'
                           : 'border-slate-200 bg-white/60 hover:bg-white'
                   }`}
-                  whileHover={{ scale: isActive ? 1 : 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  style={{ contain: 'layout style paint' }}
                 >
                   {/* Active indicator bar - no layoutId to prevent layout shifts */}
                   {isActive && (
@@ -404,7 +403,7 @@ const HowItWorksSection = () => {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
 
