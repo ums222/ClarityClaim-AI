@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Brain,
   CheckCircle,
@@ -119,8 +120,9 @@ const SolutionSection = () => {
                         variant="ghost"
                         size="sm"
                         className="mt-3 px-0 text-clarity-accent hover:bg-transparent"
+                        asChild
                       >
-                        Learn more →
+                        <Link to="/features">Learn more →</Link>
                       </Button>
                     </CardContent>
                   </Card>
