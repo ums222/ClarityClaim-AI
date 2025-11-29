@@ -372,42 +372,36 @@ const HowItWorksSection = () => {
                       </div>
                     </div>
 
-                    {/* Expanded Content */}
-                    <AnimatePresence initial={false}>
-                      {isActive && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: 'easeInOut' }}
-                          className="overflow-hidden"
-                        >
-                          <div className={`pt-4 mt-4 border-t ${isDark ? 'border-slate-700/50' : 'border-slate-200'}`}>
-                            <p className={`text-sm mb-4 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-                              {step.description}
-                            </p>
-                            
-                            {/* Stats Grid */}
-                            <div className="grid grid-cols-3 gap-3">
-                              {step.stats.map((stat, i) => (
-                                <motion.div
-                                  key={stat.label}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ delay: i * 0.1 }}
-                                  className={`rounded-xl p-3 text-center ${isDark ? 'bg-slate-900/50' : 'bg-slate-100'}`}
-                                >
-                                  <div className={`text-lg font-bold bg-gradient-to-r ${isDark ? step.gradient : step.gradientLight} bg-clip-text text-transparent`}>
-                                    {stat.value}
-                                  </div>
-                                  <div className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{stat.label}</div>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    {/* Expanded Content - Always rendered, visibility controlled by max-height and opacity */}
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${
+                        isActive ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className={`pt-4 mt-4 border-t ${isDark ? 'border-slate-700/50' : 'border-slate-200'}`}>
+                        <p className={`text-sm mb-4 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                          {step.description}
+                        </p>
+
+                        {/* Stats Grid */}
+                        <div className="grid grid-cols-3 gap-3">
+                          {step.stats.map((stat, i) => (
+                            <motion.div
+                              key={stat.label}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                              transition={{ delay: i * 0.1 }}
+                              className={`rounded-xl p-3 text-center ${isDark ? 'bg-slate-900/50' : 'bg-slate-100'}`}
+                            >
+                              <div className={`text-lg font-bold bg-gradient-to-r ${isDark ? step.gradient : step.gradientLight} bg-clip-text text-transparent`}>
+                                {stat.value}
+                              </div>
+                              <div className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{stat.label}</div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               );
