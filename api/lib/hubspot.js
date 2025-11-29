@@ -49,9 +49,6 @@ export const hubspotContacts = {
         firstname: contactData.firstName || contactData.fullName?.split(' ')[0] || '',
         lastname: contactData.lastName || contactData.fullName?.split(' ').slice(1).join(' ') || '',
         company: contactData.organizationName || contactData.company || '',
-        organization_type: contactData.organizationType || '',
-        monthly_claim_volume: contactData.monthlyClaimVolume || '',
-        lead_source: contactData.source || 'Website - Demo Request',
       };
 
       Object.keys(properties).forEach(key => {
