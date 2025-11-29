@@ -130,10 +130,32 @@ html.dark .section-bg-dark {
   background: #09090B;
 }
 
+/* =============================================================================
+   ANIMATION CONTAINMENT - Prevents scroll jumps during animations
+   ============================================================================= */
+
 /* Prevent scroll anchoring from causing page jumps during animations */
 .animation-container {
   overflow-anchor: none;
+  /* contain: layout style paint prevents layout changes from affecting parent */
+  contain: layout style paint;
+  /* Ensure the container is a stacking context */
+  isolation: isolate;
+  /* Prevent browser from adjusting scroll during layout changes */
+  overflow: hidden;
+}
+
+/* All animation containers should reserve space for their expanded content */
+.animation-container-expand {
+  overflow-anchor: none;
   contain: layout style;
+  position: relative;
+}
+
+/* Wrapper for content that animates height - use fixed heights to prevent jumps */
+.animation-height-wrapper {
+  overflow: hidden;
+  will-change: opacity, transform;
 }
 
 /* Sections with animations should not anchor scroll */
@@ -145,6 +167,12 @@ section {
 .animate-height-smooth {
   overflow: hidden;
   contain: layout;
+}
+
+/* Force GPU acceleration for smoother animations */
+.animation-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* =============================================================================

@@ -150,26 +150,22 @@ const EquityDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Alert Banner */}
-        <AnimatePresence>
-          {showAlert && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className={`overflow-hidden rounded-lg ${isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'} border px-2.5 py-2 mb-3`}
-            >
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className={`text-[10px] font-medium ${isDark ? 'text-amber-400' : 'text-amber-700'}`}>Disparity Alert</p>
-                  <p className={`text-[9px] ${isDark ? 'text-amber-500/80' : 'text-amber-600'}`}>7% gap in rural clinic rates</p>
-                </div>
+        {/* Alert Banner - Always rendered, visibility controlled by max-height and opacity */}
+        <div
+          className={`overflow-hidden mb-3 transition-all duration-300 ${
+            showAlert ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className={`rounded-lg ${isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'} border px-2.5 py-2`}>
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className={`text-[10px] font-medium ${isDark ? 'text-amber-400' : 'text-amber-700'}`}>Disparity Alert</p>
+                <p className={`text-[9px] ${isDark ? 'text-amber-500/80' : 'text-amber-600'}`}>7% gap in rural clinic rates</p>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </div>
+        </div>
 
         {/* Score and Summary Row */}
         <div className="flex items-center gap-3 mb-3">

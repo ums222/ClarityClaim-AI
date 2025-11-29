@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import {
   CheckCircle2,
   XCircle,
@@ -281,88 +281,81 @@ const ValidationChecklist: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Expanded Checks */}
-                <AnimatePresence>
-                  {(isCurrent || activeCategory === category.id) && isActive && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2, ease: 'easeInOut' }}
-                      className={`overflow-hidden border-t ${isDark ? 'border-slate-700' : 'border-slate-100'}`}
-                    >
-                      <div className="p-2 space-y-1">
-                        {category.checks.map((check, checkIndex) => (
-                          <motion.div
-                            key={check.id}
-                            initial={{ opacity: 0, x: -5 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: checkIndex * 0.05 }}
-                            className={`flex items-center justify-between py-1 px-2 rounded-lg ${isDark ? 'bg-slate-800/50' : 'bg-white'}`}
-                          >
-                            <div className="flex items-center gap-2">
-                              {check.status === 'success' ? (
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                              ) : check.status === 'warning' ? (
-                                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
-                              ) : (
-                                <XCircle className="w-3.5 h-3.5 text-red-500" />
-                              )}
-                              <div>
-                                <span className={`text-[10px] ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{check.label}</span>
-                                {check.note && (
-                                  <p className={`text-[8px] ${
-                                    check.status === 'error' ? 'text-red-400' : 'text-amber-400'
-                                  }`}>
-                                    {check.note}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* Expanded Checks - Always rendered, visibility controlled by opacity/transform */}
+                <div
+                  className={`overflow-hidden border-t transition-all duration-200 ${isDark ? 'border-slate-700' : 'border-slate-100'} ${
+                    (isCurrent || activeCategory === category.id) && isActive
+                      ? 'max-h-40 opacity-100'
+                      : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <div className="p-2 space-y-1">
+                    {category.checks.map((check, checkIndex) => (
+                      <motion.div
+                        key={check.id}
+                        initial={{ opacity: 0, x: -5 }}
+                        animate={(isCurrent || activeCategory === category.id) && isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -5 }}
+                        transition={{ delay: checkIndex * 0.05 }}
+                        className={`flex items-center justify-between py-1 px-2 rounded-lg ${isDark ? 'bg-slate-800/50' : 'bg-white'}`}
+                      >
+                        <div className="flex items-center gap-2">
+                          {check.status === 'success' ? (
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                          ) : check.status === 'warning' ? (
+                            <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
+                          ) : (
+                            <XCircle className="w-3.5 h-3.5 text-red-500" />
+                          )}
+                          <div>
+                            <span className={`text-[10px] ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{check.label}</span>
+                            {check.note && (
+                              <p className={`text-[8px] ${
+                                check.status === 'error' ? 'text-red-400' : 'text-amber-400'
+                              }`}>
+                                {check.note}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
             );
           })}
         </div>
 
-        {/* Summary Footer */}
-        <AnimatePresence>
-          {validationComplete && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="mt-3"
-            >
-              <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} p-3`}>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className={`text-[10px] font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Summary</h4>
-                  <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>2.3s</span>
+        {/* Summary Footer - Always rendered with fixed height, visibility controlled by opacity */}
+        <div className="mt-3 h-[76px]">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={validationComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} p-3`}>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className={`text-[10px] font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Summary</h4>
+                <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>2.3s</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="text-center">
+                  <div className="text-sm font-bold text-emerald-500">{successCount}</div>
+                  <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Passed</div>
                 </div>
-                
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="text-center">
-                    <div className="text-sm font-bold text-emerald-500">{successCount}</div>
-                    <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Passed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm font-bold text-amber-500">{warningCount}</div>
-                    <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Warnings</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm font-bold text-red-500">{errorCount}</div>
-                    <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Errors</div>
-                  </div>
+                <div className="text-center">
+                  <div className="text-sm font-bold text-amber-500">{warningCount}</div>
+                  <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Warnings</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-sm font-bold text-red-500">{errorCount}</div>
+                  <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Errors</div>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
 
         {/* Stats badges */}
         <motion.div
