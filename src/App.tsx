@@ -26,6 +26,9 @@ import TermsPage from "./pages/TermsPage";
 import HipaaPage from "./pages/HipaaPage";
 import CookiesPage from "./pages/CookiesPage";
 
+// Error pages
+import NotFoundPage from "./pages/NotFoundPage";
+
 function App() {
   return (
     <ThemeProvider>
@@ -55,6 +58,9 @@ function App() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/hipaa" element={<HipaaPage />} />
         <Route path="/cookies" element={<CookiesPage />} />
+
+        {/* 404 catch-all route */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </ThemeProvider>
   );

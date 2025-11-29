@@ -234,17 +234,21 @@ const FinalCTASection = () => {
 
             {/* Contact info */}
             <div className="grid gap-3 md:grid-cols-2">
-              <a href="tel:+15551234567" className="block">
+              <button
+                type="button"
+                onClick={() => window.location.href = 'mailto:sales@clarityclaim.ai?subject=Schedule a Demo Call'}
+                className="block w-full text-left"
+              >
                 <Card className="flex items-center gap-3 p-4 cursor-pointer hover:ring-2 hover:ring-teal-500/50 transition-all">
                   <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
                     <Phone className="h-4 w-4 text-teal-500" />
                   </span>
                   <div>
                     <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>Prefer to talk?</p>
-                    <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>+1 (555) 123-4567</p>
+                    <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>Schedule a call</p>
                   </div>
                 </Card>
-              </a>
+              </button>
 
               <a href="mailto:hello@clarityclaim.ai" className="block">
                 <Card className="flex items-center gap-3 p-4 cursor-pointer hover:ring-2 hover:ring-teal-500/50 transition-all">
@@ -261,8 +265,8 @@ const FinalCTASection = () => {
 
             <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
               Already a customer?{" "}
-              <a href="/login" className="text-teal-500 hover:underline">
-                Sign in
+              <a href="mailto:support@clarityclaim.ai" className="text-teal-500 hover:underline">
+                Contact support
               </a>
             </p>
 
