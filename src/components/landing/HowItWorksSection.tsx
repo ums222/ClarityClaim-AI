@@ -304,14 +304,15 @@ const HowItWorksSection = () => {
                   whileHover={{ scale: isActive ? 1 : 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {/* Active indicator bar */}
+                  {/* Active indicator bar - no layoutId to prevent layout shifts */}
                   {isActive && (
                     <motion.div
-                      layoutId="activeIndicator"
                       className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${isDark ? step.gradient : step.gradientLight}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
+                      initial={{ opacity: 0, scaleY: 0 }}
+                      animate={{ opacity: 1, scaleY: 1 }}
+                      exit={{ opacity: 0, scaleY: 0 }}
                       transition={{ duration: 0.3 }}
+                      style={{ originY: 0.5 }}
                     />
                   )}
 
