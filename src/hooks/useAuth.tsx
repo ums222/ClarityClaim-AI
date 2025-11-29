@@ -70,16 +70,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = useCallback(
     async (email: string, password: string, fullName?: string) => {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
+      try {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+            },
           },
-        },
-      });
-      return { error };
+        });
+        return { error };
+      } catch (err) {
+        console.error('SignUp network error:', err);
+        return {
+          error: {
+            message: 'Unable to connect to authentication server. Please check if your Supabase project is active.',
+            name: 'NetworkError',
+            status: 0
+          } as AuthError
+        };
+      }
     },
     []
   );

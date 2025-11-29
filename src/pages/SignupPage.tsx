@@ -64,8 +64,10 @@ export default function SignupPage() {
 
       // Show success message
       setSuccess(true);
-    } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
+    } catch (err: unknown) {
+      console.error('Signup error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(`Connection error: ${errorMessage}. Please check your internet connection and try again.`);
     } finally {
       setLoading(false);
     }
