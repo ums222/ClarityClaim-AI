@@ -108,13 +108,13 @@ const HeroSection = () => {
 
           {/* CTAs - clean buttons */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button size="lg">
+            <Button size="lg" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Request Demo
               <ArrowRight className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={() => document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' })}>
               <Play className="h-4 w-4" />
-              Watch Video
+              See How It Works
             </Button>
           </div>
         </motion.div>

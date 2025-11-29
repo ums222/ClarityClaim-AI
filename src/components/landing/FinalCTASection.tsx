@@ -234,25 +234,29 @@ const FinalCTASection = () => {
 
             {/* Contact info */}
             <div className="grid gap-3 md:grid-cols-2">
-              <Card className="flex items-center gap-3 p-4">
-                <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
-                  <Phone className="h-4 w-4 text-teal-500" />
-                </span>
-                <div>
-                  <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>Prefer to talk?</p>
-                  <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>+1 (555) 123-4567</p>
-                </div>
-              </Card>
+              <a href="tel:+15551234567" className="block">
+                <Card className="flex items-center gap-3 p-4 cursor-pointer hover:ring-2 hover:ring-teal-500/50 transition-all">
+                  <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
+                    <Phone className="h-4 w-4 text-teal-500" />
+                  </span>
+                  <div>
+                    <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>Prefer to talk?</p>
+                    <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>+1 (555) 123-4567</p>
+                  </div>
+                </Card>
+              </a>
 
-              <Card className="flex items-center gap-3 p-4">
-                <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
-                  <Mail className="h-4 w-4 text-teal-500" />
-                </span>
-                <div>
-                  <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>Email us</p>
-                  <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>hello@clarityclaim.ai</p>
-                </div>
-              </Card>
+              <a href="mailto:hello@clarityclaim.ai" className="block">
+                <Card className="flex items-center gap-3 p-4 cursor-pointer hover:ring-2 hover:ring-teal-500/50 transition-all">
+                  <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
+                    <Mail className="h-4 w-4 text-teal-500" />
+                  </span>
+                  <div>
+                    <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>Email us</p>
+                    <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>hello@clarityclaim.ai</p>
+                  </div>
+                </Card>
+              </a>
             </div>
 
             <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>

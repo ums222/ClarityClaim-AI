@@ -663,7 +663,10 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="text-center mt-12"
         >
-          <button className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-clarity-secondary to-cyan-500 hover:from-clarity-secondary/90 hover:to-cyan-600 rounded-xl text-white font-semibold shadow-lg transition-all ${isDark ? 'shadow-clarity-secondary/25' : 'shadow-clarity-secondary/20'}`}>
+          <button 
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-clarity-secondary to-cyan-500 hover:from-clarity-secondary/90 hover:to-cyan-600 rounded-xl text-white font-semibold shadow-lg transition-all ${isDark ? 'shadow-clarity-secondary/25' : 'shadow-clarity-secondary/20'}`}
+          >
             Start Your Journey
             <ArrowRight className="w-5 h-5" />
           </button>

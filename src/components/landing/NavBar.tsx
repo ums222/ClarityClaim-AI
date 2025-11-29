@@ -83,7 +83,7 @@ const NavBar = () => {
             </button>
 
             {/* CTA */}
-            <Button size="sm">
+            <Button size="sm" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Get Started
               <ArrowRight className="h-3.5 w-3.5" />
             </Button>
@@ -142,7 +142,7 @@ const NavBar = () => {
               </a>
             ))}
             <div className="mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800">
-              <Button size="md" className="w-full">
+              <Button size="md" className="w-full" onClick={() => { setOpen(false); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}>
                 Get Started
                 <ArrowRight className="h-4 w-4" />
               </Button>
