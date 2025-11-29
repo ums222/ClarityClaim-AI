@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { API_BASE_URL } from "../../lib/apiClient";
 
 type User = {
   id: string;
@@ -11,29 +12,42 @@ type User = {
 type AuthContextValue = {
   user: User | null;
   token: string | null;
+  loading: boolean;
 };
 
-const AuthContext = createContext<AuthContextValue>({ user: null, token: null });
+const AuthContext = createContext<AuthContextValue>({ user: null, token: null, loading: true });
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Replace with real login flow
-    const mockUser: User = {
-      id: "user-dev-1",
-      name: "Dev Billing Specialist",
-      email: "dev@clarityclaim.ai",
-      tenantId: "tenant-dev-1",
-      role: "BILLING_SPECIALIST",
+    // Fetch dev token from API
+    const fetchDevToken = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/auth/dev-token`, {
+          method: "POST",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setToken(data.token);
+          setUser(data.user);
+        } else {
+          console.error("Failed to get dev token:", res.status);
+        }
+      } catch (err) {
+        console.error("Failed to fetch dev token:", err);
+      } finally {
+        setLoading(false);
+      }
     };
-    setUser(mockUser);
-    setToken("dev-mock-jwt");
+
+    fetchDevToken();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, token }}>
+    <AuthContext.Provider value={{ user, token, loading }}>
       {children}
     </AuthContext.Provider>
   );

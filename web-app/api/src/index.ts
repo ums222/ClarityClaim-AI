@@ -8,6 +8,7 @@ import { registerHealthRoutes } from "./routes/health";
 import { registerAiRoutes } from "./routes/ai";
 import { registerEquityRoutes } from "./routes/equity";
 import { registerMetricsRoutes } from "./routes/metrics";
+import { registerAuthRoutes } from "./routes/auth";
 
 const prisma = new PrismaClient();
 
@@ -39,6 +40,7 @@ const buildServer = () => {
   app.decorate("prisma", prisma);
 
   registerHealthRoutes(app);
+  registerAuthRoutes(app);
   registerClaimRoutes(app);
   registerAppealRoutes(app);
   registerAiRoutes(app);
