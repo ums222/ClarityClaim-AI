@@ -115,7 +115,7 @@ const EquityDashboard: React.FC = () => {
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div 
+        <div
           className={`absolute inset-0 ${isDark ? 'opacity-10' : 'opacity-20'}`}
           style={{
             backgroundImage: `radial-gradient(circle at 2px 2px, ${isDark ? 'rgba(244, 63, 94, 0.2)' : 'rgba(244, 63, 94, 0.15)'} 1px, transparent 0)`,
@@ -126,7 +126,7 @@ const EquityDashboard: React.FC = () => {
         <div className={`absolute bottom-0 right-0 w-32 h-32 ${isDark ? 'bg-violet-600/10' : 'bg-violet-200/40'} rounded-full blur-2xl`} />
       </div>
 
-      <div className="relative p-4">
+      <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
         <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">

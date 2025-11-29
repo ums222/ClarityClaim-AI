@@ -288,11 +288,11 @@ const HowItWorksSection = () => {
                 <div
                   key={step.key}
                   onClick={() => handleStepClick(index)}
-                  className={`relative cursor-pointer rounded-2xl border-2 transition-all duration-300 overflow-hidden ${
+                  className={`relative cursor-pointer rounded-xl border-2 transition-all duration-300 overflow-hidden ${
                     isActive
                       ? isDark
-                        ? 'border-transparent bg-slate-800/80 shadow-xl'
-                        : 'border-transparent bg-white shadow-xl'
+                        ? 'border-transparent bg-slate-800/80 shadow-lg'
+                        : 'border-transparent bg-white shadow-lg'
                       : isCompleted
                         ? isDark
                           ? 'border-slate-700 bg-slate-800/40 hover:bg-slate-800/60'
@@ -301,109 +301,49 @@ const HowItWorksSection = () => {
                           ? 'border-slate-700/50 bg-slate-800/20 hover:bg-slate-800/40'
                           : 'border-slate-200 bg-white/60 hover:bg-white'
                   }`}
-                  style={{
-                    contain: 'layout style paint',
-                    height: '240px'
-                  }}
                 >
-                  {/* Active indicator bar - no layoutId to prevent layout shifts */}
+                  {/* Active indicator bar */}
                   {isActive && (
-                    <motion.div
-                      className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${isDark ? step.gradient : step.gradientLight}`}
-                      initial={{ opacity: 0, scaleY: 0 }}
-                      animate={{ opacity: 1, scaleY: 1 }}
-                      exit={{ opacity: 0, scaleY: 0 }}
-                      transition={{ duration: 0.3 }}
-                      style={{ originY: 0.5 }}
-                    />
+                    <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${isDark ? step.gradient : step.gradientLight}`} />
                   )}
 
-                  <div className="p-4 pl-5">
-                    <div className="flex items-center gap-4">
+                  <div className="p-3 pl-4">
+                    <div className="flex items-center gap-3">
                       {/* Step Number / Check */}
-                      <div className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
+                      <div className={`relative w-8 h-8 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
                         isActive
-                          ? `bg-gradient-to-br ${isDark ? step.gradient : step.gradientLight} shadow-lg`
+                          ? `bg-gradient-to-br ${isDark ? step.gradient : step.gradientLight} shadow-md`
                           : isCompleted
                             ? isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'
                             : isDark ? 'bg-slate-700/50' : 'bg-slate-200'
                       }`}>
                         {isCompleted && !isActive ? (
-                          <Check className={`w-5 h-5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
+                          <Check className={`w-4 h-4 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
                         ) : (
-                          <span className={`text-sm font-bold ${isActive ? 'text-white' : isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                          <span className={`text-xs font-bold ${isActive ? 'text-white' : isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                             {index + 1}
                           </span>
-                        )}
-                        
-                        {/* Pulse effect for active */}
-                        {isActive && (
-                          <motion.div
-                            className={`absolute inset-0 rounded-xl bg-gradient-to-br ${isDark ? step.gradient : step.gradientLight}`}
-                            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          />
                         )}
                       </div>
 
                       {/* Title & Subtitle */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <h3 className={`font-bold transition-colors ${
-                            isActive 
-                              ? isDark ? 'text-white' : 'text-slate-900' 
-                              : isDark ? 'text-slate-300' : 'text-slate-600'
-                          }`}>
-                            {step.title}
-                          </h3>
-                          <StepIcon className={`w-4 h-4 ${
-                            isActive 
-                              ? isDark ? 'text-white' : 'text-slate-700' 
-                              : isDark ? 'text-slate-500' : 'text-slate-400'
-                          }`} />
-                        </div>
-                        <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{step.subtitle}</p>
+                        <h3 className={`text-sm font-bold transition-colors ${
+                          isActive
+                            ? isDark ? 'text-white' : 'text-slate-900'
+                            : isDark ? 'text-slate-300' : 'text-slate-600'
+                        }`}>
+                          {step.title}
+                        </h3>
+                        <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{step.subtitle}</p>
                       </div>
 
-                      {/* Timing Badge */}
-                      <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      {/* Icon & Timing */}
+                      <StepIcon className={`w-4 h-4 flex-shrink-0 ${
                         isActive
-                          ? `bg-gradient-to-r ${isDark ? step.gradient : step.gradientLight} text-white`
-                          : isDark ? 'bg-slate-700/50 text-slate-400' : 'bg-slate-200 text-slate-500'
-                      }`}>
-                        {step.timing}
-                      </div>
-                    </div>
-
-                    {/* Expanded Content - Always rendered, visibility controlled by max-height and opacity */}
-                    <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        isActive ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
-                      }`}
-                    >
-                      <div className={`pt-4 mt-4 border-t ${isDark ? 'border-slate-700/50' : 'border-slate-200'}`}>
-                        <p className={`text-sm mb-4 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-                          {step.description}
-                        </p>
-
-                        {/* Stats Grid */}
-                        <div className="grid grid-cols-3 gap-3">
-                          {step.stats.map((stat, i) => (
-                            <motion.div
-                              key={stat.label}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                              transition={{ delay: i * 0.1 }}
-                              className={`rounded-xl p-3 text-center ${isDark ? 'bg-slate-900/50' : 'bg-slate-100'}`}
-                            >
-                              <div className={`text-lg font-bold bg-gradient-to-r ${isDark ? step.gradient : step.gradientLight} bg-clip-text text-transparent`}>
-                                {stat.value}
-                              </div>
-                              <div className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{stat.label}</div>
-                            </motion.div>
-                          ))}
-                        </div>
-                      </div>
+                          ? isDark ? 'text-white' : 'text-slate-700'
+                          : isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`} />
                     </div>
                   </div>
                 </div>
@@ -544,6 +484,44 @@ const HowItWorksSection = () => {
                 </div>
               </motion.div>
             </div>
+
+            {/* Step Details Panel */}
+            <motion.div
+              key={`details-${activeStep}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className={`mt-8 p-4 rounded-2xl ${isDark ? 'bg-slate-800/60' : 'bg-white/80'} border ${isDark ? 'border-slate-700/50' : 'border-slate-200'}`}
+            >
+              <p className={`text-sm mb-4 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                {currentStep.description}
+              </p>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-3 gap-3">
+                {currentStep.stats.map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className={`rounded-xl p-3 text-center ${isDark ? 'bg-slate-900/50' : 'bg-slate-100'}`}
+                  >
+                    <div className={`text-lg font-bold bg-gradient-to-r ${isDark ? currentStep.gradient : currentStep.gradientLight} bg-clip-text text-transparent`}>
+                      {stat.value}
+                    </div>
+                    <div className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Timing Badge */}
+              <div className="mt-3 flex justify-center">
+                <div className={`px-3 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-slate-200 text-slate-600'}`}>
+                  {currentStep.timing}
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 
