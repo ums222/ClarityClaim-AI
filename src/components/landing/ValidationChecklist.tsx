@@ -128,7 +128,7 @@ const ValidationChecklist: React.FC = () => {
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-emerald-900/20 border-slate-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-emerald-50/50 border-slate-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
       }`}
-      style={{ minHeight: '320px' }}
+      style={{ height: '420px' }}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >

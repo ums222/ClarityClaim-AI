@@ -301,7 +301,10 @@ const HowItWorksSection = () => {
                           ? 'border-slate-700/50 bg-slate-800/20 hover:bg-slate-800/40'
                           : 'border-slate-200 bg-white/60 hover:bg-white'
                   }`}
-                  style={{ contain: 'layout style paint' }}
+                  style={{
+                    contain: 'layout style paint',
+                    height: '220px'
+                  }}
                 >
                   {/* Active indicator bar - no layoutId to prevent layout shifts */}
                   {isActive && (
