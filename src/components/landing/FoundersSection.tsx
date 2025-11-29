@@ -76,12 +76,14 @@ const FoundersSection = () => {
                 </CardDescription>
 
                 <div className="mt-4 flex items-center justify-between">
-                  <button
+                  <a
+                    href={f.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-[11px] font-medium text-clarity-accent hover:underline underline-offset-4"
-                    type="button"
                   >
                     View full bio →
-                  </button>
+                  </a>
 
                   <a
                     href={f.linkedin}

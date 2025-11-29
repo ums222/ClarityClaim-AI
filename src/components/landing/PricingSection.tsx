@@ -73,7 +73,7 @@ const PricingSection = () => {
               <li>Email support</li>
               <li>Standard integrations</li>
             </ul>
-            <Button variant="outline" className="mt-3 w-full">
+            <Button variant="outline" className="mt-3 w-full" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Start Free Trial
             </Button>
             <p className="text-[11px] text-slate-500">
@@ -110,7 +110,7 @@ const PricingSection = () => {
               <li>EHR deep integrations</li>
               <li>Dedicated success manager</li>
             </ul>
-            <Button className="mt-3 w-full">Start Free Trial</Button>
+            <Button className="mt-3 w-full" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>Start Free Trial</Button>
             <p className="text-[11px] text-slate-500">
               14-day free trial, no credit card
             </p>
@@ -141,7 +141,7 @@ const PricingSection = () => {
               <li>Regulatory compliance suite</li>
               <li>Dedicated implementation team</li>
             </ul>
-            <Button variant="outline" className="mt-3 w-full">
+            <Button variant="outline" className="mt-3 w-full" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Contact Sales
             </Button>
             <p className="text-[11px] text-slate-500">Includes pilot program</p>
@@ -166,7 +166,7 @@ const PricingSection = () => {
             </p>
           </div>
         </div>
-        <Button variant="ghost" className="self-start md:self-auto">
+        <Button variant="ghost" className="self-start md:self-auto" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
           Learn About Our Community Program
         </Button>
       </div>
