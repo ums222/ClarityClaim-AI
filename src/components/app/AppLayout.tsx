@@ -18,6 +18,7 @@ import {
   User,
   Plug,
   CreditCard,
+  Shield,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
@@ -37,6 +38,7 @@ const navigation = [
 
 const bottomNavigation = [
   { name: 'Billing', href: '/app/billing', icon: CreditCard },
+  { name: 'Security', href: '/app/security', icon: Shield },
   { name: 'Settings', href: '/app/settings', icon: Settings },
   { name: 'Help', href: '/app/help', icon: HelpCircle },
 ];
