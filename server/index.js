@@ -40,6 +40,85 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === 'production';
 
+// Authentication middleware
+const authenticateUser = async (req, res, next) => {
+  try {
+    const supabase = getSupabaseClient();
+
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (profileError) {
+      console.error('Error fetching user profile:', profileError);
+      return res.status(500).json({ error: 'Failed to fetch user profile' });
+    }
+
+    if (!profile?.organization_id) {
+      return res.status(403).json({ error: 'No organization access' });
+    }
+
+    req.supabase = supabase;
+    req.user = user;
+    req.userProfile = profile;
+    req.organizationId = profile.organization_id;
+    next();
+  } catch (error) {
+    console.error('Authentication error:', error);
+    res.status(500).json({ error: 'Authentication failed' });
+  }
+};
+
+const authorizeClaimAccess = async (req, res, next) => {
+  try {
+    const supabase = req.supabase || getSupabaseClient();
+
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const { data: claim, error } = await supabase
+      .from('claims')
+      .select('*')
+      .eq('id', id)
+      .eq('organization_id', req.organizationId)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      console.error('Error fetching claim for authorization:', error);
+      return res.status(500).json({ error: 'Failed to authorize claim access' });
+    }
+
+    if (!claim) {
+      return res.status(404).json({ error: 'Claim not found' });
+    }
+
+    req.claim = claim;
+    next();
+  } catch (error) {
+    console.error('Claim authorization error:', error);
+    res.status(500).json({ error: 'Claim authorization failed' });
+  }
+};
+
 // Middleware
 app.use(cors({
   origin: isProduction ? true : (process.env.FRONTEND_URL || 'http://localhost:5173'),
@@ -335,32 +414,12 @@ app.get('/api/health', (req, res) => {
 });
 
 // Predict denial risk for a claim
-app.post('/api/claims/:id/predict-denial', async (req, res) => {
+app.post('/api/claims/:id/predict-denial', authenticateUser, authorizeClaimAccess, async (req, res) => {
   try {
     const { id } = req.params;
-    const supabase = getSupabaseClient();
-    
-    if (!supabase) {
-      return res.status(503).json({
-        error: 'Database not configured',
-        message: 'Supabase is not configured. Cannot fetch claim data.'
-      });
-    }
-    
-    // Fetch claim data
-    const { data: claim, error } = await supabase
-      .from('claims')
-      .select('*')
-      .eq('id', id)
-      .single();
-    
-    if (error || !claim) {
-      return res.status(404).json({
-        error: 'Claim not found',
-        message: `No claim found with ID: ${id}`
-      });
-    }
-    
+    const supabase = req.supabase || getSupabaseClient();
+    const claim = req.claim;
+
     // Run prediction
     const prediction = await predictDenialRisk(claim);
     
@@ -392,32 +451,12 @@ app.post('/api/claims/:id/predict-denial', async (req, res) => {
 });
 
 // Generate appeal letter for a claim
-app.post('/api/claims/:id/generate-appeal', async (req, res) => {
+app.post('/api/claims/:id/generate-appeal', authenticateUser, authorizeClaimAccess, async (req, res) => {
   try {
     const { id } = req.params;
     const { denial_reason, denial_code, additional_context } = req.body;
-    const supabase = getSupabaseClient();
-    
-    if (!supabase) {
-      return res.status(503).json({
-        error: 'Database not configured',
-        message: 'Supabase is not configured. Cannot fetch claim data.'
-      });
-    }
-    
-    // Fetch claim data
-    const { data: claim, error } = await supabase
-      .from('claims')
-      .select('*')
-      .eq('id', id)
-      .single();
-    
-    if (error || !claim) {
-      return res.status(404).json({
-        error: 'Claim not found',
-        message: `No claim found with ID: ${id}`
-      });
-    }
+    const supabase = req.supabase || getSupabaseClient();
+    const claim = req.claim;
     
     // Generate appeal letter
     const appeal = await generateAppealLetter(claim, {
@@ -452,17 +491,10 @@ app.post('/api/claims/:id/generate-appeal', async (req, res) => {
 });
 
 // Get pattern analysis for organization's claims
-app.get('/api/analytics/patterns', async (req, res) => {
+app.get('/api/analytics/patterns', authenticateUser, async (req, res) => {
   try {
-    const supabase = getSupabaseClient();
-    
-    if (!supabase) {
-      return res.status(503).json({
-        error: 'Database not configured',
-        message: 'Supabase is not configured.'
-      });
-    }
-    
+    const supabase = req.supabase || getSupabaseClient();
+
     // Get date range from query params (default to last 90 days)
     const { days = 90 } = req.query;
     const startDate = new Date();
@@ -473,6 +505,7 @@ app.get('/api/analytics/patterns', async (req, res) => {
       .from('claims')
       .select('*')
       .gte('created_at', startDate.toISOString())
+      .eq('organization_id', req.organizationId)
       .order('created_at', { ascending: false });
     
     if (error) {
@@ -501,7 +534,7 @@ app.get('/api/analytics/patterns', async (req, res) => {
 });
 
 // Get risk factor definitions
-app.get('/api/analytics/risk-factors', (req, res) => {
+app.get('/api/analytics/risk-factors', authenticateUser, (req, res) => {
   try {
     const riskFactors = getRiskFactorDefinitions();
     
@@ -520,7 +553,7 @@ app.get('/api/analytics/risk-factors', (req, res) => {
 });
 
 // Bulk prediction for multiple claims
-app.post('/api/claims/bulk-predict', async (req, res) => {
+app.post('/api/claims/bulk-predict', authenticateUser, async (req, res) => {
   try {
     const { claimIds } = req.body;
     
@@ -531,24 +564,26 @@ app.post('/api/claims/bulk-predict', async (req, res) => {
       });
     }
     
-    const supabase = getSupabaseClient();
-    
-    if (!supabase) {
-      return res.status(503).json({
-        error: 'Database not configured'
-      });
-    }
-    
+    const supabase = req.supabase || getSupabaseClient();
+
     // Fetch claims
     const { data: claims, error } = await supabase
       .from('claims')
       .select('*')
-      .in('id', claimIds);
+      .in('id', claimIds)
+      .eq('organization_id', req.organizationId);
     
     if (error) {
       throw error;
     }
     
+    if ((claims?.length || 0) !== claimIds.length) {
+      return res.status(404).json({
+        error: 'One or more claims not found',
+        message: 'Some claims are missing or not accessible in your organization'
+      });
+    }
+
     // Process predictions in parallel (limit to 10 at a time)
     const results = [];
     for (const claim of claims) {
@@ -1102,14 +1137,17 @@ app.post('/api/appeal-templates/:id/use', async (req, res) => {
 // Appeals Analytics
 // ============================================
 
-app.get('/api/appeals/analytics/stats', async (req, res) => {
+app.get('/api/appeals/analytics/stats', authenticateUser, async (req, res) => {
   try {
-    const supabase = getSupabaseClient();
+    const supabase = req.supabase || getSupabaseClient();
     if (!supabase) {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
-    const { data: appeals, error } = await supabase.from('appeals').select('*');
+    const { data: appeals, error } = await supabase
+      .from('appeals')
+      .select('*')
+      .eq('organization_id', req.organizationId);
     if (error) throw error;
 
     const stats = {
