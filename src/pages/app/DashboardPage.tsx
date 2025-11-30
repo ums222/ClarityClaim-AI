@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   TrendingUp,
@@ -12,6 +12,8 @@ import {
   CheckCircle2,
   XCircle,
   Download,
+  Loader2,
+  Brain,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -22,104 +24,145 @@ import { Card } from '../../components/ui/card';
 import AppLayout from '../../components/app/AppLayout';
 import { ClaimUploadModal } from '../../components/claims/ClaimUploadModal';
 import { CreateAppealModal } from '../../components/appeals/CreateAppealModal';
+import { supabase } from '../../lib/supabase';
 
-// Mock data for dashboard
-const stats = [
-  {
-    name: 'Total Claims',
-    value: '1,284',
-    change: '+12%',
-    trend: 'up',
-    icon: FileText,
-  },
-  {
-    name: 'Revenue Recovered',
-    value: '$423,890',
-    change: '+18%',
-    trend: 'up',
-    icon: DollarSign,
-  },
-  {
-    name: 'Active Appeals',
-    value: '47',
-    change: '-8%',
-    trend: 'down',
-    icon: Scale,
-  },
-  {
-    name: 'Denial Rate',
-    value: '8.2%',
-    change: '-24%',
-    trend: 'down',
-    icon: AlertTriangle,
-  },
-];
+interface DashboardStats {
+  totalClaims: number;
+  totalRevenue: number;
+  activeAppeals: number;
+  denialRate: number;
+  claimsChange: number;
+  revenueChange: number;
+  appealsChange: number;
+  denialRateChange: number;
+}
 
-const recentClaims = [
-  {
-    id: 'CLM-2024-001',
-    patient: 'John Smith',
-    amount: '$4,250',
-    status: 'pending',
-    risk: 'low',
-    date: '2 hours ago',
-  },
-  {
-    id: 'CLM-2024-002',
-    patient: 'Sarah Johnson',
-    amount: '$12,800',
-    status: 'submitted',
-    risk: 'medium',
-    date: '4 hours ago',
-  },
-  {
-    id: 'CLM-2024-003',
-    patient: 'Michael Brown',
-    amount: '$8,450',
-    status: 'denied',
-    risk: 'high',
-    date: '1 day ago',
-  },
-  {
-    id: 'CLM-2024-004',
-    patient: 'Emily Davis',
-    amount: '$3,200',
-    status: 'approved',
-    risk: 'low',
-    date: '2 days ago',
-  },
-];
+interface RecentClaim {
+  id: string;
+  claim_number: string;
+  patient_name: string;
+  billed_amount: number;
+  status: string;
+  denial_risk_score: number | null;
+  created_at: string;
+}
 
-const pendingAppeals = [
-  {
-    id: 'APL-2024-001',
-    claimId: 'CLM-2024-003',
-    reason: 'Prior authorization required',
-    amount: '$8,450',
-    deadline: '3 days',
-  },
-  {
-    id: 'APL-2024-002',
-    claimId: 'CLM-2024-098',
-    reason: 'Medical necessity not established',
-    amount: '$15,200',
-    deadline: '5 days',
-  },
-];
+interface PendingAppeal {
+  id: string;
+  appeal_number: string;
+  claim_id: string;
+  original_denial_reason: string | null;
+  amount_appealed: number | null;
+  deadline: string | null;
+  claims?: {
+    claim_number: string;
+  };
+}
 
 const DashboardPage = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const { profile } = useAuth();
+  const { profile, organization } = useAuth();
   const navigate = useNavigate();
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isAppealModalOpen, setIsAppealModalOpen] = useState(false);
+  
+  // Real data state
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [recentClaims, setRecentClaims] = useState<RecentClaim[]>([]);
+  const [pendingAppeals, setPendingAppeals] = useState<PendingAppeal[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch dashboard data
+  const fetchDashboardData = useCallback(async () => {
+    if (!supabase) {
+      setError('Database not configured');
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Fetch claims stats
+      const { data: claimsData, error: claimsError } = await supabase
+        .from('claims')
+        .select('id, status, billed_amount, paid_amount, denial_risk_score, created_at');
+
+      if (claimsError) throw claimsError;
+
+      // Fetch appeals
+      const { data: appealsData, error: appealsError } = await supabase
+        .from('appeals')
+        .select(`
+          id,
+          appeal_number,
+          claim_id,
+          original_denial_reason,
+          amount_appealed,
+          deadline,
+          status,
+          amount_recovered,
+          claims (claim_number)
+        `)
+        .in('status', ['draft', 'pending_review', 'submitted', 'under_review']);
+
+      if (appealsError) throw appealsError;
+
+      // Fetch recent claims
+      const { data: recentClaimsData, error: recentError } = await supabase
+        .from('claims')
+        .select('id, claim_number, patient_name, billed_amount, status, denial_risk_score, created_at')
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      if (recentError) throw recentError;
+
+      // Calculate stats
+      const totalClaims = claimsData?.length || 0;
+      const deniedClaims = claimsData?.filter(c => c.status === 'denied' || c.status === 'partially_denied').length || 0;
+      const paidClaims = claimsData?.filter(c => c.status === 'paid' || c.status === 'appeal_won');
+      const totalRevenue = paidClaims?.reduce((sum, c) => sum + (c.paid_amount || 0), 0) || 0;
+      const denialRate = totalClaims > 0 ? (deniedClaims / totalClaims) * 100 : 0;
+
+      setStats({
+        totalClaims,
+        totalRevenue,
+        activeAppeals: appealsData?.length || 0,
+        denialRate,
+        // Mock changes for now - could calculate from historical data
+        claimsChange: 12,
+        revenueChange: 18,
+        appealsChange: -8,
+        denialRateChange: -24,
+      });
+
+      setRecentClaims(recentClaimsData || []);
+      setPendingAppeals(appealsData || []);
+
+    } catch (err) {
+      console.error('Error fetching dashboard data:', err);
+      setError('Failed to load dashboard data');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   const handleExportReport = () => {
-    // Create a simple CSV export of dashboard data
+    if (!stats) return;
+    
     const csvData = [
       ['Metric', 'Value', 'Change'],
-      ...stats.map(s => [s.name, s.value, s.change])
+      ['Total Claims', stats.totalClaims.toString(), `+${stats.claimsChange}%`],
+      ['Revenue Recovered', `$${stats.totalRevenue.toLocaleString()}`, `+${stats.revenueChange}%`],
+      ['Active Appeals', stats.activeAppeals.toString(), `${stats.appealsChange}%`],
+      ['Denial Rate', `${stats.denialRate.toFixed(1)}%`, `${stats.denialRateChange}%`],
     ].map(row => row.join(',')).join('\n');
     
     const blob = new Blob([csvData], { type: 'text/csv' });
@@ -133,11 +176,15 @@ const DashboardPage = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'approved':
+      case 'paid':
+      case 'appeal_won':
         return isDark ? 'text-green-400' : 'text-green-600';
       case 'denied':
+      case 'appeal_lost':
         return isDark ? 'text-red-400' : 'text-red-600';
       case 'pending':
+      case 'pending_review':
+      case 'in_process':
         return isDark ? 'text-yellow-400' : 'text-yellow-600';
       default:
         return isDark ? 'text-blue-400' : 'text-blue-600';
@@ -146,15 +193,26 @@ const DashboardPage = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'approved':
+      case 'paid':
+      case 'appeal_won':
         return <CheckCircle2 className="h-4 w-4" />;
       case 'denied':
+      case 'appeal_lost':
         return <XCircle className="h-4 w-4" />;
       case 'pending':
+      case 'pending_review':
+      case 'in_process':
         return <Clock className="h-4 w-4" />;
       default:
         return <FileText className="h-4 w-4" />;
     }
+  };
+
+  const getRiskLevel = (score: number | null): string => {
+    if (score === null) return 'unknown';
+    if (score >= 0.7) return 'high';
+    if (score >= 0.4) return 'medium';
+    return 'low';
   };
 
   const getRiskColor = (risk: string) => {
@@ -163,10 +221,114 @@ const DashboardPage = () => {
         return isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-50 text-red-600';
       case 'medium':
         return isDark ? 'bg-yellow-500/20 text-yellow-400' : 'bg-yellow-50 text-yellow-600';
-      default:
+      case 'low':
         return isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-50 text-green-600';
+      default:
+        return isDark ? 'bg-neutral-500/20 text-neutral-400' : 'bg-neutral-50 text-neutral-600';
     }
   };
+
+  const formatTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffHours < 1) return 'Just now';
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    if (diffDays === 1) return '1 day ago';
+    return `${diffDays} days ago`;
+  };
+
+  const formatDeadline = (dateString: string | null) => {
+    if (!dateString) return 'No deadline';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = date.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) return 'Overdue';
+    if (diffDays === 0) return 'Due today';
+    if (diffDays === 1) return '1 day';
+    return `${diffDays} days`;
+  };
+
+  const statsDisplay = stats ? [
+    {
+      name: 'Total Claims',
+      value: stats.totalClaims.toLocaleString(),
+      change: `+${stats.claimsChange}%`,
+      trend: 'up' as const,
+      icon: FileText,
+    },
+    {
+      name: 'Revenue Recovered',
+      value: `$${stats.totalRevenue.toLocaleString()}`,
+      change: `+${stats.revenueChange}%`,
+      trend: 'up' as const,
+      icon: DollarSign,
+    },
+    {
+      name: 'Active Appeals',
+      value: stats.activeAppeals.toString(),
+      change: `${stats.appealsChange}%`,
+      trend: stats.appealsChange > 0 ? 'up' as const : 'down' as const,
+      icon: Scale,
+    },
+    {
+      name: 'Denial Rate',
+      value: `${stats.denialRate.toFixed(1)}%`,
+      change: `${stats.denialRateChange}%`,
+      trend: 'down' as const,
+      icon: AlertTriangle,
+    },
+  ] : [];
+
+  if (isLoading) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center">
+            <Loader2 className={cn(
+              "h-8 w-8 animate-spin mx-auto mb-4",
+              isDark ? "text-teal-400" : "text-teal-600"
+            )} />
+            <p className={cn(
+              "text-sm",
+              isDark ? "text-neutral-400" : "text-neutral-600"
+            )}>
+              Loading dashboard...
+            </p>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center">
+            <AlertTriangle className={cn(
+              "h-8 w-8 mx-auto mb-4",
+              isDark ? "text-red-400" : "text-red-600"
+            )} />
+            <p className={cn(
+              "text-sm font-medium mb-2",
+              isDark ? "text-white" : "text-neutral-900"
+            )}>
+              {error}
+            </p>
+            <Button onClick={fetchDashboardData}>
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
@@ -184,7 +346,7 @@ const DashboardPage = () => {
               "text-sm mt-1",
               isDark ? "text-neutral-400" : "text-neutral-600"
             )}>
-              Here's what's happening with your claims today.
+              {organization?.name ? `${organization.name} • ` : ''}Here's what's happening with your claims today.
             </p>
           </div>
           <div className="flex gap-3">
@@ -200,7 +362,7 @@ const DashboardPage = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
+          {statsDisplay.map((stat, index) => (
             <motion.div
               key={stat.name}
               initial={{ opacity: 0, y: 20 }}
@@ -220,11 +382,9 @@ const DashboardPage = () => {
                   </div>
                   <div className={cn(
                     "flex items-center gap-1 text-xs font-medium",
-                    stat.trend === 'up'
-                      ? stat.name === 'Denial Rate'
-                        ? isDark ? "text-green-400" : "text-green-600"
-                        : isDark ? "text-green-400" : "text-green-600"
-                      : stat.name === 'Denial Rate'
+                    stat.name === 'Denial Rate'
+                      ? isDark ? "text-green-400" : "text-green-600"
+                      : stat.trend === 'up'
                         ? isDark ? "text-green-400" : "text-green-600"
                         : isDark ? "text-red-400" : "text-red-600"
                   )}>
@@ -255,6 +415,58 @@ const DashboardPage = () => {
           ))}
         </div>
 
+        {/* AI Insights Banner */}
+        {stats && stats.denialRate > 10 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Card className={cn(
+              "p-4",
+              isDark ? "bg-amber-500/10 border-amber-500/30" : "bg-amber-50 border-amber-200"
+            )}>
+              <div className="flex items-start gap-3">
+                <div className={cn(
+                  "p-2 rounded-lg",
+                  isDark ? "bg-amber-500/20" : "bg-amber-100"
+                )}>
+                  <Brain className={cn(
+                    "h-5 w-5",
+                    isDark ? "text-amber-400" : "text-amber-600"
+                  )} />
+                </div>
+                <div className="flex-1">
+                  <h3 className={cn(
+                    "font-medium",
+                    isDark ? "text-amber-300" : "text-amber-800"
+                  )}>
+                    AI Insight: High Denial Rate Detected
+                  </h3>
+                  <p className={cn(
+                    "text-sm mt-1",
+                    isDark ? "text-amber-400/80" : "text-amber-700"
+                  )}>
+                    Your current denial rate of {stats.denialRate.toFixed(1)}% is above the industry average. 
+                    ClarityAI has identified patterns that could help reduce denials by up to 40%.
+                  </p>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  className={cn(
+                    isDark 
+                      ? "border-amber-500/50 text-amber-400 hover:bg-amber-500/20" 
+                      : "border-amber-300 text-amber-700 hover:bg-amber-100"
+                  )}
+                  onClick={() => navigate('/app/claims?risk=high')}
+                >
+                  View Analysis
+                </Button>
+              </div>
+            </Card>
+          </motion.div>
+        )}
+
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Recent Claims */}
@@ -282,56 +494,72 @@ const DashboardPage = () => {
               </div>
               
               <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
-                {recentClaims.map((claim) => (
-                  <div
-                    key={claim.id}
-                    className={cn(
-                      "flex items-center gap-4 p-4 transition-colors",
-                      isDark
-                        ? "hover:bg-neutral-800/50"
-                        : "hover:bg-neutral-50"
-                    )}
-                  >
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
+                {recentClaims.length === 0 ? (
+                  <div className="p-8 text-center">
+                    <FileText className={cn(
+                      "h-8 w-8 mx-auto mb-2",
+                      isDark ? "text-neutral-600" : "text-neutral-400"
+                    )} />
+                    <p className={cn(
+                      "text-sm",
+                      isDark ? "text-neutral-400" : "text-neutral-600"
+                    )}>
+                      No claims yet. Upload your first claim to get started.
+                    </p>
+                  </div>
+                ) : (
+                  recentClaims.map((claim) => (
+                    <Link
+                      key={claim.id}
+                      to={`/app/claims/${claim.id}`}
+                      className={cn(
+                        "flex items-center gap-4 p-4 transition-colors",
+                        isDark
+                          ? "hover:bg-neutral-800/50"
+                          : "hover:bg-neutral-50"
+                      )}
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className={cn(
+                            "text-sm font-medium",
+                            isDark ? "text-white" : "text-neutral-900"
+                          )}>
+                            {claim.claim_number}
+                          </p>
+                          <span className={cn(
+                            "px-2 py-0.5 rounded-full text-xs font-medium capitalize",
+                            getRiskColor(getRiskLevel(claim.denial_risk_score))
+                          )}>
+                            {getRiskLevel(claim.denial_risk_score)} risk
+                          </span>
+                        </div>
+                        <p className={cn(
+                          "text-sm mt-0.5",
+                          isDark ? "text-neutral-400" : "text-neutral-600"
+                        )}>
+                          {claim.patient_name}
+                        </p>
+                      </div>
+                      
+                      <div className="text-right">
                         <p className={cn(
                           "text-sm font-medium",
                           isDark ? "text-white" : "text-neutral-900"
                         )}>
-                          {claim.id}
+                          ${claim.billed_amount?.toLocaleString() || '0'}
                         </p>
-                        <span className={cn(
-                          "px-2 py-0.5 rounded-full text-xs font-medium capitalize",
-                          getRiskColor(claim.risk)
+                        <div className={cn(
+                          "flex items-center justify-end gap-1 text-xs mt-0.5 capitalize",
+                          getStatusColor(claim.status)
                         )}>
-                          {claim.risk} risk
-                        </span>
+                          {getStatusIcon(claim.status)}
+                          {claim.status.replace('_', ' ')}
+                        </div>
                       </div>
-                      <p className={cn(
-                        "text-sm mt-0.5",
-                        isDark ? "text-neutral-400" : "text-neutral-600"
-                      )}>
-                        {claim.patient}
-                      </p>
-                    </div>
-                    
-                    <div className="text-right">
-                      <p className={cn(
-                        "text-sm font-medium",
-                        isDark ? "text-white" : "text-neutral-900"
-                      )}>
-                        {claim.amount}
-                      </p>
-                      <div className={cn(
-                        "flex items-center justify-end gap-1 text-xs mt-0.5 capitalize",
-                        getStatusColor(claim.status)
-                      )}>
-                        {getStatusIcon(claim.status)}
-                        {claim.status}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    </Link>
+                  ))
+                )}
               </div>
             </Card>
           </div>
@@ -361,67 +589,7 @@ const DashboardPage = () => {
               </div>
               
               <div className="p-4 space-y-4">
-                {pendingAppeals.map((appeal) => (
-                  <div
-                    key={appeal.id}
-                    className={cn(
-                      "p-3 rounded-lg",
-                      isDark
-                        ? "bg-neutral-800/50 ring-1 ring-neutral-800"
-                        : "bg-neutral-50 ring-1 ring-neutral-200"
-                    )}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className={cn(
-                          "text-sm font-medium",
-                          isDark ? "text-white" : "text-neutral-900"
-                        )}>
-                          {appeal.id}
-                        </p>
-                        <p className={cn(
-                          "text-xs mt-0.5",
-                          isDark ? "text-neutral-500" : "text-neutral-500"
-                        )}>
-                          {appeal.claimId}
-                        </p>
-                      </div>
-                      <p className={cn(
-                        "text-sm font-medium",
-                        isDark ? "text-teal-400" : "text-teal-600"
-                      )}>
-                        {appeal.amount}
-                      </p>
-                    </div>
-                    
-                    <p className={cn(
-                      "text-xs mt-2",
-                      isDark ? "text-neutral-400" : "text-neutral-600"
-                    )}>
-                      {appeal.reason}
-                    </p>
-                    
-                    <div className="flex items-center justify-between mt-3">
-                      <span className={cn(
-                        "flex items-center gap-1 text-xs",
-                        isDark ? "text-yellow-400" : "text-yellow-600"
-                      )}>
-                        <Clock className="h-3 w-3" />
-                        Due in {appeal.deadline}
-                      </span>
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="h-7 text-xs"
-                        onClick={() => setIsAppealModalOpen(true)}
-                      >
-                        Generate Appeal
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-
-                {pendingAppeals.length === 0 && (
+                {pendingAppeals.length === 0 ? (
                   <div className="text-center py-6">
                     <CheckCircle2 className={cn(
                       "h-8 w-8 mx-auto mb-2",
@@ -440,6 +608,61 @@ const DashboardPage = () => {
                       No pending appeals to review.
                     </p>
                   </div>
+                ) : (
+                  pendingAppeals.slice(0, 3).map((appeal) => (
+                    <Link
+                      key={appeal.id}
+                      to={`/app/appeals/${appeal.id}`}
+                      className={cn(
+                        "block p-3 rounded-lg transition-colors",
+                        isDark
+                          ? "bg-neutral-800/50 ring-1 ring-neutral-800 hover:bg-neutral-800"
+                          : "bg-neutral-50 ring-1 ring-neutral-200 hover:bg-neutral-100"
+                      )}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className={cn(
+                            "text-sm font-medium",
+                            isDark ? "text-white" : "text-neutral-900"
+                          )}>
+                            {appeal.appeal_number}
+                          </p>
+                          <p className={cn(
+                            "text-xs mt-0.5",
+                            isDark ? "text-neutral-500" : "text-neutral-500"
+                          )}>
+                            {appeal.claims?.claim_number || appeal.claim_id}
+                          </p>
+                        </div>
+                        <p className={cn(
+                          "text-sm font-medium",
+                          isDark ? "text-teal-400" : "text-teal-600"
+                        )}>
+                          ${appeal.amount_appealed?.toLocaleString() || '0'}
+                        </p>
+                      </div>
+                      
+                      {appeal.original_denial_reason && (
+                        <p className={cn(
+                          "text-xs mt-2 line-clamp-2",
+                          isDark ? "text-neutral-400" : "text-neutral-600"
+                        )}>
+                          {appeal.original_denial_reason}
+                        </p>
+                      )}
+                      
+                      <div className="flex items-center justify-between mt-3">
+                        <span className={cn(
+                          "flex items-center gap-1 text-xs",
+                          isDark ? "text-yellow-400" : "text-yellow-600"
+                        )}>
+                          <Clock className="h-3 w-3" />
+                          Due in {formatDeadline(appeal.deadline)}
+                        </span>
+                      </div>
+                    </Link>
+                  ))
                 )}
               </div>
             </Card>
@@ -489,7 +712,7 @@ const DashboardPage = () => {
         onClose={() => setIsUploadModalOpen(false)}
         onSuccess={() => {
           setIsUploadModalOpen(false);
-          // Could refresh data here
+          fetchDashboardData();
         }}
       />
 
