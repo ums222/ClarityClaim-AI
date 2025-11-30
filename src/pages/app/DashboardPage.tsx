@@ -56,7 +56,7 @@ interface PendingAppeal {
   deadline: string | null;
   claims?: {
     claim_number: string;
-  };
+  } | null;
 }
 
 const DashboardPage = () => {
@@ -140,7 +140,12 @@ const DashboardPage = () => {
       });
 
       setRecentClaims(recentClaimsData || []);
-      setPendingAppeals(appealsData || []);
+      // Transform appeals data - Supabase returns claims as array, take first item
+      const transformedAppeals = (appealsData || []).map(appeal => ({
+        ...appeal,
+        claims: Array.isArray(appeal.claims) ? appeal.claims[0] : appeal.claims
+      }));
+      setPendingAppeals(transformedAppeals);
 
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
@@ -228,18 +233,6 @@ const DashboardPage = () => {
     }
   };
 
-  const formatTimeAgo = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffHours < 1) return 'Just now';
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    if (diffDays === 1) return '1 day ago';
-    return `${diffDays} days ago`;
-  };
 
   const formatDeadline = (dateString: string | null) => {
     if (!dateString) return 'No deadline';
