@@ -42,9 +42,18 @@ You have two options to set up the database schema:
 1. Go to your Supabase project dashboard
 2. Navigate to **SQL Editor**
 3. Run each migration file in order:
+   - `supabase/migrations/000_full_migration.sql` (helper functions)
    - `supabase/migrations/001_create_demo_requests.sql`
    - `supabase/migrations/002_create_contact_submissions.sql`
    - `supabase/migrations/003_create_newsletter_subscribers.sql`
+   - `supabase/migrations/004_create_auth_tables.sql`
+   - `supabase/migrations/005_create_claims_table.sql`
+   - `supabase/migrations/006_create_appeals_table.sql`
+   - `supabase/migrations/007_create_settings_tables.sql`
+   - `supabase/migrations/008_create_integrations_tables.sql`
+   - `supabase/migrations/009_create_billing_tables.sql`
+   - `supabase/migrations/010_create_security_tables.sql`
+   - `supabase/migrations/011_create_admin_demo_tables.sql` (Admin & Demo system)
 
 #### Option B: Using Supabase CLI
 
@@ -168,3 +177,52 @@ The application is designed to work without Supabase configured:
 - No data will be persisted
 
 This allows local development and testing without a database connection.
+
+## Admin Demo System
+
+### Migration 011: Admin Demo Tables
+
+The `011_create_admin_demo_tables.sql` migration adds:
+
+- **facilities** - Physical locations within organizations
+- **payers** - Insurance payers/carriers
+- **organization_payers** - Junction table for org-payer relationships
+- **ai_insights** - AI denial risk predictions and recommendations
+- **equity_signals** - Disparity analysis by demographics
+- **demo_scenarios** - Hand-crafted hero claims for demos
+- **ai_models** - AI model registry and versioning
+- **ai_usage_metrics** - AI platform usage tracking
+
+### Extended User Roles
+
+The user_profiles table now supports:
+- `super_admin` - System-wide admin (ClarityClaim staff)
+- `admin` - Organization admin
+- `executive` - Executive-level access
+- `manager` - Manager-level access
+- `billing_specialist` - Billing/claims specialist
+- `user` - Standard user
+- `viewer` - Read-only access
+
+### Seeding Demo Data
+
+After running all migrations, seed demo data:
+
+```bash
+npm run seed:demo
+```
+
+See `scripts/README.md` for detailed information about the demo data.
+
+### Admin User Setup
+
+1. Sign up with `admin@clarityclaim.ai`
+2. Grant admin privileges:
+   ```sql
+   UPDATE user_profiles 
+   SET is_system_admin = true, 
+       can_access_all_tenants = true,
+       role = 'super_admin'
+   WHERE email = 'admin@clarityclaim.ai';
+   ```
+3. Navigate to `/app/admin` to access the Admin Console

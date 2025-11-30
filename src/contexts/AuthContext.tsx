@@ -11,12 +11,22 @@ import type { User, Session, AuthError, AuthChangeEvent } from '@supabase/supaba
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 // Types
+export type UserRole = 
+  | 'super_admin'  // System-wide admin (ClarityClaim staff)
+  | 'owner'        // Organization owner
+  | 'admin'        // Organization admin
+  | 'executive'    // Executive-level access within org
+  | 'manager'      // Manager-level access
+  | 'billing_specialist' // Billing/claims specialist
+  | 'user'         // Standard user
+  | 'viewer';      // Read-only access
+
 export interface UserProfile {
   id: string;
   email: string;
   full_name: string | null;
   avatar_url: string | null;
-  role: 'owner' | 'admin' | 'manager' | 'user';
+  role: UserRole;
   organization_id: string | null;
   job_title: string | null;
   phone: string | null;
@@ -29,6 +39,9 @@ export interface UserProfile {
   last_login_at: string | null;
   created_at: string;
   updated_at: string;
+  // Admin-specific fields
+  is_system_admin?: boolean;
+  can_access_all_tenants?: boolean;
 }
 
 export interface Organization {
@@ -51,6 +64,11 @@ interface AuthContextType {
   session: Session | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  
+  // Role helpers
+  isSystemAdmin: boolean;
+  canAccessAllTenants: boolean;
+  hasRole: (roles: UserRole | UserRole[]) => boolean;
   
   // Auth methods
   signUp: (email: string, password: string, fullName: string, organizationName?: string) => Promise<{ error: AuthError | Error | null }>;
@@ -360,6 +378,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Role helper functions
+  const isSystemAdmin = profile?.is_system_admin === true || profile?.role === 'super_admin';
+  const canAccessAllTenants = profile?.can_access_all_tenants === true || isSystemAdmin;
+  
+  const hasRole = useCallback((roles: UserRole | UserRole[]): boolean => {
+    if (!profile) return false;
+    const roleArray = Array.isArray(roles) ? roles : [roles];
+    
+    // System admins have all roles
+    if (isSystemAdmin) return true;
+    
+    return roleArray.includes(profile.role);
+  }, [profile, isSystemAdmin]);
+
   const value: AuthContextType = {
     user,
     profile,
@@ -367,6 +399,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session,
     isLoading,
     isAuthenticated: !!user,
+    isSystemAdmin,
+    canAccessAllTenants,
+    hasRole,
     signUp,
     signIn,
     signOut,

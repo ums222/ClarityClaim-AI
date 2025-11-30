@@ -35,6 +35,17 @@ const AppSecurityPage = lazy(() => import("./pages/app/SecurityPage"));
 const AppHelpPage = lazy(() => import("./pages/app/HelpPage"));
 
 // ============================================
+// ADMIN PAGES - Lazy loaded (only for admin users)
+// ============================================
+const AdminDashboardPage = lazy(() => import("./pages/admin/AdminDashboardPage"));
+const AdminTenantsPage = lazy(() => import("./pages/admin/AdminTenantsPage"));
+const AdminUsersPage = lazy(() => import("./pages/admin/AdminUsersPage"));
+const AdminIntegrationsPage = lazy(() => import("./pages/admin/AdminIntegrationsPage"));
+const AdminAIGovernancePage = lazy(() => import("./pages/admin/AdminAIGovernancePage"));
+const AdminAuditLogPage = lazy(() => import("./pages/admin/AdminAuditLogPage"));
+const AdminDemoScenariosPage = lazy(() => import("./pages/admin/AdminDemoScenariosPage"));
+
+// ============================================
 // MARKETING PAGES - Lazy loaded (not needed on initial load)
 // ============================================
 
@@ -246,6 +257,66 @@ function App() {
             element={
               <ProtectedSuspenseRoute>
                 <AppHelpPage />
+              </ProtectedSuspenseRoute>
+            }
+          />
+
+          {/* ================================ */}
+          {/* ADMIN ROUTES                      */}
+          {/* ================================ */}
+          <Route
+            path="/app/admin"
+            element={
+              <ProtectedSuspenseRoute>
+                <AdminDashboardPage />
+              </ProtectedSuspenseRoute>
+            }
+          />
+          <Route
+            path="/app/admin/tenants"
+            element={
+              <ProtectedSuspenseRoute>
+                <AdminTenantsPage />
+              </ProtectedSuspenseRoute>
+            }
+          />
+          <Route
+            path="/app/admin/users"
+            element={
+              <ProtectedSuspenseRoute>
+                <AdminUsersPage />
+              </ProtectedSuspenseRoute>
+            }
+          />
+          <Route
+            path="/app/admin/integrations"
+            element={
+              <ProtectedSuspenseRoute>
+                <AdminIntegrationsPage />
+              </ProtectedSuspenseRoute>
+            }
+          />
+          <Route
+            path="/app/admin/ai-governance"
+            element={
+              <ProtectedSuspenseRoute>
+                <AdminAIGovernancePage />
+              </ProtectedSuspenseRoute>
+            }
+          />
+          <Route
+            path="/app/admin/audit-log"
+            element={
+              <ProtectedSuspenseRoute>
+                <AdminAuditLogPage />
+              </ProtectedSuspenseRoute>
+            }
+          />
+          <Route
+            path="/app/admin/demo-scenarios"
+            element={
+              <ProtectedSuspenseRoute>
+                <AdminDemoScenariosPage />
               </ProtectedSuspenseRoute>
             }
           />

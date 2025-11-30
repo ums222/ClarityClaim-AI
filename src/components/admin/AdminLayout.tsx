@@ -3,12 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard,
+  Building2,
+  Users,
+  Plug,
+  Brain,
   FileText,
-  Scale,
-  BarChart3,
-  Settings,
-  HelpCircle,
-  LogOut,
+  Presentation,
   Menu,
   X,
   ChevronDown,
@@ -16,43 +16,35 @@ import {
   Moon,
   Bell,
   User,
-  Plug,
-  CreditCard,
+  LogOut,
+  Settings,
+  ArrowLeft,
   Shield,
-  ShieldCheck,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { cn } from '../../lib/utils';
 
-interface AppLayoutProps {
+interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
-const navigation = [
-  { name: 'Dashboard', href: '/app', icon: LayoutDashboard },
-  { name: 'Claims', href: '/app/claims', icon: FileText },
-  { name: 'Appeals', href: '/app/appeals', icon: Scale },
-  { name: 'Analytics', href: '/app/analytics', icon: BarChart3 },
-  { name: 'Integrations', href: '/app/integrations', icon: Plug },
+const adminNavigation = [
+  { name: 'Admin Dashboard', href: '/app/admin', icon: LayoutDashboard },
+  { name: 'Tenants', href: '/app/admin/tenants', icon: Building2 },
+  { name: 'Users', href: '/app/admin/users', icon: Users },
+  { name: 'Integrations', href: '/app/admin/integrations', icon: Plug },
+  { name: 'AI Governance', href: '/app/admin/ai-governance', icon: Brain },
+  { name: 'Audit Log', href: '/app/admin/audit-log', icon: FileText },
+  { name: 'Demo Scenarios', href: '/app/admin/demo-scenarios', icon: Presentation },
 ];
 
-const bottomNavigation = [
-  { name: 'Billing', href: '/app/billing', icon: CreditCard },
-  { name: 'Security', href: '/app/security', icon: Shield },
-  { name: 'Settings', href: '/app/settings', icon: Settings },
-  { name: 'Help', href: '/app/help', icon: HelpCircle },
-];
-
-// Admin navigation item (shown to admin users only)
-const adminNavItem = { name: 'Admin Console', href: '/app/admin', icon: ShieldCheck };
-
-export function AppLayout({ children }: AppLayoutProps) {
+export function AdminLayout({ children }: AdminLayoutProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
   const location = useLocation();
   const navigate = useNavigate();
-  const { profile, organization, signOut } = useAuth();
+  const { profile, signOut } = useAuth();
   
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -63,8 +55,8 @@ export function AppLayout({ children }: AppLayoutProps) {
   };
 
   const isActiveRoute = (href: string) => {
-    if (href === '/app') {
-      return location.pathname === '/app';
+    if (href === '/app/admin') {
+      return location.pathname === '/app/admin';
     }
     return location.pathname.startsWith(href);
   };
@@ -98,15 +90,25 @@ export function AppLayout({ children }: AppLayoutProps) {
         )}
       >
         <div className="flex h-full flex-col">
-          {/* Logo */}
+          {/* Logo & Admin Badge */}
           <div className="flex h-16 items-center justify-between px-4 border-b border-neutral-200 dark:border-neutral-800">
-            <Link to="/app" className="flex items-center">
-              <img
-                src={isDark ? '/orbitlogo-dark.svg' : '/orbitlogo.svg'}
-                alt="ClarityClaim AI"
-                className="h-7 w-auto"
-              />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link to="/app/admin" className="flex items-center">
+                <img
+                  src={isDark ? '/orbitlogo-dark.svg' : '/orbitlogo.svg'}
+                  alt="ClarityClaim AI"
+                  className="h-7 w-auto"
+                />
+              </Link>
+              <span className={cn(
+                "px-2 py-0.5 text-xs font-semibold rounded-full",
+                isDark
+                  ? "bg-amber-500/20 text-amber-400"
+                  : "bg-amber-100 text-amber-700"
+              )}>
+                ADMIN
+              </span>
+            </div>
             <button
               className="lg:hidden"
               onClick={() => setSidebarOpen(false)}
@@ -118,50 +120,25 @@ export function AppLayout({ children }: AppLayoutProps) {
             </button>
           </div>
 
-          {/* Organization selector */}
-          {organization && (
-            <div className="px-3 py-3 border-b border-neutral-200 dark:border-neutral-800">
-              <button
-                className={cn(
-                  "w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left transition-colors",
-                  isDark
-                    ? "hover:bg-neutral-800"
-                    : "hover:bg-neutral-100"
-                )}
-              >
-                <div className={cn(
-                  "w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium",
-                  isDark
-                    ? "bg-teal-500/20 text-teal-400"
-                    : "bg-teal-50 text-teal-600"
-                )}>
-                  {organization.name.charAt(0).toUpperCase()}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className={cn(
-                    "text-sm font-medium truncate",
-                    isDark ? "text-white" : "text-neutral-900"
-                  )}>
-                    {organization.name}
-                  </p>
-                  <p className={cn(
-                    "text-xs truncate capitalize",
-                    isDark ? "text-neutral-500" : "text-neutral-500"
-                  )}>
-                    {organization.subscription_tier} plan
-                  </p>
-                </div>
-                <ChevronDown className={cn(
-                  "h-4 w-4",
-                  isDark ? "text-neutral-500" : "text-neutral-400"
-                )} />
-              </button>
-            </div>
-          )}
+          {/* Back to App */}
+          <div className="px-3 py-3 border-b border-neutral-200 dark:border-neutral-800">
+            <Link
+              to="/app"
+              className={cn(
+                "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                isDark
+                  ? "text-neutral-400 hover:text-white hover:bg-neutral-800"
+                  : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100"
+              )}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to App
+            </Link>
+          </div>
 
           {/* Navigation */}
           <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-            {navigation.map((item) => (
+            {adminNavigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
@@ -170,8 +147,8 @@ export function AppLayout({ children }: AppLayoutProps) {
                   "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                   isActiveRoute(item.href)
                     ? isDark
-                      ? "bg-teal-500/10 text-teal-400"
-                      : "bg-teal-50 text-teal-600"
+                      ? "bg-amber-500/10 text-amber-400"
+                      : "bg-amber-50 text-amber-700"
                     : isDark
                       ? "text-neutral-400 hover:text-white hover:bg-neutral-800"
                       : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100"
@@ -183,57 +160,35 @@ export function AppLayout({ children }: AppLayoutProps) {
             ))}
           </nav>
 
-          {/* Admin link (shown for demo - in production, check for admin role) */}
-          <div className="px-3 py-2 border-t border-neutral-200 dark:border-neutral-800">
-            <Link
-              to={adminNavItem.href}
-              onClick={() => setSidebarOpen(false)}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                isActiveRoute(adminNavItem.href)
-                  ? isDark
-                    ? "bg-amber-500/10 text-amber-400"
-                    : "bg-amber-50 text-amber-700"
-                  : isDark
-                    ? "text-amber-400/70 hover:text-amber-400 hover:bg-amber-500/10"
-                    : "text-amber-600/70 hover:text-amber-700 hover:bg-amber-50"
-              )}
-            >
-              <adminNavItem.icon className="h-5 w-5" />
-              {adminNavItem.name}
-              <span className={cn(
-                "ml-auto px-1.5 py-0.5 text-xs font-semibold rounded",
+          {/* Admin Info */}
+          <div className="px-3 py-4 border-t border-neutral-200 dark:border-neutral-800">
+            <div className={cn(
+              "flex items-center gap-3 px-3 py-2 rounded-lg",
+              isDark ? "bg-neutral-800/50" : "bg-neutral-50"
+            )}>
+              <div className={cn(
+                "w-8 h-8 rounded-full flex items-center justify-center",
                 isDark
                   ? "bg-amber-500/20 text-amber-400"
                   : "bg-amber-100 text-amber-700"
               )}>
-                ADMIN
-              </span>
-            </Link>
-          </div>
-
-          {/* Bottom navigation */}
-          <div className="px-3 py-4 border-t border-neutral-200 dark:border-neutral-800 space-y-1">
-            {bottomNavigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                onClick={() => setSidebarOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                  isActiveRoute(item.href)
-                    ? isDark
-                      ? "bg-teal-500/10 text-teal-400"
-                      : "bg-teal-50 text-teal-600"
-                    : isDark
-                      ? "text-neutral-400 hover:text-white hover:bg-neutral-800"
-                      : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100"
-                )}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.name}
-              </Link>
-            ))}
+                <Shield className="h-4 w-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={cn(
+                  "text-xs font-medium",
+                  isDark ? "text-neutral-300" : "text-neutral-700"
+                )}>
+                  System Admin
+                </p>
+                <p className={cn(
+                  "text-xs truncate",
+                  isDark ? "text-neutral-500" : "text-neutral-500"
+                )}>
+                  Full access enabled
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </aside>
@@ -258,6 +213,28 @@ export function AppLayout({ children }: AppLayoutProps) {
                 isDark ? "text-neutral-400" : "text-neutral-500"
               )} />
             </button>
+
+            {/* Admin Console Title */}
+            <div className="hidden lg:flex items-center gap-2">
+              <span className={cn(
+                "text-sm font-medium",
+                isDark ? "text-amber-400" : "text-amber-700"
+              )}>
+                Admin Console
+              </span>
+              <span className={cn(
+                "text-sm",
+                isDark ? "text-neutral-500" : "text-neutral-400"
+              )}>
+                •
+              </span>
+              <span className={cn(
+                "text-sm",
+                isDark ? "text-neutral-400" : "text-neutral-500"
+              )}>
+                Cross-tenant management
+              </span>
+            </div>
 
             {/* Spacer */}
             <div className="flex-1" />
@@ -287,7 +264,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 )}
               >
                 <Bell className="h-5 w-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-teal-500 rounded-full" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-500 rounded-full" />
               </button>
 
               {/* User menu */}
@@ -304,18 +281,10 @@ export function AppLayout({ children }: AppLayoutProps) {
                   <div className={cn(
                     "w-8 h-8 rounded-full flex items-center justify-center",
                     isDark
-                      ? "bg-teal-500/20 text-teal-400"
-                      : "bg-teal-50 text-teal-600"
+                      ? "bg-amber-500/20 text-amber-400"
+                      : "bg-amber-100 text-amber-700"
                   )}>
-                    {profile?.avatar_url ? (
-                      <img
-                        src={profile.avatar_url}
-                        alt=""
-                        className="w-full h-full rounded-full object-cover"
-                      />
-                    ) : (
-                      <User className="h-4 w-4" />
-                    )}
+                    <User className="h-4 w-4" />
                   </div>
                   <ChevronDown className={cn(
                     "h-4 w-4",
@@ -348,7 +317,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                             "text-sm font-medium",
                             isDark ? "text-white" : "text-neutral-900"
                           )}>
-                            {profile?.full_name || 'User'}
+                            {profile?.full_name || 'Admin User'}
                           </p>
                           <p className={cn(
                             "text-xs truncate",
@@ -356,6 +325,14 @@ export function AppLayout({ children }: AppLayoutProps) {
                           )}>
                             {profile?.email}
                           </p>
+                          <span className={cn(
+                            "inline-block mt-1 px-2 py-0.5 text-xs font-medium rounded-full",
+                            isDark
+                              ? "bg-amber-500/20 text-amber-400"
+                              : "bg-amber-100 text-amber-700"
+                          )}>
+                            System Admin
+                          </span>
                         </div>
                         
                         <div className="py-1">
@@ -406,4 +383,4 @@ export function AppLayout({ children }: AppLayoutProps) {
   );
 }
 
-export default AppLayout;
+export default AdminLayout;
