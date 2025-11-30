@@ -29,7 +29,7 @@ const LandingPage = () => {
         <HowItWorksSection />
         <ResultsAndTrustSection />
         <PricingSection />
-                <FoundersSection />
+        <FoundersSection />
         <FinalCTASection />
       </main>
       <Footer />

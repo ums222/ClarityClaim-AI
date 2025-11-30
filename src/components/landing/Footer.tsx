@@ -1,37 +1,83 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Linkedin, Twitter } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 
 const productLinks = [
-  { label: "Features", href: "/#solution" },
-  { label: "Integrations", href: "/integrations" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Security", href: "/security" },
-  { label: "API Documentation", href: "/api-docs" },
+  { label: "Features", href: "/#solution", isHash: true },
+  { label: "Integrations", href: "/integrations", isHash: false },
+  { label: "Pricing", href: "/#pricing", isHash: true },
+  { label: "Security", href: "/security", isHash: false },
+  { label: "API Documentation", href: "/api-docs", isHash: false },
 ];
 
 const companyLinks = [
-  { label: "About Us", href: "/about" },
-  { label: "Careers", href: "/careers" },
-  { label: "Press", href: "/press" },
-  { label: "Contact", href: "/#contact" },
-  { label: "Partners", href: "/partners" },
+  { label: "About Us", href: "/about", isHash: false },
+  { label: "Careers", href: "/careers", isHash: false },
+  { label: "Press", href: "/press", isHash: false },
+  { label: "Contact", href: "/#contact", isHash: true },
+  { label: "Partners", href: "/partners", isHash: false },
 ];
 
 const resourceLinks = [
-  { label: "Blog", href: "/blog" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Webinars", href: "/webinars" },
-  { label: "Help Center", href: "/help" },
-  { label: "Status Page", href: "/status" },
+  { label: "Blog", href: "/blog", isHash: false },
+  { label: "Case Studies", href: "/case-studies", isHash: false },
+  { label: "Webinars", href: "/webinars", isHash: false },
+  { label: "Help Center", href: "/help", isHash: false },
+  { label: "Status Page", href: "/status", isHash: false },
 ];
 
 const legalLinks = [
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-  { label: "HIPAA Notice", href: "/hipaa" },
-  { label: "Cookie Policy", href: "/cookies" },
+  { label: "Privacy Policy", href: "/privacy", isHash: false },
+  { label: "Terms of Service", href: "/terms", isHash: false },
+  { label: "HIPAA Notice", href: "/hipaa", isHash: false },
+  { label: "Cookie Policy", href: "/cookies", isHash: false },
 ];
+
+// Helper component for smart navigation (handles hash links properly)
+const SmartLink = ({ 
+  item, 
+  className 
+}: { 
+  item: { label: string; href: string; isHash: boolean }; 
+  className: string;
+}) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (item.isHash) {
+      e.preventDefault();
+      const hashPart = item.href.split('#')[1];
+      
+      // If we're on the home page, just scroll to the section
+      if (location.pathname === '/') {
+        const element = document.getElementById(hashPart);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Navigate to home page first, then scroll
+        navigate('/');
+        setTimeout(() => {
+          const element = document.getElementById(hashPart);
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  };
+
+  if (item.isHash) {
+    return (
+      <a href={item.href} onClick={handleClick} className={className}>
+        {item.label}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={item.href} className={className}>
+      {item.label}
+    </Link>
+  );
+};
 
 const Footer = () => {
   const { theme } = useTheme();
@@ -71,12 +117,10 @@ const Footer = () => {
             <ul className="mt-3 space-y-2 text-sm">
               {productLinks.map((item) => (
                 <li key={item.label}>
-                  <Link
-                    to={item.href}
+                  <SmartLink
+                    item={item}
                     className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline underline-offset-4 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
+                  />
                 </li>
               ))}
             </ul>
@@ -90,12 +134,10 @@ const Footer = () => {
             <ul className="mt-3 space-y-2 text-sm">
               {companyLinks.map((item) => (
                 <li key={item.label}>
-                  <Link
-                    to={item.href}
+                  <SmartLink
+                    item={item}
                     className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline underline-offset-4 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
+                  />
                 </li>
               ))}
             </ul>
@@ -109,12 +151,10 @@ const Footer = () => {
             <ul className="mt-3 space-y-2 text-sm">
               {resourceLinks.map((item) => (
                 <li key={item.label}>
-                  <Link
-                    to={item.href}
+                  <SmartLink
+                    item={item}
                     className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline underline-offset-4 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
+                  />
                 </li>
               ))}
             </ul>

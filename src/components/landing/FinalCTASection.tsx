@@ -63,12 +63,20 @@ const FinalCTASection = () => {
       setTimeout(() => {
         setSubmitStatus({ type: null, message: "" });
       }, 5000);
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
-        "Failed to submit demo request. Please try again later.";
+    } catch (error: unknown) {
+      let errorMessage = "Failed to submit demo request. Please try again later.";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
+      // Handle axios error response
+      if (typeof error === 'object' && error !== null && 'response' in error) {
+        const axiosError = error as { response?: { data?: { message?: string; error?: string } } };
+        errorMessage = axiosError.response?.data?.message || 
+                       axiosError.response?.data?.error || 
+                       errorMessage;
+      }
       
       setSubmitStatus({
         type: "error",
@@ -261,7 +269,12 @@ const FinalCTASection = () => {
 
             <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
               Already a customer?{" "}
-              <a href="/login" className="text-teal-500 hover:underline">
+              <a 
+                href="https://app.clarityclaim.ai" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-teal-500 hover:underline"
+              >
                 Sign in
               </a>
             </p>
