@@ -1,70 +1,116 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
 import { ThemeProvider } from "./hooks/useTheme";
 import { AuthProvider } from "./contexts/AuthContext";
+import { PageLoader } from "./components/ui/PageLoader";
 
-// Auth pages
+// Landing page - loaded eagerly for fast initial load
+import LandingPage from "./pages/LandingPage";
+
+// Auth pages - loaded eagerly (critical path)
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
-import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 
-// App pages (authenticated)
-import DashboardPage from "./pages/app/DashboardPage";
-import ClaimsPage from "./pages/app/ClaimsPage";
-import ClaimDetailPage from "./pages/app/ClaimDetailPage";
-import AnalyticsPage from "./pages/app/AnalyticsPage";
-import AppealsPage from "./pages/app/AppealsPage";
-import AppealDetailPage from "./pages/app/AppealDetailPage";
-import AppealTemplatesPage from "./pages/app/AppealTemplatesPage";
-import SettingsPage from "./pages/app/SettingsPage";
-import AppIntegrationsPage from "./pages/app/IntegrationsPage";
-import BillingPage from "./pages/app/BillingPage";
-import AppSecurityPage from "./pages/app/SecurityPage";
-import AppHelpPage from "./pages/app/HelpPage";
+// Auth pages - lazy loaded (less critical)
+const ForgotPasswordPage = lazy(() => import("./pages/auth/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("./pages/auth/ResetPasswordPage"));
 
-// Protected Route
+// Protected Route - loaded eagerly
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
+// ============================================
+// APP PAGES - All lazy loaded (only for authenticated users)
+// ============================================
+const DashboardPage = lazy(() => import("./pages/app/DashboardPage"));
+const ClaimsPage = lazy(() => import("./pages/app/ClaimsPage"));
+const ClaimDetailPage = lazy(() => import("./pages/app/ClaimDetailPage"));
+const AnalyticsPage = lazy(() => import("./pages/app/AnalyticsPage"));
+const AppealsPage = lazy(() => import("./pages/app/AppealsPage"));
+const AppealDetailPage = lazy(() => import("./pages/app/AppealDetailPage"));
+const AppealTemplatesPage = lazy(() => import("./pages/app/AppealTemplatesPage"));
+const SettingsPage = lazy(() => import("./pages/app/SettingsPage"));
+const AppIntegrationsPage = lazy(() => import("./pages/app/IntegrationsPage"));
+const BillingPage = lazy(() => import("./pages/app/BillingPage"));
+const AppSecurityPage = lazy(() => import("./pages/app/SecurityPage"));
+const AppHelpPage = lazy(() => import("./pages/app/HelpPage"));
+
+// ============================================
+// MARKETING PAGES - Lazy loaded (not needed on initial load)
+// ============================================
+
 // Product pages
-import IntegrationsPage from "./pages/IntegrationsPage";
-import SecurityPage from "./pages/SecurityPage";
-import ApiDocsPage from "./pages/ApiDocsPage";
+const IntegrationsPage = lazy(() => import("./pages/IntegrationsPage"));
+const SecurityPage = lazy(() => import("./pages/SecurityPage"));
+const ApiDocsPage = lazy(() => import("./pages/ApiDocsPage"));
 
 // Company pages
-import AboutPage from "./pages/AboutPage";
-import CareersPage from "./pages/CareersPage";
-import PressPage from "./pages/PressPage";
-import PartnersPage from "./pages/PartnersPage";
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const CareersPage = lazy(() => import("./pages/CareersPage"));
+const PressPage = lazy(() => import("./pages/PressPage"));
+const PartnersPage = lazy(() => import("./pages/PartnersPage"));
 
 // Resource pages
-import BlogPage from "./pages/BlogPage";
-import CaseStudiesPage from "./pages/CaseStudiesPage";
-import WebinarsPage from "./pages/WebinarsPage";
-import HelpCenterPage from "./pages/HelpCenterPage";
-import StatusPage from "./pages/StatusPage";
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
+const WebinarsPage = lazy(() => import("./pages/WebinarsPage"));
+const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage"));
+const StatusPage = lazy(() => import("./pages/StatusPage"));
 
 // Legal pages
-import PrivacyPage from "./pages/PrivacyPage";
-import TermsPage from "./pages/TermsPage";
-import HipaaPage from "./pages/HipaaPage";
-import CookiesPage from "./pages/CookiesPage";
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
+const HipaaPage = lazy(() => import("./pages/HipaaPage"));
+const CookiesPage = lazy(() => import("./pages/CookiesPage"));
 
-// Check if we're on the app subdomain (app.apclaims.net or Railway URL)
-const isAppSubdomain = () => {
+// ============================================
+// ENVIRONMENT DETECTION
+// ============================================
+
+/**
+ * Determines if we're on the app subdomain
+ * - app.apclaims.net → Web App (Railway)
+ * - www.apclaims.net → Marketing (Vercel)
+ * - *.railway.app → Web App
+ * - localhost with VITE_IS_APP=true → Web App
+ */
+const isAppSubdomain = (): boolean => {
   const hostname = window.location.hostname;
-  return hostname.startsWith('app.') || 
-         hostname.includes('railway.app') ||
-         import.meta.env.VITE_IS_APP === 'true';
+  return (
+    hostname.startsWith("app.") ||
+    hostname.includes("railway.app") ||
+    import.meta.env.VITE_IS_APP === "true"
+  );
 };
 
-// Home page component - shows login on app subdomain, landing page on www
+/**
+ * Home page component - routes based on subdomain
+ */
 const HomePage = () => {
   if (isAppSubdomain()) {
     return <Navigate to="/login" replace />;
   }
   return <LandingPage />;
 };
+
+/**
+ * Suspense wrapper with loading state
+ */
+const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+);
+
+/**
+ * Protected route with suspense
+ */
+const ProtectedSuspenseRoute = ({ children }: { children: React.ReactNode }) => (
+  <ProtectedRoute>
+    <SuspenseWrapper>{children}</SuspenseWrapper>
+  </ProtectedRoute>
+);
+
+// ============================================
+// MAIN APP COMPONENT
+// ============================================
 
 function App() {
   return (
@@ -73,144 +119,284 @@ function App() {
         <Routes>
           {/* Home - redirects to login on app subdomain, shows landing on www */}
           <Route path="/" element={<HomePage />} />
-          
-          {/* Auth Routes */}
+
+          {/* ================================ */}
+          {/* AUTH ROUTES                      */}
+          {/* ================================ */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          
-          {/* Protected App Routes */}
+          <Route
+            path="/forgot-password"
+            element={
+              <SuspenseWrapper>
+                <ForgotPasswordPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={
+              <SuspenseWrapper>
+                <ResetPasswordPage />
+              </SuspenseWrapper>
+            }
+          />
+
+          {/* ================================ */}
+          {/* PROTECTED APP ROUTES             */}
+          {/* ================================ */}
           <Route
             path="/app"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <DashboardPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/claims"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <ClaimsPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/claims/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <ClaimDetailPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/appeals"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AppealsPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/appeals/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AppealDetailPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/appeals/:id/edit"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AppealDetailPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/appeals/templates"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AppealTemplatesPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/analytics"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AnalyticsPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/settings"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <SettingsPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/integrations"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AppIntegrationsPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/billing"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <BillingPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/security"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AppSecurityPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
           <Route
             path="/app/help"
             element={
-              <ProtectedRoute>
+              <ProtectedSuspenseRoute>
                 <AppHelpPage />
-              </ProtectedRoute>
+              </ProtectedSuspenseRoute>
             }
           />
-          
-          {/* Product routes */}
-          <Route path="/integrations" element={<IntegrationsPage />} />
-          <Route path="/security" element={<SecurityPage />} />
-          <Route path="/api-docs" element={<ApiDocsPage />} />
-          
-          {/* Company routes */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/careers" element={<CareersPage />} />
-          <Route path="/press" element={<PressPage />} />
-          <Route path="/partners" element={<PartnersPage />} />
-          
-          {/* Resource routes */}
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/case-studies" element={<CaseStudiesPage />} />
-          <Route path="/webinars" element={<WebinarsPage />} />
-          <Route path="/help" element={<HelpCenterPage />} />
-          <Route path="/status" element={<StatusPage />} />
-          
-          {/* Legal routes */}
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/hipaa" element={<HipaaPage />} />
-          <Route path="/cookies" element={<CookiesPage />} />
-          
-          {/* Catch-all redirect */}
+
+          {/* ================================ */}
+          {/* MARKETING - PRODUCT ROUTES       */}
+          {/* ================================ */}
+          <Route
+            path="/integrations"
+            element={
+              <SuspenseWrapper>
+                <IntegrationsPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/security"
+            element={
+              <SuspenseWrapper>
+                <SecurityPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/api-docs"
+            element={
+              <SuspenseWrapper>
+                <ApiDocsPage />
+              </SuspenseWrapper>
+            }
+          />
+
+          {/* ================================ */}
+          {/* MARKETING - COMPANY ROUTES       */}
+          {/* ================================ */}
+          <Route
+            path="/about"
+            element={
+              <SuspenseWrapper>
+                <AboutPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/careers"
+            element={
+              <SuspenseWrapper>
+                <CareersPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/press"
+            element={
+              <SuspenseWrapper>
+                <PressPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/partners"
+            element={
+              <SuspenseWrapper>
+                <PartnersPage />
+              </SuspenseWrapper>
+            }
+          />
+
+          {/* ================================ */}
+          {/* MARKETING - RESOURCE ROUTES      */}
+          {/* ================================ */}
+          <Route
+            path="/blog"
+            element={
+              <SuspenseWrapper>
+                <BlogPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/case-studies"
+            element={
+              <SuspenseWrapper>
+                <CaseStudiesPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/webinars"
+            element={
+              <SuspenseWrapper>
+                <WebinarsPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/help"
+            element={
+              <SuspenseWrapper>
+                <HelpCenterPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/status"
+            element={
+              <SuspenseWrapper>
+                <StatusPage />
+              </SuspenseWrapper>
+            }
+          />
+
+          {/* ================================ */}
+          {/* MARKETING - LEGAL ROUTES         */}
+          {/* ================================ */}
+          <Route
+            path="/privacy"
+            element={
+              <SuspenseWrapper>
+                <PrivacyPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/terms"
+            element={
+              <SuspenseWrapper>
+                <TermsPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/hipaa"
+            element={
+              <SuspenseWrapper>
+                <HipaaPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route
+            path="/cookies"
+            element={
+              <SuspenseWrapper>
+                <CookiesPage />
+              </SuspenseWrapper>
+            }
+          />
+
+          {/* ================================ */}
+          {/* CATCH-ALL REDIRECT               */}
+          {/* ================================ */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
