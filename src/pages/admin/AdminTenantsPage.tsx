@@ -98,7 +98,7 @@ const AdminTenantsPage = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [searchQuery, setSearchQuery] = useState('');
-  const [_selectedTenant, setSelectedTenant] = useState<string | null>(null);
+  const [selectedTenant, setSelectedTenant] = useState<string | null>(null);
 
   const filteredTenants = tenants.filter(tenant =>
     tenant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -192,10 +192,13 @@ const AdminTenantsPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className={cn(
-                "p-0 overflow-hidden",
-                selectedTenant === tenant.id && (isDark ? "ring-1 ring-amber-500/50" : "ring-1 ring-amber-500")
-              )}>
+              <Card 
+                className={cn(
+                  "p-0 overflow-hidden cursor-pointer transition-all",
+                  selectedTenant === tenant.id && (isDark ? "ring-1 ring-amber-500/50" : "ring-1 ring-amber-500")
+                )}
+                onClick={() => setSelectedTenant(selectedTenant === tenant.id ? null : tenant.id)}
+              >
                 <div className="p-5">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-4">

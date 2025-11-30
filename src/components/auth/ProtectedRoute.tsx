@@ -45,14 +45,18 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
 
   // Check role-based access if required
   if (requiredRole && profile) {
-    const roleHierarchy = {
+    const roleHierarchy: Record<string, number> = {
+      super_admin: 5,
       owner: 4,
       admin: 3,
+      executive: 3,
       manager: 2,
+      billing_specialist: 1,
       user: 1,
+      viewer: 0,
     };
 
-    const userRoleLevel = roleHierarchy[profile.role] || 0;
+    const userRoleLevel = roleHierarchy[profile.role] ?? 0;
     const requiredRoleLevel = roleHierarchy[requiredRole] || 0;
 
     if (userRoleLevel < requiredRoleLevel) {

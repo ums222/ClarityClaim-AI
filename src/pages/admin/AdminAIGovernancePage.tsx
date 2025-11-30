@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Brain,
-  Activity,
   CheckCircle2,
   AlertTriangle,
-  Clock,
-  TrendingUp,
   Zap,
   BarChart3,
   GitBranch,
