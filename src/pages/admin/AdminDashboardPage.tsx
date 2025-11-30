@@ -172,12 +172,12 @@ const AdminDashboardPage = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/app/admin/demo-scenarios">
+            <Link to="/app/admin/demo-scenarios">
+              <Button variant="outline" size="sm">
                 <Sparkles className="h-4 w-4 mr-2" />
                 Demo Scenarios
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
         </div>
 
