@@ -16,7 +16,13 @@ import {
 import { useTheme } from '../../hooks/useTheme';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
-import { aiService } from '../../lib/ai';
+import { aiService, DenialPrediction, PatternAnalysis } from '../../lib/ai';
+
+type MessageData =
+  | { letter: string }
+  | DenialPrediction
+  | (PatternAnalysis & { success: boolean })
+  | undefined;
 
 interface Message {
   id: string;
@@ -24,8 +30,7 @@ interface Message {
   content: string;
   timestamp: Date;
   type?: 'text' | 'appeal' | 'analysis' | 'action';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
+  data?: MessageData;
 }
 
 interface QuickAction {
@@ -88,6 +93,10 @@ export function AIAssistant({ isOpen, onClose, claimId, claimData }: AIAssistant
     };
     setMessages(prev => [...prev, newMessage]);
     return newMessage;
+  };
+
+  const isAppealData = (data: MessageData): data is { letter: string } => {
+    return Boolean(data && 'letter' in data && typeof (data as { letter?: unknown }).letter === 'string');
   };
 
   const handleAnalyzeRisk = async () => {
@@ -422,13 +431,17 @@ export function AIAssistant({ isOpen, onClose, claimId, claimData }: AIAssistant
                 </div>
                 
                 {/* Action buttons for appeal messages */}
-                {message.type === 'appeal' && message.data?.letter && typeof message.data.letter === 'string' && (
+                {(() => {
+                  const appealData = message.data;
+                  if (message.type !== 'appeal' || !isAppealData(appealData)) return null;
+
+                  return (
                   <div className="flex gap-2 mt-3 pt-3 border-t border-current/20">
                     <Button
                       size="sm"
                       variant="ghost"
                       className="text-xs"
-                      onClick={() => handleCopyAppeal(message.data!.letter as string)}
+                      onClick={() => handleCopyAppeal(appealData.letter)}
                     >
                       <Copy className="h-3 w-3 mr-1" />
                       Copy
@@ -437,13 +450,14 @@ export function AIAssistant({ isOpen, onClose, claimId, claimData }: AIAssistant
                       size="sm"
                       variant="ghost"
                       className="text-xs"
-                      onClick={() => handleDownloadAppeal(message.data!.letter as string)}
+                      onClick={() => handleDownloadAppeal(appealData.letter)}
                     >
                       <Download className="h-3 w-3 mr-1" />
                       Download
                     </Button>
                   </div>
-                )}
+                  );
+                })()}
               </div>
             </motion.div>
           ))}
