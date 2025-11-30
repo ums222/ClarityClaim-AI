@@ -24,6 +24,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { cn } from '../../lib/utils';
+import { AIAssistant, AIAssistantButton } from '../ai';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -48,6 +49,7 @@ const bottomNavigation = [
 const adminNavItem = { name: 'Admin Console', href: '/app/admin', icon: ShieldCheck };
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
   const location = useLocation();
@@ -402,6 +404,13 @@ export function AppLayout({ children }: AppLayoutProps) {
           {children}
         </main>
       </div>
+
+      {/* AI Assistant */}
+      <AIAssistantButton onClick={() => setIsAIAssistantOpen(true)} />
+      <AIAssistant 
+        isOpen={isAIAssistantOpen} 
+        onClose={() => setIsAIAssistantOpen(false)} 
+      />
     </div>
   );
 }
