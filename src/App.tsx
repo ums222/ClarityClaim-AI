@@ -11,6 +11,8 @@ import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 
 // App pages (authenticated)
 import DashboardPage from "./pages/app/DashboardPage";
+import ClaimsPage from "./pages/app/ClaimsPage";
+import ClaimDetailPage from "./pages/app/ClaimDetailPage";
 
 // Protected Route
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -82,7 +84,15 @@ function App() {
             path="/app/claims"
             element={
               <ProtectedRoute>
-                <PlaceholderAppPage title="Claims" description="Manage and track your claims" />
+                <ClaimsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/claims/:id"
+            element={
+              <ProtectedRoute>
+                <ClaimDetailPage />
               </ProtectedRoute>
             }
           />
