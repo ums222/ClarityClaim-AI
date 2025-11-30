@@ -233,12 +233,15 @@ const SecurityPage = () => {
               >
                 Contact Security Team
               </a>
-              <a 
-                href="#"
+              <button 
+                onClick={() => {
+                  // In production, this would download the whitepaper
+                  alert('Security Whitepaper download will begin. Thank you for your interest!');
+                }}
                 className={`px-6 py-3 rounded-lg font-medium transition-colors ${isDark ? "border border-slate-700 text-slate-300 hover:bg-slate-800" : "border border-slate-300 text-slate-700 hover:bg-slate-100"}`}
               >
                 Download Security Whitepaper
-              </a>
+              </button>
             </div>
           </div>
 

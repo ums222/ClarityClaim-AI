@@ -119,6 +119,7 @@ const SolutionSection = () => {
                         variant="ghost"
                         size="sm"
                         className="mt-3 px-0 text-clarity-accent hover:bg-transparent"
+                        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                       >
                         Learn more →
                       </Button>
