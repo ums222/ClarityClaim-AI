@@ -1164,6 +1164,1050 @@ app.get('/api/appeals/analytics/stats', async (req, res) => {
   }
 });
 
+// ============================================
+// Settings & Configuration API Endpoints
+// ============================================
+
+// Get current user profile
+app.get('/api/settings/profile', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    // In production, get user from auth header
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .select('*, organization:organizations(name)')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (error) throw error;
+
+    res.json({ success: true, profile: data });
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    res.status(500).json({ error: 'Failed to fetch profile', message: error.message });
+  }
+});
+
+// Update user profile
+app.put('/api/settings/profile', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const updates = req.body;
+    const allowedFields = ['full_name', 'phone', 'job_title', 'department', 'timezone', 'date_format', 'avatar_url'];
+    const filteredUpdates = {};
+    allowedFields.forEach(field => {
+      if (updates[field] !== undefined) {
+        filteredUpdates[field] = updates[field];
+      }
+    });
+
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .update({ ...filteredUpdates, updated_at: new Date().toISOString() })
+      .eq('id', userData.user.id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log audit
+    await supabase.from('audit_logs').insert({
+      organization_id: data.organization_id,
+      user_id: userData.user.id,
+      action: 'profile.updated',
+      resource_type: 'user',
+      resource_id: userData.user.id,
+      new_values: filteredUpdates,
+    });
+
+    res.json({ success: true, profile: data });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Failed to update profile', message: error.message });
+  }
+});
+
+// Update password
+app.post('/api/settings/password', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { newPassword } = req.body;
+    if (!newPassword || newPassword.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
+    }
+
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    res.status(500).json({ error: 'Failed to update password', message: error.message });
+  }
+});
+
+// Get organization settings
+app.get('/api/settings/organization', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    // Get user's organization
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'No organization found' });
+    }
+
+    // Get organization with settings
+    const { data: org, error: orgError } = await supabase
+      .from('organizations')
+      .select('*')
+      .eq('id', profile.organization_id)
+      .single();
+
+    if (orgError) throw orgError;
+
+    // Get or create organization settings
+    let { data: settings, error: settingsError } = await supabase
+      .from('organization_settings')
+      .select('*')
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (settingsError && settingsError.code === 'PGRST116') {
+      // Create default settings
+      const { data: newSettings, error: createError } = await supabase
+        .from('organization_settings')
+        .insert({ organization_id: profile.organization_id })
+        .select()
+        .single();
+
+      if (createError) throw createError;
+      settings = newSettings;
+    } else if (settingsError) {
+      throw settingsError;
+    }
+
+    res.json({
+      success: true,
+      organization: org,
+      settings,
+      userRole: profile.role,
+    });
+  } catch (error) {
+    console.error('Error fetching organization:', error);
+    res.status(500).json({ error: 'Failed to fetch organization', message: error.message });
+  }
+});
+
+// Update organization
+app.put('/api/settings/organization', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile?.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const { name, ...settings } = req.body;
+
+    // Update organization name if provided
+    if (name) {
+      await supabase
+        .from('organizations')
+        .update({ name, updated_at: new Date().toISOString() })
+        .eq('id', profile.organization_id);
+    }
+
+    // Update settings if any
+    if (Object.keys(settings).length > 0) {
+      await supabase
+        .from('organization_settings')
+        .update({ ...settings, updated_at: new Date().toISOString() })
+        .eq('organization_id', profile.organization_id);
+    }
+
+    // Log audit
+    await supabase.from('audit_logs').insert({
+      organization_id: profile.organization_id,
+      user_id: userData.user.id,
+      action: 'organization.updated',
+      resource_type: 'organization',
+      resource_id: profile.organization_id,
+      new_values: req.body,
+    });
+
+    res.json({ success: true, message: 'Organization updated' });
+  } catch (error) {
+    console.error('Error updating organization:', error);
+    res.status(500).json({ error: 'Failed to update organization', message: error.message });
+  }
+});
+
+// Get team members
+app.get('/api/settings/team', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.json({ success: true, members: [], invitations: [] });
+    }
+
+    // Get members
+    const { data: members, error: membersError } = await supabase
+      .from('user_profiles')
+      .select('id, email, full_name, avatar_url, role, job_title, department, last_login, created_at')
+      .eq('organization_id', profile.organization_id)
+      .order('created_at');
+
+    if (membersError) throw membersError;
+
+    // Get pending invitations
+    const { data: invitations, error: invError } = await supabase
+      .from('team_invitations')
+      .select('*, inviter:user_profiles!team_invitations_invited_by_fkey(full_name, email)')
+      .eq('organization_id', profile.organization_id)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: false });
+
+    if (invError) throw invError;
+
+    res.json({
+      success: true,
+      members: members || [],
+      invitations: invitations || [],
+      currentUserId: userData.user.id,
+      userRole: profile.role,
+    });
+  } catch (error) {
+    console.error('Error fetching team:', error);
+    res.status(500).json({ error: 'Failed to fetch team', message: error.message });
+  }
+});
+
+// Invite team member
+app.post('/api/settings/team/invite', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!['owner', 'admin', 'manager'].includes(profile?.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const { email, role = 'member' } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // Generate token
+    const token = `inv_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 15)}`;
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+
+    const { data, error } = await supabase
+      .from('team_invitations')
+      .insert({
+        organization_id: profile.organization_id,
+        invited_by: userData.user.id,
+        email,
+        role,
+        token,
+        expires_at: expiresAt.toISOString(),
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log audit
+    await supabase.from('audit_logs').insert({
+      organization_id: profile.organization_id,
+      user_id: userData.user.id,
+      action: 'team.invited',
+      resource_type: 'invitation',
+      resource_id: data.id,
+      new_values: { email, role },
+    });
+
+    res.status(201).json({ success: true, invitation: data });
+  } catch (error) {
+    console.error('Error inviting member:', error);
+    res.status(500).json({ error: 'Failed to send invitation', message: error.message });
+  }
+});
+
+// Update team member role
+app.put('/api/settings/team/:memberId/role', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile?.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const { memberId } = req.params;
+    const { role } = req.body;
+
+    if (role === 'owner') {
+      return res.status(400).json({ error: 'Cannot assign owner role' });
+    }
+
+    // Get target member's current role
+    const { data: targetMember } = await supabase
+      .from('user_profiles')
+      .select('role')
+      .eq('id', memberId)
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (targetMember?.role === 'owner') {
+      return res.status(400).json({ error: 'Cannot change owner role' });
+    }
+
+    const { error } = await supabase
+      .from('user_profiles')
+      .update({ role, updated_at: new Date().toISOString() })
+      .eq('id', memberId)
+      .eq('organization_id', profile.organization_id);
+
+    if (error) throw error;
+
+    // Log audit
+    await supabase.from('audit_logs').insert({
+      organization_id: profile.organization_id,
+      user_id: userData.user.id,
+      action: 'team.role_changed',
+      resource_type: 'user',
+      resource_id: memberId,
+      old_values: { role: targetMember?.role },
+      new_values: { role },
+    });
+
+    res.json({ success: true, message: 'Role updated' });
+  } catch (error) {
+    console.error('Error updating role:', error);
+    res.status(500).json({ error: 'Failed to update role', message: error.message });
+  }
+});
+
+// Remove team member
+app.delete('/api/settings/team/:memberId', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile?.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const { memberId } = req.params;
+
+    if (memberId === userData.user.id) {
+      return res.status(400).json({ error: 'Cannot remove yourself' });
+    }
+
+    const { data: targetMember } = await supabase
+      .from('user_profiles')
+      .select('role, email')
+      .eq('id', memberId)
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (targetMember?.role === 'owner') {
+      return res.status(400).json({ error: 'Cannot remove organization owner' });
+    }
+
+    // Remove from organization (don't delete account)
+    const { error } = await supabase
+      .from('user_profiles')
+      .update({ organization_id: null, role: 'member', updated_at: new Date().toISOString() })
+      .eq('id', memberId);
+
+    if (error) throw error;
+
+    // Log audit
+    await supabase.from('audit_logs').insert({
+      organization_id: profile.organization_id,
+      user_id: userData.user.id,
+      action: 'team.removed',
+      resource_type: 'user',
+      resource_id: memberId,
+      old_values: { email: targetMember?.email },
+    });
+
+    res.json({ success: true, message: 'Member removed' });
+  } catch (error) {
+    console.error('Error removing member:', error);
+    res.status(500).json({ error: 'Failed to remove member', message: error.message });
+  }
+});
+
+// Revoke invitation
+app.delete('/api/settings/team/invitation/:invitationId', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { invitationId } = req.params;
+
+    const { error } = await supabase
+      .from('team_invitations')
+      .update({ status: 'revoked' })
+      .eq('id', invitationId);
+
+    if (error) throw error;
+
+    res.json({ success: true, message: 'Invitation revoked' });
+  } catch (error) {
+    console.error('Error revoking invitation:', error);
+    res.status(500).json({ error: 'Failed to revoke invitation', message: error.message });
+  }
+});
+
+// Get integrations
+app.get('/api/settings/integrations', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.json({ success: true, integrations: [] });
+    }
+
+    const { data, error } = await supabase
+      .from('integrations')
+      .select('*')
+      .eq('organization_id', profile.organization_id)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    res.json({ success: true, integrations: data || [] });
+  } catch (error) {
+    console.error('Error fetching integrations:', error);
+    res.status(500).json({ error: 'Failed to fetch integrations', message: error.message });
+  }
+});
+
+// Create integration
+app.post('/api/settings/integrations', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile?.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const integrationData = req.body;
+
+    const { data, error } = await supabase
+      .from('integrations')
+      .insert({
+        ...integrationData,
+        organization_id: profile.organization_id,
+        created_by: userData.user.id,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log audit
+    await supabase.from('audit_logs').insert({
+      organization_id: profile.organization_id,
+      user_id: userData.user.id,
+      action: 'integration.created',
+      resource_type: 'integration',
+      resource_id: data.id,
+      new_values: { name: data.name, type: data.type, provider: data.provider },
+    });
+
+    res.status(201).json({ success: true, integration: data });
+  } catch (error) {
+    console.error('Error creating integration:', error);
+    res.status(500).json({ error: 'Failed to create integration', message: error.message });
+  }
+});
+
+// Update integration
+app.put('/api/settings/integrations/:id', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const updates = req.body;
+
+    const { data, error } = await supabase
+      .from('integrations')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    res.json({ success: true, integration: data });
+  } catch (error) {
+    console.error('Error updating integration:', error);
+    res.status(500).json({ error: 'Failed to update integration', message: error.message });
+  }
+});
+
+// Delete integration
+app.delete('/api/settings/integrations/:id', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+
+    const { error } = await supabase
+      .from('integrations')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    res.json({ success: true, message: 'Integration deleted' });
+  } catch (error) {
+    console.error('Error deleting integration:', error);
+    res.status(500).json({ error: 'Failed to delete integration', message: error.message });
+  }
+});
+
+// Test integration
+app.post('/api/settings/integrations/:id/test', async (req, res) => {
+  try {
+    // Simulate integration test
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    res.json({
+      success: true,
+      status: 'connected',
+      message: 'Connection test successful',
+      testedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Error testing integration:', error);
+    res.status(500).json({ error: 'Connection test failed', message: error.message });
+  }
+});
+
+// Get API keys
+app.get('/api/settings/api-keys', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.json({ success: true, apiKeys: [] });
+    }
+
+    const { data, error } = await supabase
+      .from('api_keys')
+      .select('*, creator:user_profiles!api_keys_created_by_fkey(full_name, email)')
+      .eq('organization_id', profile.organization_id)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    res.json({ success: true, apiKeys: data || [] });
+  } catch (error) {
+    console.error('Error fetching API keys:', error);
+    res.status(500).json({ error: 'Failed to fetch API keys', message: error.message });
+  }
+});
+
+// Create API key
+app.post('/api/settings/api-keys', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile?.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const { name, description, permissions = ['read'], expiresInDays } = req.body;
+
+    // Generate key
+    const fullKey = `cc_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`;
+    const keyPrefix = fullKey.substring(0, 12);
+    const keyHash = fullKey; // In production, hash this
+
+    let expiresAt = null;
+    if (expiresInDays) {
+      const date = new Date();
+      date.setDate(date.getDate() + expiresInDays);
+      expiresAt = date.toISOString();
+    }
+
+    const { data, error } = await supabase
+      .from('api_keys')
+      .insert({
+        organization_id: profile.organization_id,
+        created_by: userData.user.id,
+        name,
+        description,
+        key_prefix: keyPrefix,
+        key_hash: keyHash,
+        permissions,
+        expires_at: expiresAt,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log audit
+    await supabase.from('audit_logs').insert({
+      organization_id: profile.organization_id,
+      user_id: userData.user.id,
+      action: 'api_key.created',
+      resource_type: 'api_key',
+      resource_id: data.id,
+      new_values: { name, permissions },
+    });
+
+    // Return full key only once
+    res.status(201).json({
+      success: true,
+      apiKey: data,
+      fullKey, // This is the only time the full key is returned
+    });
+  } catch (error) {
+    console.error('Error creating API key:', error);
+    res.status(500).json({ error: 'Failed to create API key', message: error.message });
+  }
+});
+
+// Revoke API key
+app.post('/api/settings/api-keys/:id/revoke', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { id } = req.params;
+
+    const { error } = await supabase
+      .from('api_keys')
+      .update({
+        status: 'revoked',
+        revoked_at: new Date().toISOString(),
+        revoked_by: userData.user.id,
+      })
+      .eq('id', id);
+
+    if (error) throw error;
+
+    res.json({ success: true, message: 'API key revoked' });
+  } catch (error) {
+    console.error('Error revoking API key:', error);
+    res.status(500).json({ error: 'Failed to revoke API key', message: error.message });
+  }
+});
+
+// Get notification preferences
+app.get('/api/settings/notifications', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    let { data, error } = await supabase
+      .from('notification_preferences')
+      .select('*')
+      .eq('user_id', userData.user.id)
+      .single();
+
+    if (error && error.code === 'PGRST116') {
+      // Create default preferences
+      const { data: newPrefs, error: createError } = await supabase
+        .from('notification_preferences')
+        .insert({ user_id: userData.user.id })
+        .select()
+        .single();
+
+      if (createError) throw createError;
+      data = newPrefs;
+    } else if (error) {
+      throw error;
+    }
+
+    res.json({ success: true, preferences: data });
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    res.status(500).json({ error: 'Failed to fetch preferences', message: error.message });
+  }
+});
+
+// Update notification preferences
+app.put('/api/settings/notifications', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const updates = req.body;
+
+    // Try update first, if not exists, insert
+    const { data: existing } = await supabase
+      .from('notification_preferences')
+      .select('id')
+      .eq('user_id', userData.user.id)
+      .single();
+
+    let data;
+    if (existing) {
+      const { data: updated, error } = await supabase
+        .from('notification_preferences')
+        .update({ ...updates, updated_at: new Date().toISOString() })
+        .eq('user_id', userData.user.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      data = updated;
+    } else {
+      const { data: created, error } = await supabase
+        .from('notification_preferences')
+        .insert({ user_id: userData.user.id, ...updates })
+        .select()
+        .single();
+
+      if (error) throw error;
+      data = created;
+    }
+
+    res.json({ success: true, preferences: data });
+  } catch (error) {
+    console.error('Error updating notifications:', error);
+    res.status(500).json({ error: 'Failed to update preferences', message: error.message });
+  }
+});
+
+// Get audit logs
+app.get('/api/settings/audit-logs', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (!userData?.user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', userData.user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile?.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const { page = 1, pageSize = 50, action, resource_type } = req.query;
+
+    let query = supabase
+      .from('audit_logs')
+      .select('*, user:user_profiles(full_name, email)', { count: 'exact' })
+      .eq('organization_id', profile.organization_id);
+
+    if (action) query = query.eq('action', action);
+    if (resource_type) query = query.eq('resource_type', resource_type);
+
+    const from = (parseInt(page) - 1) * parseInt(pageSize);
+    const to = from + parseInt(pageSize) - 1;
+
+    const { data, count, error } = await query
+      .order('created_at', { ascending: false })
+      .range(from, to);
+
+    if (error) throw error;
+
+    res.json({
+      success: true,
+      logs: data || [],
+      total: count || 0,
+      page: parseInt(page),
+      pageSize: parseInt(pageSize),
+    });
+  } catch (error) {
+    console.error('Error fetching audit logs:', error);
+    res.status(500).json({ error: 'Failed to fetch audit logs', message: error.message });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);

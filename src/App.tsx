@@ -17,6 +17,7 @@ import AnalyticsPage from "./pages/app/AnalyticsPage";
 import AppealsPage from "./pages/app/AppealsPage";
 import AppealDetailPage from "./pages/app/AppealDetailPage";
 import AppealTemplatesPage from "./pages/app/AppealTemplatesPage";
+import SettingsPage from "./pages/app/SettingsPage";
 
 // Protected Route
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -144,7 +145,7 @@ function App() {
             path="/app/settings"
             element={
               <ProtectedRoute>
-                <PlaceholderAppPage title="Settings" description="Manage your account and preferences" />
+                <SettingsPage />
               </ProtectedRoute>
             }
           />
