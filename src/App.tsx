@@ -14,6 +14,9 @@ import DashboardPage from "./pages/app/DashboardPage";
 import ClaimsPage from "./pages/app/ClaimsPage";
 import ClaimDetailPage from "./pages/app/ClaimDetailPage";
 import AnalyticsPage from "./pages/app/AnalyticsPage";
+import AppealsPage from "./pages/app/AppealsPage";
+import AppealDetailPage from "./pages/app/AppealDetailPage";
+import AppealTemplatesPage from "./pages/app/AppealTemplatesPage";
 
 // Protected Route
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -101,7 +104,31 @@ function App() {
             path="/app/appeals"
             element={
               <ProtectedRoute>
-                <PlaceholderAppPage title="Appeals" description="Review and manage appeals" />
+                <AppealsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/appeals/:id"
+            element={
+              <ProtectedRoute>
+                <AppealDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/appeals/:id/edit"
+            element={
+              <ProtectedRoute>
+                <AppealDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/appeals/templates"
+            element={
+              <ProtectedRoute>
+                <AppealTemplatesPage />
               </ProtectedRoute>
             }
           />

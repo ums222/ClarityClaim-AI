@@ -587,6 +587,583 @@ app.get('/api/ai/status', (req, res) => {
   });
 });
 
+// ============================================
+// Appeals API Endpoints
+// ============================================
+
+// Get all appeals with filters
+app.get('/api/appeals', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { 
+      status, 
+      outcome, 
+      priority,
+      page = 1, 
+      pageSize = 20,
+      sortBy = 'created_at',
+      sortOrder = 'desc',
+      search
+    } = req.query;
+
+    let query = supabase
+      .from('appeals')
+      .select(`
+        *,
+        claim:claims(claim_number, patient_name, payer_name, service_date, billed_amount)
+      `, { count: 'exact' });
+
+    // Apply filters
+    if (status) {
+      query = query.in('status', status.split(','));
+    }
+    if (outcome) {
+      query = query.in('outcome', outcome.split(','));
+    }
+    if (priority) {
+      query = query.in('priority', priority.split(','));
+    }
+    if (search) {
+      query = query.or(`appeal_number.ilike.%${search}%,original_denial_reason.ilike.%${search}%`);
+    }
+
+    // Pagination
+    const from = (parseInt(page) - 1) * parseInt(pageSize);
+    const to = from + parseInt(pageSize) - 1;
+    
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' }).range(from, to);
+
+    const { data, count, error } = await query;
+    
+    if (error) throw error;
+
+    res.json({
+      success: true,
+      appeals: data || [],
+      total: count || 0,
+      page: parseInt(page),
+      pageSize: parseInt(pageSize),
+    });
+  } catch (error) {
+    console.error('Error fetching appeals:', error);
+    res.status(500).json({ error: 'Failed to fetch appeals', message: error.message });
+  }
+});
+
+// Get single appeal with full details
+app.get('/api/appeals/:id', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('appeals')
+      .select(`
+        *,
+        claim:claims(*)
+      `)
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+    if (!data) {
+      return res.status(404).json({ error: 'Appeal not found' });
+    }
+
+    res.json({ success: true, appeal: data });
+  } catch (error) {
+    console.error('Error fetching appeal:', error);
+    res.status(500).json({ error: 'Failed to fetch appeal', message: error.message });
+  }
+});
+
+// Create new appeal
+app.post('/api/appeals', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const appealData = req.body;
+    
+    // Generate appeal number
+    const appealNumber = `APL-${Date.now().toString(36).toUpperCase()}`;
+    
+    const { data, error } = await supabase
+      .from('appeals')
+      .insert({
+        ...appealData,
+        appeal_number: appealNumber,
+        status: appealData.status || 'draft',
+        priority: appealData.priority || 'normal',
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log activity
+    await supabase.from('appeal_activities').insert({
+      appeal_id: data.id,
+      action: 'created',
+      action_details: { appeal_number: data.appeal_number },
+    });
+
+    res.status(201).json({ success: true, appeal: data });
+  } catch (error) {
+    console.error('Error creating appeal:', error);
+    res.status(500).json({ error: 'Failed to create appeal', message: error.message });
+  }
+});
+
+// Update appeal
+app.put('/api/appeals/:id', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const updates = req.body;
+
+    // Get old appeal for activity logging
+    const { data: oldAppeal } = await supabase
+      .from('appeals')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    const { data, error } = await supabase
+      .from('appeals')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log status change
+    if (oldAppeal && updates.status && oldAppeal.status !== updates.status) {
+      await supabase.from('appeal_activities').insert({
+        appeal_id: id,
+        action: 'status_changed',
+        action_details: { from: oldAppeal.status, to: updates.status },
+        previous_value: oldAppeal.status,
+        new_value: updates.status,
+      });
+    }
+
+    // Log outcome received
+    if (oldAppeal && updates.outcome && oldAppeal.outcome !== updates.outcome) {
+      await supabase.from('appeal_activities').insert({
+        appeal_id: id,
+        action: 'outcome_received',
+        action_details: {
+          outcome: updates.outcome,
+          amount_approved: updates.amount_approved,
+        },
+      });
+    }
+
+    res.json({ success: true, appeal: data });
+  } catch (error) {
+    console.error('Error updating appeal:', error);
+    res.status(500).json({ error: 'Failed to update appeal', message: error.message });
+  }
+});
+
+// Submit appeal
+app.post('/api/appeals/:id/submit', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const { submission_method = 'portal' } = req.body;
+
+    const { data, error } = await supabase
+      .from('appeals')
+      .update({
+        status: 'submitted',
+        submitted_at: new Date().toISOString(),
+        submission_method,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log activity
+    await supabase.from('appeal_activities').insert({
+      appeal_id: id,
+      action: 'submitted',
+      action_details: { method: submission_method, submitted_at: data.submitted_at },
+    });
+
+    res.json({ success: true, appeal: data });
+  } catch (error) {
+    console.error('Error submitting appeal:', error);
+    res.status(500).json({ error: 'Failed to submit appeal', message: error.message });
+  }
+});
+
+// Record appeal outcome
+app.post('/api/appeals/:id/outcome', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const { outcome, outcome_reason, amount_approved, amount_recovered, payer_response } = req.body;
+
+    const newStatus = outcome === 'approved' ? 'approved' 
+      : outcome === 'partially_approved' ? 'partially_approved'
+      : outcome === 'denied' ? 'denied'
+      : 'under_review';
+
+    const { data, error } = await supabase
+      .from('appeals')
+      .update({
+        status: newStatus,
+        outcome,
+        outcome_date: new Date().toISOString().split('T')[0],
+        outcome_reason,
+        amount_approved,
+        amount_recovered,
+        payer_response,
+        payer_response_date: new Date().toISOString().split('T')[0],
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log activity
+    await supabase.from('appeal_activities').insert({
+      appeal_id: id,
+      action: 'outcome_received',
+      action_details: { outcome, amount_approved, amount_recovered },
+    });
+
+    // Update related claim status if appeal was successful
+    if (data.claim_id && (outcome === 'approved' || outcome === 'partially_approved')) {
+      await supabase
+        .from('claims')
+        .update({
+          status: outcome === 'approved' ? 'appeal_won' : 'partially_paid',
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', data.claim_id);
+    }
+
+    res.json({ success: true, appeal: data });
+  } catch (error) {
+    console.error('Error recording outcome:', error);
+    res.status(500).json({ error: 'Failed to record outcome', message: error.message });
+  }
+});
+
+// Get appeal activities
+app.get('/api/appeals/:id/activities', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('appeal_activities')
+      .select('*')
+      .eq('appeal_id', id)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    res.json({ success: true, activities: data || [] });
+  } catch (error) {
+    console.error('Error fetching activities:', error);
+    res.status(500).json({ error: 'Failed to fetch activities', message: error.message });
+  }
+});
+
+// Generate AI appeal letter for an appeal
+app.post('/api/appeals/:id/generate-letter', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const { template_id, additional_context } = req.body;
+
+    // Get appeal with claim data
+    const { data: appeal, error: appealError } = await supabase
+      .from('appeals')
+      .select(`*, claim:claims(*)`)
+      .eq('id', id)
+      .single();
+
+    if (appealError || !appeal) {
+      return res.status(404).json({ error: 'Appeal not found' });
+    }
+
+    // Generate letter using AI
+    const result = await generateAppealLetter(appeal.claim || {}, {
+      denial_reason: appeal.original_denial_reason,
+      denial_code: appeal.original_denial_code,
+      additional_context,
+    });
+
+    // Update appeal with generated letter
+    await supabase
+      .from('appeals')
+      .update({
+        appeal_letter: result.letter,
+        ai_generated: result.type === 'ai-generated',
+        ai_model: result.model,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+
+    // Log activity
+    await supabase.from('appeal_activities').insert({
+      appeal_id: id,
+      action: 'letter_generated',
+      action_details: { type: result.type, model: result.model },
+    });
+
+    res.json({
+      success: true,
+      letter: result.letter,
+      type: result.type,
+      model: result.model,
+      generatedAt: result.generatedAt,
+    });
+  } catch (error) {
+    console.error('Error generating letter:', error);
+    res.status(500).json({ error: 'Failed to generate letter', message: error.message });
+  }
+});
+
+// ============================================
+// Appeal Templates API
+// ============================================
+
+// Get all templates
+app.get('/api/appeal-templates', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { category, active_only = 'true' } = req.query;
+
+    let query = supabase.from('appeal_templates').select('*');
+    
+    if (category) {
+      query = query.eq('category', category);
+    }
+    if (active_only === 'true') {
+      query = query.eq('is_active', true);
+    }
+
+    const { data, error } = await query.order('usage_count', { ascending: false });
+
+    if (error) throw error;
+
+    res.json({ success: true, templates: data || [] });
+  } catch (error) {
+    console.error('Error fetching templates:', error);
+    res.status(500).json({ error: 'Failed to fetch templates', message: error.message });
+  }
+});
+
+// Get single template
+app.get('/api/appeal-templates/:id', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('appeal_templates')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+
+    res.json({ success: true, template: data });
+  } catch (error) {
+    console.error('Error fetching template:', error);
+    res.status(500).json({ error: 'Failed to fetch template', message: error.message });
+  }
+});
+
+// Create custom template
+app.post('/api/appeal-templates', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const templateData = req.body;
+    
+    const { data, error } = await supabase
+      .from('appeal_templates')
+      .insert({
+        ...templateData,
+        is_system: false,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    res.status(201).json({ success: true, template: data });
+  } catch (error) {
+    console.error('Error creating template:', error);
+    res.status(500).json({ error: 'Failed to create template', message: error.message });
+  }
+});
+
+// Increment template usage
+app.post('/api/appeal-templates/:id/use', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { id } = req.params;
+    
+    // Get current usage count
+    const { data: template } = await supabase
+      .from('appeal_templates')
+      .select('usage_count')
+      .eq('id', id)
+      .single();
+
+    await supabase
+      .from('appeal_templates')
+      .update({ usage_count: (template?.usage_count || 0) + 1 })
+      .eq('id', id);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error updating usage:', error);
+    res.status(500).json({ error: 'Failed to update usage', message: error.message });
+  }
+});
+
+// ============================================
+// Appeals Analytics
+// ============================================
+
+app.get('/api/appeals/analytics/stats', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { data: appeals, error } = await supabase.from('appeals').select('*');
+    if (error) throw error;
+
+    const stats = {
+      total: appeals?.length || 0,
+      byStatus: {},
+      byOutcome: {},
+      byPriority: {},
+      totalAppealed: 0,
+      totalRecovered: 0,
+      recoveryRate: 0,
+      avgDaysToResolution: 0,
+      pendingDeadlines: 0,
+      successRate: 0,
+    };
+
+    if (!appeals || appeals.length === 0) {
+      return res.json({ success: true, stats });
+    }
+
+    let resolvedCount = 0;
+    let totalDays = 0;
+    let successCount = 0;
+    const today = new Date();
+
+    appeals.forEach(appeal => {
+      // Status counts
+      stats.byStatus[appeal.status] = (stats.byStatus[appeal.status] || 0) + 1;
+
+      // Outcome counts
+      if (appeal.outcome) {
+        stats.byOutcome[appeal.outcome] = (stats.byOutcome[appeal.outcome] || 0) + 1;
+        if (appeal.outcome === 'approved' || appeal.outcome === 'partially_approved') {
+          successCount++;
+        }
+      }
+
+      // Priority counts
+      stats.byPriority[appeal.priority] = (stats.byPriority[appeal.priority] || 0) + 1;
+
+      // Financial totals
+      stats.totalAppealed += appeal.amount_appealed || 0;
+      stats.totalRecovered += appeal.amount_recovered || 0;
+
+      // Resolution time
+      if (appeal.outcome_date && appeal.created_at) {
+        const created = new Date(appeal.created_at);
+        const resolved = new Date(appeal.outcome_date);
+        totalDays += Math.floor((resolved.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
+        resolvedCount++;
+      }
+
+      // Pending deadlines (within 7 days)
+      if (appeal.deadline && !['submitted', 'approved', 'denied', 'withdrawn'].includes(appeal.status)) {
+        const deadline = new Date(appeal.deadline);
+        const daysToDeadline = Math.floor((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        if (daysToDeadline <= 7 && daysToDeadline >= 0) {
+          stats.pendingDeadlines++;
+        }
+      }
+    });
+
+    const totalOutcomes = (stats.byOutcome.approved || 0) + (stats.byOutcome.partially_approved || 0) + (stats.byOutcome.denied || 0);
+    stats.recoveryRate = stats.totalAppealed > 0 ? (stats.totalRecovered / stats.totalAppealed) * 100 : 0;
+    stats.avgDaysToResolution = resolvedCount > 0 ? Math.round(totalDays / resolvedCount) : 0;
+    stats.successRate = totalOutcomes > 0 ? (successCount / totalOutcomes) * 100 : 0;
+
+    res.json({ success: true, stats });
+  } catch (error) {
+    console.error('Error fetching appeal stats:', error);
+    res.status(500).json({ error: 'Failed to fetch stats', message: error.message });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
