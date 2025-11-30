@@ -63,11 +63,12 @@ const FinalCTASection = () => {
       setTimeout(() => {
         setSubmitStatus({ type: null, message: "" });
       }, 5000);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { message?: string; error?: string } }; message?: string };
       const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
+        axiosError.response?.data?.message ||
+        axiosError.response?.data?.error ||
+        axiosError.message ||
         "Failed to submit demo request. Please try again later.";
       
       setSubmitStatus({

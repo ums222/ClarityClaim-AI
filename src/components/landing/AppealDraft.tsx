@@ -122,6 +122,7 @@ ClarityClaim AI`;
     };
 
     runSequence();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInView]);
 
   // Get phase info

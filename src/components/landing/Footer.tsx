@@ -54,10 +54,10 @@ const Footer = () => {
               AI-powered healthcare claims management
             </p>
             <div className="flex items-center gap-3">
-              <a href="#" aria-label="LinkedIn" className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+              <a href="https://linkedin.com/company/clarityclaim-ai" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
                 <Linkedin className="h-4 w-4" />
               </a>
-              <a href="#" aria-label="Twitter/X" className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+              <a href="https://twitter.com/clarityclaimai" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X" className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
                 <Twitter className="h-4 w-4" />
               </a>
             </div>

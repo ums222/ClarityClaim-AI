@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import {
   Brain,
@@ -270,15 +270,15 @@ const AIPatternMap: React.FC = () => {
     { from: 'equity', to: 'output', step: 3 },
   ];
 
-  // Floating particles
-  const particles = Array.from({ length: 12 }, (_, i) => ({
+  // Floating particles - using useMemo to avoid creating during render
+  const particles = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
     id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 8 + 8,
-    delay: Math.random() * 4
-  }));
+    x: (i * 8.33) % 100,  // Deterministic positioning based on index
+    y: ((i * 17) % 100),
+    size: (i % 3) + 1,
+    duration: 8 + (i % 4),
+    delay: (i % 4)
+  })), []);
 
   return (
     <motion.div 

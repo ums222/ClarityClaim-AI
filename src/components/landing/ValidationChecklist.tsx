@@ -112,6 +112,7 @@ const ValidationChecklist: React.FC = () => {
 
     const initialDelay = setTimeout(startValidation, 800);
     return () => clearTimeout(initialDelay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInView]);
 
   // Calculate stats
