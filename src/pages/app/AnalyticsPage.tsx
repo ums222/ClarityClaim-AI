@@ -193,7 +193,7 @@ export function AnalyticsPage() {
         )}
 
         {/* Content */}
-        {!isLoading && analysis && (
+        {!isLoading && analysis && analysis.stats && (
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -207,7 +207,7 @@ export function AnalyticsPage() {
               )}
               
               {activeTab === 'patterns' && (
-                <PatternsTab patterns={analysis.patterns} />
+                <PatternsTab patterns={analysis.patterns || []} />
               )}
               
               {activeTab === 'payers' && (
@@ -219,6 +219,23 @@ export function AnalyticsPage() {
               )}
             </motion.div>
           </AnimatePresence>
+        )}
+        
+        {/* No Stats State */}
+        {!isLoading && analysis && !analysis.stats && (
+          <div className="flex flex-col items-center justify-center h-64 text-center">
+            <svg className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p className="text-gray-500 dark:text-gray-400 mb-2">Unable to load analytics data</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Please try refreshing the page</p>
+            <button
+              onClick={fetchData}
+              className="mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+            >
+              Retry
+            </button>
+          </div>
         )}
 
         {/* Empty State */}
@@ -238,7 +255,17 @@ export function AnalyticsPage() {
 
 // Overview Tab
 function OverviewTab({ analysis }: { analysis: PatternAnalysis }) {
-  const { stats } = analysis;
+  const stats = analysis.stats || {
+    total: 0,
+    byStatus: {},
+    byPayer: {},
+    byDenialCategory: {},
+    avgBilledAmount: 0,
+    avgRiskScore: 0,
+    totalBilled: 0,
+    totalPaid: 0,
+    denialRate: 0,
+  };
   
   return (
     <div className="space-y-6">
@@ -246,28 +273,28 @@ function OverviewTab({ analysis }: { analysis: PatternAnalysis }) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <MetricCard
           label="Total Claims"
-          value={stats.total.toString()}
+          value={(stats.total || 0).toString()}
           icon={<ClipboardIcon />}
           color="blue"
         />
         <MetricCard
           label="Denial Rate"
-          value={`${stats.denialRate.toFixed(1)}%`}
+          value={`${(stats.denialRate || 0).toFixed(1)}%`}
           icon={<AlertIcon />}
-          color={stats.denialRate > 15 ? 'red' : stats.denialRate > 10 ? 'amber' : 'green'}
-          trend={stats.denialRate > 15 ? 'up' : 'down'}
+          color={(stats.denialRate || 0) > 15 ? 'red' : (stats.denialRate || 0) > 10 ? 'amber' : 'green'}
+          trend={(stats.denialRate || 0) > 15 ? 'up' : 'down'}
         />
         <MetricCard
           label="Total Billed"
-          value={formatCurrency(stats.totalBilled)}
+          value={formatCurrency(stats.totalBilled || 0)}
           icon={<DollarIcon />}
           color="emerald"
         />
         <MetricCard
           label="Avg Risk Score"
-          value={stats.avgRiskScore.toFixed(0)}
+          value={(stats.avgRiskScore || 0).toFixed(0)}
           icon={<ChartIcon />}
-          color={stats.avgRiskScore > 50 ? 'red' : stats.avgRiskScore > 30 ? 'amber' : 'green'}
+          color={(stats.avgRiskScore || 0) > 50 ? 'red' : (stats.avgRiskScore || 0) > 30 ? 'amber' : 'green'}
         />
       </div>
 
@@ -277,7 +304,7 @@ function OverviewTab({ analysis }: { analysis: PatternAnalysis }) {
           Claims by Status
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {Object.entries(stats.byStatus).map(([status, count]) => (
+          {Object.entries(stats.byStatus || {}).map(([status, count]) => (
             <div key={status} className="text-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
               <p className="text-2xl font-bold text-gray-900 dark:text-white">{count}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400 capitalize mt-1">
@@ -337,7 +364,8 @@ function PatternsTab({ patterns }: { patterns: PatternData[] }) {
 
 // Payers Tab
 function PayersTab({ stats }: { stats: PatternAnalysis['stats'] }) {
-  const payerData = Object.entries(stats.byPayer)
+  const byPayer = stats?.byPayer || {};
+  const payerData = Object.entries(byPayer)
     .map(([name, data]) => ({
       name,
       ...data,
@@ -416,7 +444,17 @@ function PayersTab({ stats }: { stats: PatternAnalysis['stats'] }) {
 
 // Risk Tab
 function RiskTab({ analysis }: { analysis: PatternAnalysis }) {
-  const { stats } = analysis;
+  const stats = analysis.stats || {
+    total: 0,
+    byStatus: {},
+    byPayer: {},
+    byDenialCategory: {},
+    avgBilledAmount: 0,
+    avgRiskScore: 0,
+    totalBilled: 0,
+    totalPaid: 0,
+    denialRate: 0,
+  };
   
   const riskDistribution = {
     high: 0,
@@ -425,7 +463,7 @@ function RiskTab({ analysis }: { analysis: PatternAnalysis }) {
   };
   
   // Calculate from denial categories
-  Object.entries(stats.byDenialCategory).forEach(([category, count]) => {
+  Object.entries(stats.byDenialCategory || {}).forEach(([category, count]) => {
     if (['Authorization', 'Medical Necessity'].includes(category)) {
       riskDistribution.high += count;
     } else if (['Coding', 'Documentation'].includes(category)) {
@@ -445,17 +483,17 @@ function RiskTab({ analysis }: { analysis: PatternAnalysis }) {
               Average Risk Score
             </h3>
             <span className={`px-2 py-1 rounded text-xs font-medium ${
-              stats.avgRiskScore > 50 
+              (stats.avgRiskScore || 0) > 50 
                 ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300'
-                : stats.avgRiskScore > 30
+                : (stats.avgRiskScore || 0) > 30
                 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
                 : 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
             }`}>
-              {stats.avgRiskScore > 50 ? 'High' : stats.avgRiskScore > 30 ? 'Medium' : 'Low'}
+              {(stats.avgRiskScore || 0) > 50 ? 'High' : (stats.avgRiskScore || 0) > 30 ? 'Medium' : 'Low'}
             </span>
           </div>
           <p className="text-4xl font-bold text-gray-900 dark:text-white">
-            {stats.avgRiskScore.toFixed(0)}
+            {(stats.avgRiskScore || 0).toFixed(0)}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Out of 100
@@ -467,7 +505,7 @@ function RiskTab({ analysis }: { analysis: PatternAnalysis }) {
             Denial Categories
           </h3>
           <div className="space-y-2">
-            {Object.entries(stats.byDenialCategory).slice(0, 5).map(([category, count]) => (
+            {Object.entries(stats.byDenialCategory || {}).slice(0, 5).map(([category, count]) => (
               <div key={category} className="flex items-center justify-between">
                 <span className="text-sm text-gray-700 dark:text-gray-300">{category}</span>
                 <span className="text-sm font-medium text-gray-900 dark:text-white">{count}</span>
@@ -484,19 +522,19 @@ function RiskTab({ analysis }: { analysis: PatternAnalysis }) {
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500 dark:text-gray-400">Billed</span>
               <span className="font-medium text-gray-900 dark:text-white">
-                {formatCurrency(stats.totalBilled)}
+                {formatCurrency(stats.totalBilled || 0)}
               </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500 dark:text-gray-400">Collected</span>
               <span className="font-medium text-green-600 dark:text-green-400">
-                {formatCurrency(stats.totalPaid)}
+                {formatCurrency(stats.totalPaid || 0)}
               </span>
             </div>
             <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
               <span className="text-sm text-gray-500 dark:text-gray-400">Lost Revenue</span>
               <span className="font-medium text-red-600 dark:text-red-400">
-                {formatCurrency(stats.totalBilled - stats.totalPaid)}
+                {formatCurrency((stats.totalBilled || 0) - (stats.totalPaid || 0))}
               </span>
             </div>
           </div>
