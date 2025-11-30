@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "../../contexts/AuthContext";
 import { cn } from "../../lib/utils";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -11,12 +12,17 @@ const LoginPage = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn, isConfigured } = useAuth();
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  
+  // Get redirect path from location state
+  const from = location.state?.from?.pathname || "/app";
 
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
@@ -45,18 +51,34 @@ const LoginPage = () => {
     setIsLoading(true);
     
     try {
-      // TODO: Replace with actual Supabase auth
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const { error } = await signIn(email, password);
       
-      // Mock successful login
-      toast.success("Welcome back!", {
-        description: "You've been logged in successfully.",
-      });
+      if (error) {
+        // Handle specific error messages
+        if (error.message.includes("Invalid login")) {
+          toast.error("Invalid credentials", {
+            description: "Please check your email and password.",
+          });
+        } else if (error.message.includes("Email not confirmed")) {
+          toast.error("Email not verified", {
+            description: "Please check your email for the verification link.",
+          });
+        } else {
+          toast.error("Login failed", {
+            description: error.message,
+          });
+        }
+        return;
+      }
       
-      navigate("/app");
+      // Success - navigation happens automatically via auth state change
+      // But if we're in demo mode, navigate manually
+      if (!isConfigured) {
+        navigate(from, { replace: true });
+      }
     } catch (error) {
       toast.error("Login failed", {
-        description: "Please check your credentials and try again.",
+        description: "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);

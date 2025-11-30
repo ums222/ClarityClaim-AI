@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import LandingPage from "./pages/LandingPage";
 import { ThemeProvider, useTheme } from "./hooks/useTheme";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute, PublicOnlyRoute } from "./components/auth/ProtectedRoute";
 import ErrorBoundary from "./components/shared/ErrorBoundary";
 
 // Product pages
@@ -63,25 +65,42 @@ const ToasterWrapper = () => {
 function App() {
   return (
     <ThemeProvider>
-      <ErrorBoundary>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<LandingPage />} />
-          
-          {/* Auth routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          
-          {/* App routes (authenticated) */}
-          <Route path="/app" element={<AppLayout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="appeals" element={<AppealsStudioPage />} />
-            <Route path="appeals/:id" element={<AppealsStudioPage />} />
-            <Route path="analytics" element={<AnalyticsPage />} />
-            <Route path="patients" element={<PatientsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
-          </Route>
+      <AuthProvider>
+        <ErrorBoundary>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<LandingPage />} />
+            
+            {/* Auth routes - redirect to /app if already logged in */}
+            <Route path="/login" element={
+              <PublicOnlyRoute>
+                <LoginPage />
+              </PublicOnlyRoute>
+            } />
+            <Route path="/signup" element={
+              <PublicOnlyRoute>
+                <SignupPage />
+              </PublicOnlyRoute>
+            } />
+            <Route path="/forgot-password" element={
+              <PublicOnlyRoute>
+                <ForgotPasswordPage />
+              </PublicOnlyRoute>
+            } />
+            
+            {/* App routes (authenticated) */}
+            <Route path="/app" element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<DashboardPage />} />
+              <Route path="appeals" element={<AppealsStudioPage />} />
+              <Route path="appeals/:id" element={<AppealsStudioPage />} />
+              <Route path="analytics" element={<AnalyticsPage />} />
+              <Route path="patients" element={<PatientsPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+            </Route>
           
           {/* Product routes */}
           <Route path="/integrations" element={<IntegrationsPage />} />
@@ -111,7 +130,8 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ToasterWrapper />
-      </ErrorBoundary>
+        </ErrorBoundary>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

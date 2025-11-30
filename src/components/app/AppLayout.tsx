@@ -15,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "../../contexts/AuthContext";
 import { cn } from "../../lib/utils";
 
 const navigation = [
@@ -30,18 +31,19 @@ const AppLayout = () => {
   const isDark = theme === "dark";
   const location = useLocation();
   const navigate = useNavigate();
+  const { profile, organization, signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  // Mock user data - replace with actual auth
+  // Use auth data or fallback to demo
   const user = {
-    name: "Demo User",
-    email: "demo@clarityclaim.ai",
-    organization: "Regional Medical Center",
+    name: profile ? `${profile.first_name || ""} ${profile.last_name || ""}`.trim() || "Demo User" : "Demo User",
+    email: profile?.email || "demo@clarityclaim.ai",
+    organization: organization?.name || "Regional Medical Center",
   };
 
-  const handleLogout = () => {
-    // TODO: Implement actual logout with Supabase
+  const handleLogout = async () => {
+    await signOut();
     navigate("/login");
   };
 

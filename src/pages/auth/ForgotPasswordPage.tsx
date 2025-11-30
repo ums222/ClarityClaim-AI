@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, ArrowRight, ArrowLeft, Loader2, CheckCircle2 } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "../../contexts/AuthContext";
 import { cn } from "../../lib/utils";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -10,6 +11,7 @@ import { toast } from "sonner";
 const ForgotPasswordPage = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const { resetPassword } = useAuth();
   
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,14 +38,20 @@ const ForgotPasswordPage = () => {
     setIsLoading(true);
     
     try {
-      // TODO: Replace with actual Supabase password reset
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const { error: resetError } = await resetPassword(email);
+      
+      if (resetError) {
+        toast.error("Failed to send reset link", {
+          description: resetError.message,
+        });
+        return;
+      }
       
       setIsSubmitted(true);
       toast.success("Reset link sent!", {
         description: "Check your email for the password reset link.",
       });
-    } catch (error) {
+    } catch (err) {
       toast.error("Failed to send reset link", {
         description: "Please try again or contact support.",
       });

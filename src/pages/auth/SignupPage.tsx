@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, User, Building2, ArrowRight, Loader2, Check } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "../../contexts/AuthContext";
 import { cn } from "../../lib/utils";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -12,6 +13,7 @@ const SignupPage = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const navigate = useNavigate();
+  const { signUp, isConfigured } = useAuth();
   
   const [formData, setFormData] = useState({
     firstName: "",
@@ -76,17 +78,36 @@ const SignupPage = () => {
     setIsLoading(true);
     
     try {
-      // TODO: Replace with actual Supabase auth
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const { error } = await signUp(formData.email, formData.password, {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        organization_name: formData.organizationName,
+        organization_type: formData.organizationType,
+      });
+      
+      if (error) {
+        if (error.message.includes("already registered")) {
+          toast.error("Email already registered", {
+            description: "Please sign in or use a different email.",
+          });
+        } else {
+          toast.error("Signup failed", {
+            description: error.message,
+          });
+        }
+        return;
+      }
       
       toast.success("Account created!", {
-        description: "Please check your email to verify your account.",
+        description: isConfigured 
+          ? "Please check your email to verify your account."
+          : "You can now sign in to your account.",
       });
       
       navigate("/login");
     } catch (error) {
       toast.error("Signup failed", {
-        description: "Please try again or contact support.",
+        description: "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
