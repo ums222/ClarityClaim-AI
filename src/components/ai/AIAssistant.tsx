@@ -24,7 +24,8 @@ interface Message {
   content: string;
   timestamp: Date;
   type?: 'text' | 'appeal' | 'analysis' | 'action';
-  data?: { letter?: string; [key: string]: unknown };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data?: any;
 }
 
 interface QuickAction {
