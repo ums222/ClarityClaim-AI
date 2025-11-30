@@ -138,6 +138,36 @@ export const newsletterService = {
       console.error('Database error subscribing to newsletter:', error);
       return { data: null, error };
     }
+  },
+
+  /**
+   * Unsubscribe from newsletter
+   * @param {string} email - Email to unsubscribe
+   * @returns {Promise<{data: Object|null, error: Error|null}>}
+   */
+  async unsubscribe(email) {
+    if (!isSupabaseConfigured()) {
+      return { data: null, error: new Error('Database not configured') };
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('newsletter_subscribers')
+        .update({
+          subscribed: false,
+          unsubscribed_at: new Date().toISOString()
+        })
+        .eq('email', email)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      return { data, error: null };
+    } catch (error) {
+      console.error('Database error unsubscribing:', error);
+      return { data: null, error };
+    }
   }
 };
 
