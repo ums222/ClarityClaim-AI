@@ -261,12 +261,12 @@ const FinalCTASection = () => {
 
             <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
               Already a customer?{" "}
-              <button 
-                onClick={() => window.open('mailto:support@clarityclaim.ai?subject=Customer%20Login%20Access', '_blank')}
+              <a 
+                href={`${import.meta.env.VITE_APP_URL || 'https://app.apclaims.net'}/login`}
                 className="text-teal-500 hover:underline"
               >
-                Contact support for access
-              </button>
+                Sign in to your account
+              </a>
             </p>
 
             <div className="flex flex-wrap gap-2">

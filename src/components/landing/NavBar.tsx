@@ -11,6 +11,9 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
+// App URL for login/signup - different in prod vs dev
+const APP_URL = import.meta.env.VITE_APP_URL || 'https://app.apclaims.net';
+
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -82,11 +85,26 @@ const NavBar = () => {
               {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
 
+            {/* Login link */}
+            <a
+              href={`${APP_URL}/login`}
+              className={cn(
+                "text-sm font-medium transition-colors",
+                isDark 
+                  ? "text-neutral-400 hover:text-white" 
+                  : "text-neutral-600 hover:text-neutral-900"
+              )}
+            >
+              Login
+            </a>
+
             {/* CTA */}
-            <Button size="sm" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
-              Get Started
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
+            <a href={`${APP_URL}/signup`}>
+              <Button size="sm">
+                Get Started
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            </a>
           </div>
         </div>
 
@@ -141,11 +159,25 @@ const NavBar = () => {
                 {item.label}
               </a>
             ))}
-            <div className="mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800">
-              <Button size="md" className="w-full" onClick={() => { setOpen(false); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                Get Started
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+            <div className="mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800 space-y-2">
+              <a
+                href={`${APP_URL}/login`}
+                className={cn(
+                  "block rounded-lg px-3 py-2 text-sm font-medium text-center transition-colors",
+                  isDark 
+                    ? "text-neutral-300 hover:bg-neutral-800" 
+                    : "text-neutral-600 hover:bg-neutral-100"
+                )}
+                onClick={() => setOpen(false)}
+              >
+                Login
+              </a>
+              <a href={`${APP_URL}/signup`} onClick={() => setOpen(false)}>
+                <Button size="md" className="w-full">
+                  Get Started
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </a>
             </div>
           </div>
         </div>
