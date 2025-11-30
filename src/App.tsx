@@ -13,6 +13,7 @@ import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import DashboardPage from "./pages/app/DashboardPage";
 import ClaimsPage from "./pages/app/ClaimsPage";
 import ClaimDetailPage from "./pages/app/ClaimDetailPage";
+import AnalyticsPage from "./pages/app/AnalyticsPage";
 
 // Protected Route
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -108,7 +109,7 @@ function App() {
             path="/app/analytics"
             element={
               <ProtectedRoute>
-                <PlaceholderAppPage title="Analytics" description="View performance metrics and trends" />
+                <AnalyticsPage />
               </ProtectedRoute>
             }
           />

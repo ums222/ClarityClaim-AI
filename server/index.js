@@ -4,9 +4,10 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { existsSync, readdirSync } from 'fs';
-import { isSupabaseConfigured } from './lib/supabase.js';
+import { isSupabaseConfigured, getSupabaseClient } from './lib/supabase.js';
 import { demoRequestsService, contactSubmissionsService, newsletterService } from './lib/database.js';
 import { isHubSpotConfigured, syncDemoRequestToHubSpot } from './lib/hubspot.js';
+import { isAIConfigured, predictDenialRisk, generateAppealLetter, analyzePatterns, getRiskFactorDefinitions } from './lib/ai.js';
 
 // Load environment variables from server directory
 const __filename = fileURLToPath(import.meta.url);
@@ -42,37 +43,6 @@ if (existsSync(distPath)) {
   }));
   console.log('✅ Static file middleware registered');
 }
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  let distFiles = [];
-  let assetsFiles = [];
-  
-  try {
-    if (existsSync(distPath)) {
-      distFiles = readdirSync(distPath);
-    }
-    const assetsPath = join(distPath, 'assets');
-    if (existsSync(assetsPath)) {
-      assetsFiles = readdirSync(assetsPath);
-    }
-  } catch (e) {
-    distFiles = ['error: ' + e.message];
-  }
-  
-  res.json({ 
-    status: 'ok', 
-    timestamp: new Date().toISOString(),
-    service: 'ClarityClaim AI Backend',
-    database: isSupabaseConfigured() ? 'connected' : 'not configured',
-    hubspot: isHubSpotConfigured() ? 'connected' : 'not configured',
-    environment: process.env.NODE_ENV || 'development',
-    distExists: existsSync(distPath),
-    distPath: distPath,
-    distFiles: distFiles,
-    assetsFiles: assetsFiles
-  });
-});
 
 // Demo request endpoint
 app.post('/api/demo-request', async (req, res) => {
@@ -307,6 +277,314 @@ app.post('/api/newsletter/unsubscribe', async (req, res) => {
       message: 'Failed to unsubscribe. Please try again later.'
     });
   }
+});
+
+// ============================================
+// AI/ML API Endpoints
+// ============================================
+
+// Update health check to include AI status
+app.get('/api/health', (req, res) => {
+  let distFiles = [];
+  let assetsFiles = [];
+  
+  try {
+    if (existsSync(distPath)) {
+      distFiles = readdirSync(distPath);
+    }
+    const assetsPath = join(distPath, 'assets');
+    if (existsSync(assetsPath)) {
+      assetsFiles = readdirSync(assetsPath);
+    }
+  } catch (e) {
+    distFiles = ['error: ' + e.message];
+  }
+  
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    service: 'ClarityClaim AI Backend',
+    database: isSupabaseConfigured() ? 'connected' : 'not configured',
+    hubspot: isHubSpotConfigured() ? 'connected' : 'not configured',
+    ai: isAIConfigured() ? 'connected' : 'using fallback (template-based)',
+    environment: process.env.NODE_ENV || 'development',
+    distExists: existsSync(distPath),
+    distPath: distPath,
+    distFiles: distFiles,
+    assetsFiles: assetsFiles
+  });
+});
+
+// Predict denial risk for a claim
+app.post('/api/claims/:id/predict-denial', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const supabase = getSupabaseClient();
+    
+    if (!supabase) {
+      return res.status(503).json({
+        error: 'Database not configured',
+        message: 'Supabase is not configured. Cannot fetch claim data.'
+      });
+    }
+    
+    // Fetch claim data
+    const { data: claim, error } = await supabase
+      .from('claims')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error || !claim) {
+      return res.status(404).json({
+        error: 'Claim not found',
+        message: `No claim found with ID: ${id}`
+      });
+    }
+    
+    // Run prediction
+    const prediction = await predictDenialRisk(claim);
+    
+    // Update claim with prediction results
+    await supabase
+      .from('claims')
+      .update({
+        denial_risk_score: prediction.score,
+        denial_risk_level: prediction.level,
+        denial_risk_factors: prediction.factors,
+        ai_recommendations: prediction.recommendations,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+    
+    res.json({
+      success: true,
+      claimId: id,
+      prediction,
+      aiEnabled: isAIConfigured(),
+    });
+  } catch (error) {
+    console.error('Error predicting denial:', error);
+    res.status(500).json({
+      error: 'Prediction failed',
+      message: error.message || 'Failed to predict denial risk'
+    });
+  }
+});
+
+// Generate appeal letter for a claim
+app.post('/api/claims/:id/generate-appeal', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { denial_reason, denial_code, additional_context } = req.body;
+    const supabase = getSupabaseClient();
+    
+    if (!supabase) {
+      return res.status(503).json({
+        error: 'Database not configured',
+        message: 'Supabase is not configured. Cannot fetch claim data.'
+      });
+    }
+    
+    // Fetch claim data
+    const { data: claim, error } = await supabase
+      .from('claims')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error || !claim) {
+      return res.status(404).json({
+        error: 'Claim not found',
+        message: `No claim found with ID: ${id}`
+      });
+    }
+    
+    // Generate appeal letter
+    const appeal = await generateAppealLetter(claim, {
+      denial_reason: denial_reason || claim.denial_reasons?.[0],
+      denial_code: denial_code || claim.denial_codes?.[0],
+      additional_context,
+    });
+    
+    // Log activity
+    await supabase.from('claim_activities').insert({
+      claim_id: id,
+      action: 'appeal_generated',
+      action_details: {
+        type: appeal.type,
+        denial_reason,
+      },
+    });
+    
+    res.json({
+      success: true,
+      claimId: id,
+      appeal,
+      aiEnabled: isAIConfigured(),
+    });
+  } catch (error) {
+    console.error('Error generating appeal:', error);
+    res.status(500).json({
+      error: 'Appeal generation failed',
+      message: error.message || 'Failed to generate appeal letter'
+    });
+  }
+});
+
+// Get pattern analysis for organization's claims
+app.get('/api/analytics/patterns', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    
+    if (!supabase) {
+      return res.status(503).json({
+        error: 'Database not configured',
+        message: 'Supabase is not configured.'
+      });
+    }
+    
+    // Get date range from query params (default to last 90 days)
+    const { days = 90 } = req.query;
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - parseInt(days));
+    
+    // Fetch claims for analysis
+    const { data: claims, error } = await supabase
+      .from('claims')
+      .select('*')
+      .gte('created_at', startDate.toISOString())
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      throw error;
+    }
+    
+    // Run pattern analysis
+    const analysis = await analyzePatterns(claims || []);
+    
+    res.json({
+      success: true,
+      ...analysis,
+      dateRange: {
+        start: startDate.toISOString(),
+        end: new Date().toISOString(),
+        days: parseInt(days),
+      },
+    });
+  } catch (error) {
+    console.error('Error analyzing patterns:', error);
+    res.status(500).json({
+      error: 'Analysis failed',
+      message: error.message || 'Failed to analyze patterns'
+    });
+  }
+});
+
+// Get risk factor definitions
+app.get('/api/analytics/risk-factors', (req, res) => {
+  try {
+    const riskFactors = getRiskFactorDefinitions();
+    
+    res.json({
+      success: true,
+      riskFactors,
+      count: riskFactors.length,
+    });
+  } catch (error) {
+    console.error('Error fetching risk factors:', error);
+    res.status(500).json({
+      error: 'Failed to fetch risk factors',
+      message: error.message
+    });
+  }
+});
+
+// Bulk prediction for multiple claims
+app.post('/api/claims/bulk-predict', async (req, res) => {
+  try {
+    const { claimIds } = req.body;
+    
+    if (!claimIds || !Array.isArray(claimIds) || claimIds.length === 0) {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'claimIds array is required'
+      });
+    }
+    
+    const supabase = getSupabaseClient();
+    
+    if (!supabase) {
+      return res.status(503).json({
+        error: 'Database not configured'
+      });
+    }
+    
+    // Fetch claims
+    const { data: claims, error } = await supabase
+      .from('claims')
+      .select('*')
+      .in('id', claimIds);
+    
+    if (error) {
+      throw error;
+    }
+    
+    // Process predictions in parallel (limit to 10 at a time)
+    const results = [];
+    for (const claim of claims) {
+      const prediction = await predictDenialRisk(claim);
+      
+      // Update claim
+      await supabase
+        .from('claims')
+        .update({
+          denial_risk_score: prediction.score,
+          denial_risk_level: prediction.level,
+          denial_risk_factors: prediction.factors,
+          ai_recommendations: prediction.recommendations,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', claim.id);
+      
+      results.push({
+        claimId: claim.id,
+        claimNumber: claim.claim_number,
+        prediction,
+      });
+    }
+    
+    res.json({
+      success: true,
+      processed: results.length,
+      results,
+    });
+  } catch (error) {
+    console.error('Error in bulk prediction:', error);
+    res.status(500).json({
+      error: 'Bulk prediction failed',
+      message: error.message
+    });
+  }
+});
+
+// Get AI status and capabilities
+app.get('/api/ai/status', (req, res) => {
+  res.json({
+    enabled: isAIConfigured(),
+    capabilities: {
+      denialPrediction: true,
+      appealGeneration: true,
+      patternAnalysis: true,
+      riskScoring: true,
+    },
+    model: isAIConfigured() ? 'gpt-4o-mini' : 'rule-based',
+    features: {
+      realTimeAnalysis: true,
+      bulkProcessing: true,
+      customRecommendations: isAIConfigured(),
+    },
+  });
 });
 
 // Error handling middleware
