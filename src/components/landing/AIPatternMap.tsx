@@ -288,7 +288,7 @@ const AIPatternMap: React.FC = () => {
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-clarity-primary/20 border-slate-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-clarity-secondary/10 border-slate-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
       }`}
-      style={{ minHeight: '280px' }}
+      style={{ height: '440px' }}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >

@@ -109,13 +109,13 @@ const EquityDashboard: React.FC = () => {
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-rose-900/20 border-slate-700/80 hover:border-rose-500/50 hover:shadow-lg hover:shadow-rose-500/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-rose-50/50 border-slate-200 hover:border-rose-400/50 hover:shadow-lg hover:shadow-rose-300/20'
       }`}
-      style={{ minHeight: '340px' }}
+      style={{ height: '620px' }}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div 
+        <div
           className={`absolute inset-0 ${isDark ? 'opacity-10' : 'opacity-20'}`}
           style={{
             backgroundImage: `radial-gradient(circle at 2px 2px, ${isDark ? 'rgba(244, 63, 94, 0.2)' : 'rgba(244, 63, 94, 0.15)'} 1px, transparent 0)`,
@@ -126,7 +126,7 @@ const EquityDashboard: React.FC = () => {
         <div className={`absolute bottom-0 right-0 w-32 h-32 ${isDark ? 'bg-violet-600/10' : 'bg-violet-200/40'} rounded-full blur-2xl`} />
       </div>
 
-      <div className="relative p-4">
+      <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
         <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">
@@ -150,26 +150,22 @@ const EquityDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Alert Banner */}
-        <AnimatePresence>
-          {showAlert && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className={`overflow-hidden rounded-lg ${isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'} border px-2.5 py-2 mb-3`}
-            >
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className={`text-[10px] font-medium ${isDark ? 'text-amber-400' : 'text-amber-700'}`}>Disparity Alert</p>
-                  <p className={`text-[9px] ${isDark ? 'text-amber-500/80' : 'text-amber-600'}`}>7% gap in rural clinic rates</p>
-                </div>
+        {/* Alert Banner - Always rendered, visibility controlled by max-height and opacity */}
+        <div
+          className={`overflow-hidden mb-3 transition-all duration-300 ${
+            showAlert ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className={`rounded-lg ${isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'} border px-2.5 py-2`}>
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className={`text-[10px] font-medium ${isDark ? 'text-amber-400' : 'text-amber-700'}`}>Disparity Alert</p>
+                <p className={`text-[9px] ${isDark ? 'text-amber-500/80' : 'text-amber-600'}`}>7% gap in rural clinic rates</p>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </div>
+        </div>
 
         {/* Score and Summary Row */}
         <div className="flex items-center gap-3 mb-3">

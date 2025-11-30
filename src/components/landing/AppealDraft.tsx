@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import {
   Sparkles,
   FileText,
@@ -151,13 +151,13 @@ ClarityClaim AI`;
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-amber-900/20 border-slate-700/80 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-amber-50/50 border-slate-200 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20'
       }`}
-      style={{ minHeight: '320px' }}
+      style={{ height: '520px' }}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div 
+        <div
           className={`absolute inset-0 ${isDark ? 'opacity-10' : 'opacity-15'}`}
           style={{
             backgroundImage: `linear-gradient(${isDark ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.1)'} 1px, transparent 1px),
@@ -169,7 +169,7 @@ ClarityClaim AI`;
         <div className={`absolute bottom-0 left-0 w-32 h-32 ${isDark ? 'bg-violet-600/10' : 'bg-violet-200/30'} rounded-full blur-2xl`} />
       </div>
 
-      <div className="relative p-4">
+      <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
         <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">
@@ -252,50 +252,44 @@ ClarityClaim AI`;
           </div>
         </div>
 
-        {/* Citations */}
-        <AnimatePresence>
-          {showCitations && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="overflow-hidden mb-3"
-            >
-              <div className="flex items-center gap-1.5 mb-2">
-                <BookOpen className="w-3 h-3 text-clarity-secondary" />
-                <span className={`text-[10px] font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Sources</span>
-              </div>
-              <div className="space-y-1.5">
-                {citations.map((citation, i) => (
-                  <motion.div
-                    key={citation.id}
-                    initial={{ opacity: 0, x: -5 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className={`flex items-center justify-between p-2 rounded-lg ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'} border`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className={`text-[8px] px-1.5 py-0.5 rounded-full ${
-                        citation.type === 'policy' 
-                          ? 'bg-violet-500/20 text-violet-400'
-                          : citation.type === 'guideline'
-                            ? isDark ? 'bg-clarity-secondary/20 text-clarity-secondary' : 'bg-teal-100 text-teal-600'
-                            : 'bg-emerald-500/20 text-emerald-400'
-                      }`}>
-                        {citation.type}
-                      </span>
-                      <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'} truncate max-w-[100px]`}>
-                        {citation.source}
-                      </span>
-                    </div>
-                    <span className="text-[9px] font-bold text-clarity-accent">{citation.relevance}%</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Citations - Always rendered, visibility controlled by max-height and opacity */}
+        <div
+          className={`overflow-hidden mb-3 transition-all duration-300 ${
+            showCitations ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="flex items-center gap-1.5 mb-2">
+            <BookOpen className="w-3 h-3 text-clarity-secondary" />
+            <span className={`text-[10px] font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Sources</span>
+          </div>
+          <div className="space-y-1.5">
+            {citations.map((citation, i) => (
+              <motion.div
+                key={citation.id}
+                initial={{ opacity: 0, x: -5 }}
+                animate={showCitations ? { opacity: 1, x: 0 } : { opacity: 0, x: -5 }}
+                transition={{ delay: i * 0.1 }}
+                className={`flex items-center justify-between p-2 rounded-lg ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'} border`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className={`text-[8px] px-1.5 py-0.5 rounded-full ${
+                    citation.type === 'policy'
+                      ? 'bg-violet-500/20 text-violet-400'
+                      : citation.type === 'guideline'
+                        ? isDark ? 'bg-clarity-secondary/20 text-clarity-secondary' : 'bg-teal-100 text-teal-600'
+                        : 'bg-emerald-500/20 text-emerald-400'
+                  }`}>
+                    {citation.type}
+                  </span>
+                  <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'} truncate max-w-[100px]`}>
+                    {citation.source}
+                  </span>
+                </div>
+                <span className="text-[9px] font-bold text-clarity-accent">{citation.relevance}%</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
         {/* Generated Letter Preview */}
         <div className="relative">

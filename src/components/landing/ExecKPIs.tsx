@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import {
   BarChart3,
   TrendingUp,
@@ -140,13 +140,13 @@ const ExecKPIs: React.FC = () => {
           ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-900/20 border-slate-700/80 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-500/20' 
           : 'bg-gradient-to-br from-slate-50 via-white to-blue-50/50 border-slate-200 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-300/20'
       }`}
-      style={{ minHeight: '340px' }}
+      style={{ height: '620px' }}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div 
+        <div
           className={`absolute inset-0 ${isDark ? 'opacity-10' : 'opacity-15'}`}
           style={{
             backgroundImage: `linear-gradient(${isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(30, 58, 95, 0.1)'} 1px, transparent 1px),
@@ -158,7 +158,7 @@ const ExecKPIs: React.FC = () => {
         <div className={`absolute bottom-0 left-0 w-32 h-32 ${isDark ? 'bg-cyan-600/10' : 'bg-cyan-200/40'} rounded-full blur-2xl`} />
       </div>
 
-      <div className="relative p-4">
+      <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
         <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">
@@ -369,51 +369,45 @@ const ExecKPIs: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* AI Forecast Panel */}
-        <AnimatePresence>
-          {showForecast && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="overflow-hidden mt-3"
-            >
-              <div className={`rounded-xl p-2.5 border ${isDark ? 'bg-violet-500/10 border-violet-500/30' : 'bg-violet-50 border-violet-200'}`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-5 h-5 rounded-md bg-gradient-to-br from-violet-500 to-clarity-primary flex items-center justify-center">
-                    <Brain className="w-3 h-3 text-white" />
-                  </div>
-                  <div>
-                    <h4 className={`text-[9px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>AI Forecast</h4>
-                  </div>
-                  <motion.div
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="ml-auto flex items-center gap-1"
-                  >
-                    <Sparkles className="w-2.5 h-2.5 text-violet-500" />
-                  </motion.div>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-2">
-                  <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
-                    <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>7.8%</div>
-                    <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Next Mo.</div>
-                  </div>
-                  <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
-                    <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>$8.2M</div>
-                    <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Q2 Est.</div>
-                  </div>
-                  <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
-                    <div className="text-sm font-bold text-amber-500">2</div>
-                    <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Alerts</div>
-                  </div>
-                </div>
+        {/* AI Forecast Panel - Always rendered, visibility controlled by max-height and opacity */}
+        <div
+          className={`overflow-hidden mt-3 transition-all duration-300 ${
+            showForecast ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className={`rounded-xl p-2.5 border ${isDark ? 'bg-violet-500/10 border-violet-500/30' : 'bg-violet-50 border-violet-200'}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-5 h-5 rounded-md bg-gradient-to-br from-violet-500 to-clarity-primary flex items-center justify-center">
+                <Brain className="w-3 h-3 text-white" />
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <div>
+                <h4 className={`text-[9px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>AI Forecast</h4>
+              </div>
+              <motion.div
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="ml-auto flex items-center gap-1"
+              >
+                <Sparkles className="w-2.5 h-2.5 text-violet-500" />
+              </motion.div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2">
+              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
+                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>7.8%</div>
+                <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Next Mo.</div>
+              </div>
+              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
+                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>$8.2M</div>
+                <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Q2 Est.</div>
+              </div>
+              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
+                <div className="text-sm font-bold text-amber-500">2</div>
+                <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Alerts</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Stats badges */}
         <motion.div
