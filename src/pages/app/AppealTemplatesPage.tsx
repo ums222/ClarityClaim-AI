@@ -142,7 +142,8 @@ function TemplateEditorModal({
   const [denialCodes, setDenialCodes] = useState<string[]>(template?.denial_codes || []);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
+  // Sync state with template prop when it changes (for edit mode)
+  useEffect(function syncTemplateState() {
     if (template) {
       setName(template.name || '');
       setDescription(template.description || '');

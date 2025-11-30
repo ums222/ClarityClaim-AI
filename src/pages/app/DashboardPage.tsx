@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   TrendingUp,
@@ -10,14 +11,17 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
+  Download,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { cn } from '../../lib/utils';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import AppLayout from '../../components/app/AppLayout';
+import { ClaimUploadModal } from '../../components/claims/ClaimUploadModal';
+import { CreateAppealModal } from '../../components/appeals/CreateAppealModal';
 
 // Mock data for dashboard
 const stats = [
@@ -107,6 +111,25 @@ const DashboardPage = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const { profile } = useAuth();
+  const navigate = useNavigate();
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [isAppealModalOpen, setIsAppealModalOpen] = useState(false);
+
+  const handleExportReport = () => {
+    // Create a simple CSV export of dashboard data
+    const csvData = [
+      ['Metric', 'Value', 'Change'],
+      ...stats.map(s => [s.name, s.value, s.change])
+    ].map(row => row.join(',')).join('\n');
+    
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `clarityclaim-report-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -165,10 +188,11 @@ const DashboardPage = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={handleExportReport}>
+              <Download className="h-4 w-4 mr-2" />
               Export Report
             </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={() => setIsUploadModalOpen(true)}>
               Upload Claims
             </Button>
           </div>
@@ -385,7 +409,12 @@ const DashboardPage = () => {
                         <Clock className="h-3 w-3" />
                         Due in {appeal.deadline}
                       </span>
-                      <Button size="sm" variant="outline" className="h-7 text-xs">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="h-7 text-xs"
+                        onClick={() => setIsAppealModalOpen(true)}
+                      >
                         Generate Appeal
                       </Button>
                     </div>
@@ -424,15 +453,27 @@ const DashboardPage = () => {
                 Quick Actions
               </h3>
               <div className="space-y-2">
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setIsUploadModalOpen(true)}
+                >
                   <FileText className="h-4 w-4 mr-2" />
                   Upload New Claims
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setIsAppealModalOpen(true)}
+                >
                   <Scale className="h-4 w-4 mr-2" />
                   Draft Appeal Letter
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => navigate('/app/claims?risk=high')}
+                >
                   <AlertTriangle className="h-4 w-4 mr-2" />
                   Review High-Risk Claims
                 </Button>
@@ -441,6 +482,25 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <ClaimUploadModal
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+        onSuccess={() => {
+          setIsUploadModalOpen(false);
+          // Could refresh data here
+        }}
+      />
+
+      <CreateAppealModal
+        isOpen={isAppealModalOpen}
+        onClose={() => setIsAppealModalOpen(false)}
+        onSuccess={() => {
+          setIsAppealModalOpen(false);
+          navigate('/app/appeals');
+        }}
+      />
     </AppLayout>
   );
 };
