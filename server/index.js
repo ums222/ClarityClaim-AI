@@ -578,7 +578,7 @@ app.get('/api/ai/status', (req, res) => {
       patternAnalysis: true,
       riskScoring: true,
     },
-    model: isAIConfigured() ? 'gpt-4o-mini' : 'rule-based',
+    model: isAIConfigured() ? 'gemini-1.5-flash' : 'rule-based',
     features: {
       realTimeAnalysis: true,
       bulkProcessing: true,

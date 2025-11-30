@@ -1,5 +1,5 @@
 /**
- * AI Service - OpenAI Integration for ClarityClaim AI
+ * AI Service - Google AI (Gemini) Integration for ClarityClaim AI
  * 
  * Features:
  * - Denial risk prediction
@@ -8,18 +8,24 @@
  * - Risk factor identification
  */
 
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Initialize OpenAI client
-const openai = process.env.OPENAI_API_KEY 
-  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+// Initialize Google AI client
+const genAI = process.env.GOOGLE_AI_API_KEY 
+  ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
   : null;
 
+// Get the Gemini model
+const getModel = () => {
+  if (!genAI) return null;
+  return genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+};
+
 /**
- * Check if OpenAI is configured
+ * Check if AI is configured
  */
 export function isAIConfigured() {
-  return openai !== null;
+  return genAI !== null;
 }
 
 /**
@@ -229,11 +235,11 @@ export async function predictDenialRisk(claim) {
   
   // AI Enhancement (if configured)
   let aiInsights = null;
-  if (openai && process.env.ENABLE_AI_ENHANCEMENT === 'true') {
+  if (genAI) {
     try {
       aiInsights = await getAIRiskInsights(claim, riskFactors);
       // Blend AI score with rule-based score
-      if (aiInsights.adjustedScore !== undefined) {
+      if (aiInsights && aiInsights.adjustedScore !== undefined) {
         baseScore = Math.round((baseScore * 0.6) + (aiInsights.adjustedScore * 0.4));
       }
     } catch (error) {
@@ -260,12 +266,13 @@ export async function predictDenialRisk(claim) {
 }
 
 /**
- * Get AI-powered risk insights
+ * Get AI-powered risk insights using Google Gemini
  */
 async function getAIRiskInsights(claim, existingFactors) {
-  if (!openai) return null;
+  const model = getModel();
+  if (!model) return null;
   
-  const prompt = `Analyze this healthcare claim for denial risk:
+  const prompt = `You are an expert healthcare claims analyst. Analyze this claim for denial risk and respond ONLY with valid JSON.
 
 Claim Details:
 - Patient: ${claim.patient_name}
@@ -279,37 +286,30 @@ Claim Details:
 Already identified risk factors:
 ${existingFactors.map(f => `- ${f.factor}: ${f.description}`).join('\n')}
 
-Provide:
-1. Any additional risk factors not already identified
-2. An adjusted risk score (0-100)
-3. Specific recommendations to reduce denial risk
-
-Respond in JSON format:
-{
-  "additionalFactors": [{"factor": "...", "impact": "low|medium|high", "description": "..."}],
-  "adjustedScore": 0-100,
-  "insights": "...",
-  "specificRecommendations": ["..."]
-}`;
+Respond with this exact JSON structure (no markdown, no code blocks):
+{"additionalFactors": [{"factor": "factor name", "impact": "low", "description": "description"}], "adjustedScore": 50, "insights": "brief insight", "specificRecommendations": ["recommendation 1"]}`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an expert healthcare claims analyst specializing in denial prevention. Analyze claims for potential denial risks and provide actionable recommendations.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      response_format: { type: 'json_object' },
-      temperature: 0.3,
-      max_tokens: 1000,
-    });
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
     
-    return JSON.parse(response.choices[0].message.content);
+    // Clean up the response - remove any markdown code blocks
+    let cleanedText = text.trim();
+    if (cleanedText.startsWith('```json')) {
+      cleanedText = cleanedText.slice(7);
+    }
+    if (cleanedText.startsWith('```')) {
+      cleanedText = cleanedText.slice(3);
+    }
+    if (cleanedText.endsWith('```')) {
+      cleanedText = cleanedText.slice(0, -3);
+    }
+    cleanedText = cleanedText.trim();
+    
+    return JSON.parse(cleanedText);
   } catch (error) {
-    console.error('OpenAI API error:', error);
+    console.error('Google AI API error:', error);
     return null;
   }
 }
@@ -325,11 +325,12 @@ export async function generateAppealLetter(claim, denialInfo = {}) {
   } = denialInfo;
   
   // If AI is not configured, use template-based generation
-  if (!openai) {
+  const model = getModel();
+  if (!model) {
     return generateTemplateAppeal(claim, denialInfo);
   }
   
-  const prompt = `Generate a professional healthcare claim appeal letter for the following denied claim:
+  const prompt = `You are an expert healthcare appeals specialist. Generate a professional appeal letter for this denied claim.
 
 CLAIM INFORMATION:
 - Claim Number: ${claim.claim_number}
@@ -356,30 +357,21 @@ Generate a professional, persuasive appeal letter that:
 4. Requests reconsideration with specific supporting points
 5. Maintains a professional but firm tone
 
-Format the letter with proper business letter formatting.`;
+Format the letter with proper business letter formatting. Do not include any markdown formatting, just plain text.`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an expert healthcare appeals specialist with extensive experience in overturning claim denials. Write compelling, professional appeal letters that cite relevant guidelines and make strong medical necessity arguments.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 2000,
-    });
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const letter = response.text();
     
     return {
-      letter: response.choices[0].message.content,
+      letter: letter.trim(),
       generatedAt: new Date().toISOString(),
-      model: 'gpt-4o-mini',
+      model: 'gemini-1.5-flash',
       type: 'ai-generated',
     };
   } catch (error) {
-    console.error('OpenAI API error:', error);
+    console.error('Google AI API error:', error);
     // Fallback to template
     return generateTemplateAppeal(claim, denialInfo);
   }
