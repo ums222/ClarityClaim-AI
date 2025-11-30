@@ -152,7 +152,7 @@ export function ClaimUploadModal({
       if (claims.length === 0) {
         setError('No valid claims found in file. Make sure it has patient_name and payer_name columns.');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to parse CSV file. Please check the format.');
     }
   }, []);

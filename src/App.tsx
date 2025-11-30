@@ -21,6 +21,7 @@ import SettingsPage from "./pages/app/SettingsPage";
 import AppIntegrationsPage from "./pages/app/IntegrationsPage";
 import BillingPage from "./pages/app/BillingPage";
 import AppSecurityPage from "./pages/app/SecurityPage";
+import AppHelpPage from "./pages/app/HelpPage";
 
 // Protected Route
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -180,7 +181,7 @@ function App() {
             path="/app/help"
             element={
               <ProtectedRoute>
-                <PlaceholderAppPage title="Help Center" description="Get help and support" />
+                <AppHelpPage />
               </ProtectedRoute>
             }
           />
@@ -214,53 +215,6 @@ function App() {
         </Routes>
       </AuthProvider>
     </ThemeProvider>
-  );
-}
-
-// Placeholder component for app pages not yet built
-import { useTheme } from "./hooks/useTheme";
-import { cn } from "./lib/utils";
-import AppLayout from "./components/app/AppLayout";
-import { Construction } from "lucide-react";
-
-function PlaceholderAppPage({ title, description }: { title: string; description: string }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  return (
-    <AppLayout>
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center">
-          <div className={cn(
-            "mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center",
-            isDark ? "bg-teal-500/20" : "bg-teal-50"
-          )}>
-            <Construction className={cn(
-              "h-8 w-8",
-              isDark ? "text-teal-400" : "text-teal-600"
-            )} />
-          </div>
-          <h1 className={cn(
-            "text-2xl font-semibold mb-2",
-            isDark ? "text-white" : "text-neutral-900"
-          )}>
-            {title}
-          </h1>
-          <p className={cn(
-            "text-sm max-w-md",
-            isDark ? "text-neutral-400" : "text-neutral-600"
-          )}>
-            {description}
-          </p>
-          <p className={cn(
-            "text-xs mt-4",
-            isDark ? "text-neutral-500" : "text-neutral-500"
-          )}>
-            This feature is coming soon in Phase 2-3
-          </p>
-        </div>
-      </div>
-    </AppLayout>
   );
 }
 

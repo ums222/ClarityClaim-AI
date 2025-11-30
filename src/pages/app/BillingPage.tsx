@@ -64,7 +64,7 @@ export default function BillingPage() {
   } | null>(null);
 
   // Handle success/cancel from Stripe checkout
-  useEffect(() => {
+  useEffect(function handleStripeCallback() {
     const success = searchParams.get('success');
     const canceled = searchParams.get('canceled');
 
