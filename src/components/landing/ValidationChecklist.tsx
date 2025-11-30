@@ -125,8 +125,8 @@ const ValidationChecklist: React.FC = () => {
       ref={containerRef} 
       className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
-          ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-emerald-900/20 border-slate-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
-          : 'bg-gradient-to-br from-slate-50 via-white to-emerald-50/50 border-slate-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
+          ? 'bg-gradient-to-br from-neutral-900 via-neutral-900/95 to-emerald-900/20 border-neutral-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
+          : 'bg-gradient-to-br from-neutral-50 via-white to-emerald-50/50 border-neutral-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
       }`}
       style={{ height: '520px' }}
       whileHover={{ scale: 1.02 }}
@@ -147,15 +147,15 @@ const ValidationChecklist: React.FC = () => {
 
       <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
-        <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
+        <div className={`rounded-xl ${isDark ? 'bg-neutral-800/80' : 'bg-neutral-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className={`w-7 h-7 rounded-lg ${isDark ? 'bg-white/10' : 'bg-white'} flex items-center justify-center`}>
-                <Shield className={`w-4 h-4 ${isDark ? 'text-white' : 'text-slate-700'}`} />
+                <Shield className={`w-4 h-4 ${isDark ? 'text-white' : 'text-neutral-700'}`} />
               </div>
               <div>
-                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Claim Validation</h3>
-                <p className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>CLM-2024-78432</p>
+                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>Claim Validation</h3>
+                <p className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>CLM-2024-78432</p>
               </div>
             </div>
             <div className="flex items-center gap-1.5">
@@ -169,10 +169,10 @@ const ValidationChecklist: React.FC = () => {
               ) : validationComplete ? (
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
               ) : (
-                <CircleDot className={`w-3.5 h-3.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
+                <CircleDot className={`w-3.5 h-3.5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
               )}
               <span className={`text-[10px] font-medium ${
-                isValidating ? 'text-clarity-secondary' : validationComplete ? 'text-emerald-500' : isDark ? 'text-slate-400' : 'text-slate-500'
+                isValidating ? 'text-clarity-secondary' : validationComplete ? 'text-emerald-500' : isDark ? 'text-neutral-400' : 'text-neutral-500'
               }`}>
                 {isValidating ? 'Validating...' : validationComplete ? 'Complete' : 'Ready'}
               </span>
@@ -181,7 +181,7 @@ const ValidationChecklist: React.FC = () => {
 
           {/* Progress Bar */}
           <div className="mt-2">
-            <div className={`h-1 ${isDark ? 'bg-slate-700' : 'bg-slate-200'} rounded-full overflow-hidden`}>
+            <div className={`h-1 ${isDark ? 'bg-neutral-700' : 'bg-neutral-200'} rounded-full overflow-hidden`}>
               <motion.div
                 className="h-full bg-gradient-to-r from-clarity-secondary to-emerald-400"
                 initial={{ width: '0%' }}
@@ -191,7 +191,7 @@ const ValidationChecklist: React.FC = () => {
                 transition={{ duration: 0.4 }}
               />
             </div>
-            <div className={`flex justify-between mt-1 text-[8px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+            <div className={`flex justify-between mt-1 text-[8px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
               <span>{validationPhase}/{validationCategories.length} categories</span>
               <span>{Math.round((validationPhase / validationCategories.length) * 100)}%</span>
             </div>
@@ -224,11 +224,11 @@ const ValidationChecklist: React.FC = () => {
                       : 'border-clarity-secondary/50 bg-emerald-50'
                     : isActive 
                       ? isDark 
-                        ? 'border-slate-700 bg-slate-800/50' 
-                        : 'border-slate-200 bg-white'
+                        ? 'border-neutral-700 bg-neutral-800/50' 
+                        : 'border-neutral-200 bg-white'
                       : isDark 
-                        ? 'border-slate-800 bg-slate-900/50' 
-                        : 'border-slate-100 bg-slate-50'
+                        ? 'border-neutral-800 bg-neutral-900/50' 
+                        : 'border-neutral-100 bg-neutral-50'
                 }`}
                 onMouseEnter={() => isActive && setActiveCategory(category.id)}
                 onMouseLeave={() => setActiveCategory(null)}
@@ -240,8 +240,8 @@ const ValidationChecklist: React.FC = () => {
                       <Icon className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div>
-                      <h4 className={`text-[11px] font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>{category.name}</h4>
-                      <p className={`text-[9px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{category.checks.length} checks</p>
+                      <h4 className={`text-[11px] font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>{category.name}</h4>
+                      <p className={`text-[9px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{category.checks.length} checks</p>
                     </div>
                   </div>
 
@@ -276,14 +276,14 @@ const ValidationChecklist: React.FC = () => {
                         </span>
                       </div>
                     ) : (
-                      <span className={`text-[9px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Pending</span>
+                      <span className={`text-[9px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>Pending</span>
                     )}
                   </div>
                 </div>
 
                 {/* Expanded Checks - Always rendered, visibility controlled by opacity/transform */}
                 <div
-                  className={`overflow-hidden border-t transition-all duration-200 ${isDark ? 'border-slate-700' : 'border-slate-100'} ${
+                  className={`overflow-hidden border-t transition-all duration-200 ${isDark ? 'border-neutral-700' : 'border-neutral-100'} ${
                     (isCurrent || activeCategory === category.id) && isActive
                       ? 'max-h-40 opacity-100'
                       : 'max-h-0 opacity-0'
@@ -296,7 +296,7 @@ const ValidationChecklist: React.FC = () => {
                         initial={{ opacity: 0, x: -5 }}
                         animate={(isCurrent || activeCategory === category.id) && isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -5 }}
                         transition={{ delay: checkIndex * 0.05 }}
-                        className={`flex items-center justify-between py-1 px-2 rounded-lg ${isDark ? 'bg-slate-800/50' : 'bg-white'}`}
+                        className={`flex items-center justify-between py-1 px-2 rounded-lg ${isDark ? 'bg-neutral-800/50' : 'bg-white'}`}
                       >
                         <div className="flex items-center gap-2">
                           {check.status === 'success' ? (
@@ -307,7 +307,7 @@ const ValidationChecklist: React.FC = () => {
                             <XCircle className="w-3.5 h-3.5 text-red-500" />
                           )}
                           <div>
-                            <span className={`text-[10px] ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{check.label}</span>
+                            <span className={`text-[10px] ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>{check.label}</span>
                             {check.note && (
                               <p className={`text-[8px] ${
                                 check.status === 'error' ? 'text-red-400' : 'text-amber-400'
@@ -333,24 +333,24 @@ const ValidationChecklist: React.FC = () => {
             animate={validationComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
           >
-            <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} p-3`}>
+            <div className={`rounded-xl ${isDark ? 'bg-neutral-800/80' : 'bg-neutral-100'} p-3`}>
               <div className="flex items-center justify-between mb-2">
-                <h4 className={`text-[10px] font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Summary</h4>
-                <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>2.3s</span>
+                <h4 className={`text-[10px] font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>Summary</h4>
+                <span className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>2.3s</span>
               </div>
 
               <div className="grid grid-cols-3 gap-2">
                 <div className="text-center">
                   <div className="text-sm font-bold text-emerald-500">{successCount}</div>
-                  <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Passed</div>
+                  <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Passed</div>
                 </div>
                 <div className="text-center">
                   <div className="text-sm font-bold text-amber-500">{warningCount}</div>
-                  <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Warnings</div>
+                  <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Warnings</div>
                 </div>
                 <div className="text-center">
                   <div className="text-sm font-bold text-red-500">{errorCount}</div>
-                  <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Errors</div>
+                  <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Errors</div>
                 </div>
               </div>
             </div>
@@ -364,22 +364,22 @@ const ValidationChecklist: React.FC = () => {
           transition={{ delay: 0.5 }}
           className="mt-3 flex justify-between gap-2"
         >
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center`}>
               <Zap className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>&lt;100ms</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Response</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>&lt;100ms</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Response</div>
             </div>
           </div>
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-clarity-secondary to-emerald-500 flex items-center justify-center`}>
               <BadgeCheck className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>200K+</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Payer Rules</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>200K+</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Payer Rules</div>
             </div>
           </div>
         </motion.div>

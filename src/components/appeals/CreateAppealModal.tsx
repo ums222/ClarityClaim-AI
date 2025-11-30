@@ -162,14 +162,14 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50">
+          <div className="px-6 py-4 border-b border-neutral-100 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl">
                 <Scale className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Create New Appeal</h2>
-                <p className="text-sm text-gray-500">
+                <h2 className="text-lg font-semibold text-neutral-900">Create New Appeal</h2>
+                <p className="text-sm text-neutral-500">
                   {step === 'select-claim' && 'Step 1: Select a denied claim'}
                   {step === 'appeal-details' && 'Step 2: Enter appeal details'}
                   {step === 'review' && 'Step 3: Review and create'}
@@ -178,14 +178,14 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Progress Steps */}
-          <div className="px-6 py-3 border-b border-gray-100 bg-gray-50">
+          <div className="px-6 py-3 border-b border-neutral-100 bg-neutral-50">
             <div className="flex items-center gap-2">
               {['select-claim', 'appeal-details', 'review'].map((s, i) => (
                 <div key={s} className="flex items-center">
@@ -194,7 +194,7 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                       ? 'bg-blue-600 text-white' 
                       : ['appeal-details', 'review'].indexOf(step) > ['appeal-details', 'review'].indexOf(s as Step)
                         ? 'bg-green-500 text-white'
-                        : 'bg-gray-200 text-gray-500'
+                        : 'bg-neutral-200 text-neutral-500'
                   }`}>
                     {['appeal-details', 'review'].indexOf(step) > i ? (
                       <CheckCircle className="w-5 h-5" />
@@ -203,7 +203,7 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                     )}
                   </div>
                   {i < 2 && (
-                    <ChevronRight className="w-4 h-4 mx-2 text-gray-300" />
+                    <ChevronRight className="w-4 h-4 mx-2 text-neutral-300" />
                   )}
                 </div>
               ))}
@@ -216,26 +216,26 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
             {step === 'select-claim' && (
               <div className="space-y-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                   <input
                     type="text"
                     placeholder="Search denied claims by number, patient, or payer..."
                     value={claimSearch}
                     onChange={(e) => setClaimSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full pl-10 pr-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 {claimsLoading ? (
                   <div className="py-12 text-center">
                     <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
-                    <p className="text-gray-500">Loading denied claims...</p>
+                    <p className="text-neutral-500">Loading denied claims...</p>
                   </div>
                 ) : filteredClaims.length === 0 ? (
                   <div className="py-12 text-center">
-                    <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                    <p className="text-gray-500">No denied claims found</p>
-                    <p className="text-sm text-gray-400 mt-1">
+                    <FileText className="w-12 h-12 text-neutral-300 mx-auto mb-3" />
+                    <p className="text-neutral-500">No denied claims found</p>
+                    <p className="text-sm text-neutral-400 mt-1">
                       Appeals can only be created for denied claims
                     </p>
                   </div>
@@ -251,19 +251,19 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                         className={`w-full p-4 border rounded-xl text-left transition-all hover:border-blue-300 hover:bg-blue-50/50 ${
                           selectedClaim?.id === claim.id
                             ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 bg-white'
+                            : 'border-neutral-200 bg-white'
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium text-gray-900">{claim.claim_number}</p>
-                            <p className="text-sm text-gray-500">{claim.patient_name} • {claim.payer_name}</p>
+                            <p className="font-medium text-neutral-900">{claim.claim_number}</p>
+                            <p className="text-sm text-neutral-500">{claim.patient_name} • {claim.payer_name}</p>
                           </div>
                           <div className="text-right">
-                            <p className="font-medium text-gray-900">
+                            <p className="font-medium text-neutral-900">
                               ${claim.billed_amount?.toLocaleString()}
                             </p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-neutral-500">
                               {claim.service_date && new Date(claim.service_date).toLocaleDateString()}
                             </p>
                           </div>
@@ -311,13 +311,13 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                 <div className="grid grid-cols-2 gap-4">
                   {/* Appeal Type */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                       Appeal Type
                     </label>
                     <select
                       value={appealType}
                       onChange={(e) => setAppealType(e.target.value as AppealType)}
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       {Object.entries(APPEAL_TYPE_LABELS).map(([key, label]) => (
                         <option key={key} value={key}>{label}</option>
@@ -327,13 +327,13 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
 
                   {/* Priority */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                       Priority
                     </label>
                     <select
                       value={priority}
                       onChange={(e) => setPriority(e.target.value as AppealPriority)}
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       {Object.entries(PRIORITY_LABELS).map(([key, label]) => (
                         <option key={key} value={key}>{label}</option>
@@ -344,7 +344,7 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
 
                 {/* Denial Information */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                     Denial Reason
                   </label>
                   <textarea
@@ -352,13 +352,13 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                     onChange={(e) => setDenialReason(e.target.value)}
                     placeholder="Enter the reason for denial..."
                     rows={3}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                       Denial Code
                     </label>
                     <input
@@ -366,29 +366,29 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                       value={denialCode}
                       onChange={(e) => setDenialCode(e.target.value)}
                       placeholder="e.g., CO-50"
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                       Amount to Appeal
                     </label>
                     <div className="relative">
-                      <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                       <input
                         type="number"
                         value={amountAppealed}
                         onChange={(e) => setAmountAppealed(e.target.value)}
                         placeholder="0.00"
-                        className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full pl-10 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                     <Calendar className="w-4 h-4 inline mr-1" />
                     Filing Deadline
                   </label>
@@ -396,7 +396,7 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                     type="date"
                     value={deadline}
                     onChange={(e) => setDeadline(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -407,14 +407,14 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                       type="checkbox"
                       checked={useAI}
                       onChange={(e) => setUseAI(e.target.checked)}
-                      className="mt-1 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                      className="mt-1 w-4 h-4 text-purple-600 border-neutral-300 rounded focus:ring-purple-500"
                     />
                     <div>
                       <div className="flex items-center gap-2">
                         <Sparkles className="w-4 h-4 text-purple-600" />
-                        <span className="font-medium text-gray-900">AI-Assisted Appeal</span>
+                        <span className="font-medium text-neutral-900">AI-Assisted Appeal</span>
                       </div>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-neutral-600 mt-1">
                         Let AI analyze the denial and help draft a compelling appeal letter
                       </p>
                     </div>
@@ -422,7 +422,7 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                     Additional Notes
                   </label>
                   <textarea
@@ -430,7 +430,7 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Any additional context or notes..."
                     rows={2}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   />
                 </div>
               </div>
@@ -439,44 +439,44 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
             {/* Step 3: Review */}
             {step === 'review' && selectedClaim && (
               <div className="space-y-4">
-                <div className="bg-gray-50 rounded-xl p-4 space-y-3">
-                  <h3 className="font-medium text-gray-900">Appeal Summary</h3>
+                <div className="bg-neutral-50 rounded-xl p-4 space-y-3">
+                  <h3 className="font-medium text-neutral-900">Appeal Summary</h3>
                   
                   <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
                     <div>
-                      <p className="text-gray-500">Claim Number</p>
-                      <p className="font-medium text-gray-900">{selectedClaim.claim_number}</p>
+                      <p className="text-neutral-500">Claim Number</p>
+                      <p className="font-medium text-neutral-900">{selectedClaim.claim_number}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Patient</p>
-                      <p className="font-medium text-gray-900">{selectedClaim.patient_name}</p>
+                      <p className="text-neutral-500">Patient</p>
+                      <p className="font-medium text-neutral-900">{selectedClaim.patient_name}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Payer</p>
-                      <p className="font-medium text-gray-900">{selectedClaim.payer_name}</p>
+                      <p className="text-neutral-500">Payer</p>
+                      <p className="font-medium text-neutral-900">{selectedClaim.payer_name}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Appeal Type</p>
-                      <p className="font-medium text-gray-900">{APPEAL_TYPE_LABELS[appealType]}</p>
+                      <p className="text-neutral-500">Appeal Type</p>
+                      <p className="font-medium text-neutral-900">{APPEAL_TYPE_LABELS[appealType]}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Priority</p>
-                      <p className="font-medium text-gray-900">{PRIORITY_LABELS[priority]}</p>
+                      <p className="text-neutral-500">Priority</p>
+                      <p className="font-medium text-neutral-900">{PRIORITY_LABELS[priority]}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Amount</p>
-                      <p className="font-medium text-gray-900">
+                      <p className="text-neutral-500">Amount</p>
+                      <p className="font-medium text-neutral-900">
                         ${parseFloat(amountAppealed || '0').toLocaleString()}
                       </p>
                     </div>
                     <div className="col-span-2">
-                      <p className="text-gray-500">Denial Reason</p>
-                      <p className="font-medium text-gray-900">{denialReason || 'Not specified'}</p>
+                      <p className="text-neutral-500">Denial Reason</p>
+                      <p className="font-medium text-neutral-900">{denialReason || 'Not specified'}</p>
                     </div>
                     {deadline && (
                       <div className="col-span-2">
-                        <p className="text-gray-500">Filing Deadline</p>
-                        <p className="font-medium text-gray-900">
+                        <p className="text-neutral-500">Filing Deadline</p>
+                        <p className="font-medium text-neutral-900">
                           {new Date(deadline).toLocaleDateString()}
                         </p>
                       </div>
@@ -484,12 +484,12 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
                   </div>
 
                   {useAI && (
-                    <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="mt-4 pt-4 border-t border-neutral-200">
                       <div className="flex items-center gap-2 text-purple-700">
                         <Sparkles className="w-4 h-4" />
                         <span className="text-sm font-medium">AI assistance enabled</span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-neutral-500 mt-1">
                         An AI-generated appeal letter will be created after submission
                       </p>
                     </div>
@@ -509,14 +509,14 @@ export function CreateAppealModal({ isOpen, onClose, onSuccess, preselectedClaim
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50">
+          <div className="px-6 py-4 border-t border-neutral-100 flex items-center justify-between bg-neutral-50">
             <button
               onClick={() => {
                 if (step === 'appeal-details') setStep('select-claim');
                 else if (step === 'review') setStep('appeal-details');
                 else onClose();
               }}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="px-4 py-2 text-neutral-600 hover:text-neutral-800 transition-colors"
             >
               {step === 'select-claim' ? 'Cancel' : 'Back'}
             </button>

@@ -106,8 +106,8 @@ const EquityDashboard: React.FC = () => {
       ref={containerRef} 
       className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
-          ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-rose-900/20 border-slate-700/80 hover:border-rose-500/50 hover:shadow-lg hover:shadow-rose-500/20' 
-          : 'bg-gradient-to-br from-slate-50 via-white to-rose-50/50 border-slate-200 hover:border-rose-400/50 hover:shadow-lg hover:shadow-rose-300/20'
+          ? 'bg-gradient-to-br from-neutral-900 via-neutral-900/95 to-rose-900/20 border-neutral-700/80 hover:border-rose-500/50 hover:shadow-lg hover:shadow-rose-500/20' 
+          : 'bg-gradient-to-br from-neutral-50 via-white to-rose-50/50 border-neutral-200 hover:border-rose-400/50 hover:shadow-lg hover:shadow-rose-300/20'
       }`}
       style={{ height: '620px' }}
       whileHover={{ scale: 1.02 }}
@@ -128,15 +128,15 @@ const EquityDashboard: React.FC = () => {
 
       <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
-        <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
+        <div className={`rounded-xl ${isDark ? 'bg-neutral-800/80' : 'bg-neutral-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className={`w-7 h-7 rounded-lg bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center shadow-sm`}>
                 <Scale className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Equity Dashboard</h3>
-                <p className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Real-time Monitoring</p>
+                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>Equity Dashboard</h3>
+                <p className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Real-time Monitoring</p>
               </div>
             </div>
             <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full ${isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'}`}>
@@ -202,14 +202,14 @@ const EquityDashboard: React.FC = () => {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className={`text-lg font-bold ${getScoreColor(equityScore)}`}>{equityScore}</span>
-              <span className={`text-[8px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Score</span>
+              <span className={`text-[8px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>Score</span>
             </div>
           </div>
 
           {/* Score Details */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 mb-1">
-              <h4 className={`text-[11px] font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Equity Index</h4>
+              <h4 className={`text-[11px] font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>Equity Index</h4>
               <TrendingUp className="w-3 h-3 text-emerald-500" />
               <span className="text-[9px] text-emerald-500 font-medium">+3.2%</span>
             </div>
@@ -225,7 +225,7 @@ const EquityDashboard: React.FC = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className={`flex gap-1 mb-3 p-0.5 ${isDark ? 'bg-slate-800/50' : 'bg-slate-100'} rounded-lg`}>
+        <div className={`flex gap-1 mb-3 p-0.5 ${isDark ? 'bg-neutral-800/50' : 'bg-neutral-100'} rounded-lg`}>
           {[
             { id: 'demographics' as const, label: 'Demo', icon: Users },
             { id: 'geography' as const, label: 'Geo', icon: MapPin },
@@ -237,11 +237,11 @@ const EquityDashboard: React.FC = () => {
               className={`flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-md text-[9px] font-medium transition-all ${
                 activeTab === tab.id
                   ? isDark 
-                    ? 'bg-slate-700 text-white shadow-sm' 
-                    : 'bg-white text-slate-900 shadow-sm'
+                    ? 'bg-neutral-700 text-white shadow-sm' 
+                    : 'bg-white text-neutral-900 shadow-sm'
                   : isDark 
-                    ? 'text-slate-400 hover:text-slate-300' 
-                    : 'text-slate-500 hover:text-slate-700'
+                    ? 'text-neutral-400 hover:text-neutral-300' 
+                    : 'text-neutral-500 hover:text-neutral-700'
               }`}
             >
               <tab.icon className="w-3 h-3" />
@@ -269,18 +269,18 @@ const EquityDashboard: React.FC = () => {
                   className={`p-2 rounded-lg border ${
                     item.flagged 
                       ? isDark ? 'bg-rose-500/10 border-rose-500/30' : 'bg-rose-50 border-rose-200'
-                      : isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-slate-50 border-slate-200'
+                      : isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-neutral-50 border-neutral-200'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
-                      <span className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>{item.group}</span>
+                      <span className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.group}</span>
                       {item.flagged && <AlertCircle className="w-3 h-3 text-rose-500" />}
                     </div>
-                    <span className={`text-[9px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{item.count}</span>
+                    <span className={`text-[9px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.count}</span>
                   </div>
                   <div className="flex items-center gap-2 mt-1">
-                    <div className={`flex-1 h-1.5 ${isDark ? 'bg-slate-700' : 'bg-slate-200'} rounded-full overflow-hidden`}>
+                    <div className={`flex-1 h-1.5 ${isDark ? 'bg-neutral-700' : 'bg-neutral-200'} rounded-full overflow-hidden`}>
                       <motion.div
                         className={`h-full rounded-full ${item.flagged ? 'bg-rose-500' : 'bg-emerald-500'}`}
                         initial={{ width: 0 }}
@@ -314,7 +314,7 @@ const EquityDashboard: React.FC = () => {
                   className={`p-2 rounded-lg border ${
                     item.flagged
                       ? isDark ? 'bg-amber-500/10 border-amber-500/30' : 'bg-amber-50 border-amber-200'
-                      : isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-slate-50 border-slate-200'
+                      : isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-neutral-50 border-neutral-200'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -327,8 +327,8 @@ const EquityDashboard: React.FC = () => {
                         <MapPin className={`w-3 h-3 ${item.flagged ? 'text-amber-500' : 'text-clarity-secondary'}`} />
                       </div>
                       <div>
-                        <h5 className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>{item.region}</h5>
-                        <p className={`text-[8px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{item.population}</p>
+                        <h5 className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.region}</h5>
+                        <p className={`text-[8px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.population}</p>
                       </div>
                     </div>
                     <span className={`text-sm font-bold ${item.flagged ? 'text-amber-500' : 'text-emerald-500'}`}>
@@ -360,7 +360,7 @@ const EquityDashboard: React.FC = () => {
                   initial={{ opacity: 0, x: -5 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className={`flex items-center gap-2 p-2 rounded-lg border ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-slate-50 border-slate-200'}`}
+                  className={`flex items-center gap-2 p-2 rounded-lg border ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-neutral-50 border-neutral-200'}`}
                 >
                   <div className={`w-6 h-6 rounded-md flex items-center justify-center ${
                     item.status === 'excellent' ? isDark ? 'bg-emerald-500/20' : 'bg-emerald-100' :
@@ -373,10 +373,10 @@ const EquityDashboard: React.FC = () => {
                     }`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h5 className={`text-[10px] font-medium truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>{item.type}</h5>
+                    <h5 className={`text-[10px] font-medium truncate ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.type}</h5>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className={`w-10 h-1.5 ${isDark ? 'bg-slate-700' : 'bg-slate-200'} rounded-full overflow-hidden`}>
+                    <div className={`w-10 h-1.5 ${isDark ? 'bg-neutral-700' : 'bg-neutral-200'} rounded-full overflow-hidden`}>
                       <motion.div
                         className={`h-full rounded-full ${
                           item.status === 'excellent' ? 'bg-emerald-500' :
@@ -401,9 +401,9 @@ const EquityDashboard: React.FC = () => {
         </AnimatePresence>
 
         {/* Compliance Footer */}
-        <div className={`mt-3 pt-3 border-t ${isDark ? 'border-slate-700/50' : 'border-slate-200'}`}>
+        <div className={`mt-3 pt-3 border-t ${isDark ? 'border-neutral-700/50' : 'border-neutral-200'}`}>
           <div className="flex items-center justify-between mb-2">
-            <span className={`text-[10px] font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Compliance</span>
+            <span className={`text-[10px] font-medium ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>Compliance</span>
           </div>
           <div className="grid grid-cols-3 gap-1.5">
             {complianceMetrics.map((metric, i) => (
@@ -426,7 +426,7 @@ const EquityDashboard: React.FC = () => {
                 <div className={`text-[9px] font-bold ${metric.status === 'compliant' ? 'text-emerald-500' : 'text-amber-500'}`}>
                   {metric.score}%
                 </div>
-                <div className={`text-[7px] ${isDark ? 'text-slate-500' : 'text-slate-400'} truncate`}>{metric.name}</div>
+                <div className={`text-[7px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'} truncate`}>{metric.name}</div>
               </motion.div>
             ))}
           </div>
@@ -439,22 +439,22 @@ const EquityDashboard: React.FC = () => {
           transition={{ delay: 0.5 }}
           className="mt-3 flex justify-between gap-2"
         >
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center`}>
               <Target className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>50%</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Goal</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>50%</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Goal</div>
             </div>
           </div>
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center`}>
               <Activity className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>Real-time</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Monitor</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>Real-time</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Monitor</div>
             </div>
           </div>
         </motion.div>

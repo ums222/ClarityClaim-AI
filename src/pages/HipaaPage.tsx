@@ -8,40 +8,40 @@ const HipaaPage = () => {
   const isDark = theme === "dark";
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
         <div className="mx-auto max-w-4xl px-4 md:px-6 lg:px-8">
           {/* Header */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 md:p-12 mb-8`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 md:p-12 mb-8`}>
             <div className="flex items-center gap-3 mb-4">
               <div className={`p-3 rounded-xl ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                 <Shield className="h-6 w-6 text-teal-500" />
               </div>
               <div>
-                <h1 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h1 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-neutral-900"}`}>
                   HIPAA Notice
                 </h1>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                   Notice of Privacy Practices
                 </p>
               </div>
             </div>
-            <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Effective Date: January 1, 2025
             </p>
           </div>
 
           {/* Main Content */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 md:p-12`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 md:p-12`}>
             <div className={`prose max-w-none ${isDark ? "prose-invert" : ""}`}>
               
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Our Commitment to HIPAA Compliance
                 </h2>
-                <p className={`mb-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <p className={`mb-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   ClarityClaim AI operates as a Business Associate under the Health Insurance Portability and Accountability Act of 1996 (HIPAA). This notice describes how medical information about patients may be used and disclosed through our platform and how you can get access to this information.
                 </p>
                 <div className={`p-4 rounded-lg border ${isDark ? "border-teal-500/30 bg-teal-500/10" : "border-teal-200 bg-teal-50"}`}>
@@ -52,13 +52,13 @@ const HipaaPage = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Our Role as a Business Associate
                 </h2>
-                <p className={`mb-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <p className={`mb-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   When healthcare organizations use ClarityClaim AI to manage claims, we act as a Business Associate. This means we:
                 </p>
-                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li>Enter into Business Associate Agreements (BAAs) with all covered entities</li>
                   <li>Only use Protected Health Information (PHI) for permitted purposes</li>
                   <li>Implement appropriate safeguards to protect PHI</li>
@@ -69,35 +69,35 @@ const HipaaPage = () => {
 
               {/* Key Protections Grid */}
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   How We Protect Health Information
                 </h2>
                 <div className="grid gap-4 md:grid-cols-2 not-prose">
-                  <div className={`p-4 rounded-xl ${isDark ? "bg-slate-800" : "bg-white"} border ${isDark ? "border-slate-700" : "border-slate-200"}`}>
+                  <div className={`p-4 rounded-xl ${isDark ? "bg-neutral-800" : "bg-white"} border ${isDark ? "border-neutral-700" : "border-neutral-200"}`}>
                     <Lock className={`h-5 w-5 mb-2 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>Encryption</h3>
-                    <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-neutral-900"}`}>Encryption</h3>
+                    <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                       End-to-end encryption for all PHI in transit and at rest using AES-256.
                     </p>
                   </div>
-                  <div className={`p-4 rounded-xl ${isDark ? "bg-slate-800" : "bg-white"} border ${isDark ? "border-slate-700" : "border-slate-200"}`}>
+                  <div className={`p-4 rounded-xl ${isDark ? "bg-neutral-800" : "bg-white"} border ${isDark ? "border-neutral-700" : "border-neutral-200"}`}>
                     <Users className={`h-5 w-5 mb-2 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>Access Controls</h3>
-                    <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-neutral-900"}`}>Access Controls</h3>
+                    <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                       Role-based access controls ensuring minimum necessary access to PHI.
                     </p>
                   </div>
-                  <div className={`p-4 rounded-xl ${isDark ? "bg-slate-800" : "bg-white"} border ${isDark ? "border-slate-700" : "border-slate-200"}`}>
+                  <div className={`p-4 rounded-xl ${isDark ? "bg-neutral-800" : "bg-white"} border ${isDark ? "border-neutral-700" : "border-neutral-200"}`}>
                     <FileCheck className={`h-5 w-5 mb-2 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>Audit Trails</h3>
-                    <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-neutral-900"}`}>Audit Trails</h3>
+                    <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                       Comprehensive logging of all PHI access and modifications.
                     </p>
                   </div>
-                  <div className={`p-4 rounded-xl ${isDark ? "bg-slate-800" : "bg-white"} border ${isDark ? "border-slate-700" : "border-slate-200"}`}>
+                  <div className={`p-4 rounded-xl ${isDark ? "bg-neutral-800" : "bg-white"} border ${isDark ? "border-neutral-700" : "border-neutral-200"}`}>
                     <Shield className={`h-5 w-5 mb-2 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>Security Assessments</h3>
-                    <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                    <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-neutral-900"}`}>Security Assessments</h3>
+                    <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                       Regular risk assessments and penetration testing of our systems.
                     </p>
                   </div>
@@ -105,13 +105,13 @@ const HipaaPage = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Permitted Uses and Disclosures of PHI
                 </h2>
-                <p className={`mb-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <p className={`mb-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   Under our Business Associate Agreement, we may use and disclose PHI only for:
                 </p>
-                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li><strong>Treatment:</strong> Processing claims and appeals related to patient care</li>
                   <li><strong>Payment:</strong> Submitting claims and managing the revenue cycle</li>
                   <li><strong>Healthcare Operations:</strong> Quality improvement and analytics</li>
@@ -121,13 +121,13 @@ const HipaaPage = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Your Rights Regarding PHI
                 </h2>
-                <p className={`mb-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <p className={`mb-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   Under HIPAA, individuals have certain rights regarding their PHI. While these rights are primarily exercised through the covered entity (healthcare provider), we support:
                 </p>
-                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li><strong>Right to Access:</strong> Individuals can request access to their PHI</li>
                   <li><strong>Right to Amendment:</strong> Request corrections to inaccurate PHI</li>
                   <li><strong>Right to Accounting:</strong> Receive an accounting of disclosures</li>
@@ -138,7 +138,7 @@ const HipaaPage = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Breach Notification
                 </h2>
                 <div className={`p-4 rounded-lg border ${isDark ? "border-amber-500/30 bg-amber-500/10" : "border-amber-200 bg-amber-50"} mb-4`}>
@@ -149,10 +149,10 @@ const HipaaPage = () => {
                     </p>
                   </div>
                 </div>
-                <p className={`mb-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <p className={`mb-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   Our breach response includes:
                 </p>
-                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li>Immediate investigation and containment</li>
                   <li>Risk assessment of the breach</li>
                   <li>Notification to covered entities</li>
@@ -162,13 +162,13 @@ const HipaaPage = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Technical Safeguards
                 </h2>
-                <p className={`mb-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <p className={`mb-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   We implement the following technical safeguards required by the HIPAA Security Rule:
                 </p>
-                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li>Unique user identification and authentication</li>
                   <li>Automatic session timeout and logoff</li>
                   <li>Encryption of electronic PHI</li>
@@ -179,10 +179,10 @@ const HipaaPage = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Administrative Safeguards
                 </h2>
-                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li>Designated Privacy and Security Officers</li>
                   <li>Workforce training on HIPAA requirements</li>
                   <li>Sanctions for policy violations</li>
@@ -193,10 +193,10 @@ const HipaaPage = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Physical Safeguards
                 </h2>
-                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`list-disc pl-6 mb-4 space-y-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li>SOC 2 Type II certified data centers</li>
                   <li>Facility access controls</li>
                   <li>Workstation security policies</li>
@@ -206,20 +206,20 @@ const HipaaPage = () => {
               </section>
 
               <section>
-                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Contact Information
                 </h2>
-                <p className={`mb-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <p className={`mb-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   For questions about this notice or our HIPAA compliance practices:
                 </p>
-                <div className={`p-4 rounded-lg ${isDark ? "bg-slate-800" : "bg-slate-100"} not-prose`}>
+                <div className={`p-4 rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"} not-prose`}>
                   <div className="flex items-start gap-3">
                     <Phone className={`h-5 w-5 flex-shrink-0 mt-0.5 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                     <div>
-                      <p className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>
+                      <p className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>
                         ClarityClaim AI - Privacy Office
                       </p>
-                      <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                      <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                         Email: hipaa@clarityclaim.ai<br />
                         Phone: +1 (555) 123-4567<br />
                         Available: Monday - Friday, 9 AM - 5 PM ET
@@ -227,7 +227,7 @@ const HipaaPage = () => {
                     </div>
                   </div>
                 </div>
-                <p className={`mt-4 text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                <p className={`mt-4 text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                   You may also file a complaint with the Secretary of Health and Human Services if you believe your privacy rights have been violated.
                 </p>
               </section>

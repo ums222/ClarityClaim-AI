@@ -38,7 +38,7 @@ function TemplateCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all overflow-hidden group"
+      className="bg-white rounded-xl border border-neutral-200 hover:border-blue-300 hover:shadow-md transition-all overflow-hidden group"
     >
       <div className="p-5">
         <div className="flex items-start justify-between mb-3">
@@ -46,16 +46,16 @@ function TemplateCard({
             <div className={`p-2 rounded-lg ${
               template.is_system
                 ? 'bg-gradient-to-br from-blue-500 to-indigo-600'
-                : 'bg-gray-100'
+                : 'bg-neutral-100'
             }`}>
-              <FileText className={`w-5 h-5 ${template.is_system ? 'text-white' : 'text-gray-600'}`} />
+              <FileText className={`w-5 h-5 ${template.is_system ? 'text-white' : 'text-neutral-600'}`} />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors">
                 {template.name}
               </h3>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
+                <span className="px-2 py-0.5 bg-neutral-100 text-neutral-600 text-xs rounded">
                   {category?.label || template.category}
                 </span>
                 {template.is_system && (
@@ -71,14 +71,14 @@ function TemplateCard({
           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               onClick={(e) => { e.stopPropagation(); onEdit(); }}
-              className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              className="p-1.5 text-neutral-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
               title="Edit"
             >
               <Edit className="w-4 h-4" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); onDuplicate(); }}
-              className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              className="p-1.5 text-neutral-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
               title="Duplicate"
             >
               <Copy className="w-4 h-4" />
@@ -86,11 +86,11 @@ function TemplateCard({
           </div>
         </div>
 
-        <p className="text-sm text-gray-500 line-clamp-2 mb-4">
+        <p className="text-sm text-neutral-500 line-clamp-2 mb-4">
           {template.description || 'No description provided'}
         </p>
 
-        <div className="flex items-center justify-between text-xs text-gray-400">
+        <div className="flex items-center justify-between text-xs text-neutral-400">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <TrendingUp className="w-3 h-3" />
@@ -113,8 +113,8 @@ function TemplateCard({
       </div>
 
       {/* Preview snippet */}
-      <div className="px-5 py-3 bg-gray-50 border-t border-gray-100">
-        <p className="text-xs text-gray-500 font-mono line-clamp-2">
+      <div className="px-5 py-3 bg-neutral-50 border-t border-neutral-100">
+        <p className="text-xs text-neutral-500 font-mono line-clamp-2">
           {template.letter_template.substring(0, 150)}...
         </p>
       </div>
@@ -196,23 +196,23 @@ function TemplateEditorModal({
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="px-6 py-4 border-b border-neutral-100 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <FileText className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-neutral-900">
                   {template ? 'Edit Template' : 'Create New Template'}
                 </h2>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-neutral-500">
                   {template ? 'Modify your appeal template' : 'Create a reusable appeal template'}
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+              className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-lg"
             >
               <X className="w-5 h-5" />
             </button>
@@ -222,7 +222,7 @@ function TemplateEditorModal({
           <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)] space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                   Template Name *
                 </label>
                 <input
@@ -230,17 +230,17 @@ function TemplateEditorModal({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g., Medical Necessity Appeal"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                   Category
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {TEMPLATE_CATEGORIES.map(cat => (
                     <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -250,7 +250,7 @@ function TemplateEditorModal({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                 Description
               </label>
               <input
@@ -258,12 +258,12 @@ function TemplateEditorModal({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Brief description of when to use this template"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                 Subject Line
               </label>
               <input
@@ -271,16 +271,16 @@ function TemplateEditorModal({
                 value={subjectLine}
                 onChange={(e) => setSubjectLine(e.target.value)}
                 placeholder="Appeal Subject Line (use {{placeholders}})"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                   Letter Template *
                 </label>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-neutral-400">
                   Use {"{{placeholder}}"} for dynamic content
                 </span>
               </div>
@@ -289,7 +289,7 @@ function TemplateEditorModal({
                 onChange={(e) => setLetterTemplate(e.target.value)}
                 placeholder="Enter your appeal letter template..."
                 rows={15}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none font-mono text-sm"
+                className="w-full px-4 py-3 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none font-mono text-sm"
               />
             </div>
 
@@ -314,10 +314,10 @@ function TemplateEditorModal({
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50">
+          <div className="px-6 py-4 border-t border-neutral-100 flex items-center justify-between bg-neutral-50">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="px-4 py-2 text-neutral-600 hover:text-neutral-800 transition-colors"
             >
               Cancel
             </button>
@@ -420,10 +420,10 @@ export default function AppealTemplatesPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-700 bg-clip-text text-transparent">
               Appeal Templates
             </h1>
-            <p className="text-gray-500 mt-1">
+            <p className="text-neutral-500 mt-1">
               Pre-built templates to streamline your appeal process
             </p>
           </div>
@@ -439,16 +439,16 @@ export default function AppealTemplatesPage() {
         </div>
 
         {/* Search and Filter */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 mb-6">
+        <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-4 mb-6">
           <div className="flex items-center gap-4">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
               <input
                 type="text"
                 placeholder="Search templates..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -458,7 +458,7 @@ export default function AppealTemplatesPage() {
                 className={`px-4 py-2 text-sm rounded-lg transition-colors ${
                   !selectedCategory
                     ? 'bg-blue-100 text-blue-700'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                 }`}
               >
                 All
@@ -470,7 +470,7 @@ export default function AppealTemplatesPage() {
                   className={`px-4 py-2 text-sm rounded-lg transition-colors ${
                     selectedCategory === cat.value
                       ? 'bg-blue-100 text-blue-700'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                   }`}
                 >
                   {cat.label}
@@ -483,14 +483,14 @@ export default function AppealTemplatesPage() {
         {loading ? (
           <div className="py-20 text-center">
             <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-gray-500">Loading templates...</p>
+            <p className="text-neutral-500">Loading templates...</p>
           </div>
         ) : (
           <>
             {/* System Templates */}
             {systemTemplates.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
                   <Star className="w-5 h-5 text-blue-600" />
                   System Templates
                 </h2>
@@ -510,7 +510,7 @@ export default function AppealTemplatesPage() {
             {/* Custom Templates */}
             {customTemplates.length > 0 && (
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                <h2 className="text-lg font-semibold text-neutral-900 mb-4">
                   Your Custom Templates
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -529,9 +529,9 @@ export default function AppealTemplatesPage() {
             {/* Empty State */}
             {filteredTemplates.length === 0 && (
               <div className="py-20 text-center">
-                <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-1">No templates found</h3>
-                <p className="text-gray-500 mb-4">
+                <FileText className="w-16 h-16 text-neutral-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-neutral-900 mb-1">No templates found</h3>
+                <p className="text-neutral-500 mb-4">
                   {searchQuery || selectedCategory
                     ? 'Try adjusting your search or filters'
                     : 'Create your first custom template to get started'

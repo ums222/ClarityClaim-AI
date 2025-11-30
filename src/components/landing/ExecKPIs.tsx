@@ -85,7 +85,7 @@ const ExecKPIs: React.FC = () => {
     { reason: 'Medical Necessity', percentage: 34, colorClass: 'bg-violet-500' },
     { reason: 'Prior Auth Missing', percentage: 28, colorClass: 'bg-clarity-secondary' },
     { reason: 'Coding Errors', percentage: 22, colorClass: 'bg-clarity-accent' },
-    { reason: 'Other', percentage: 16, colorClass: 'bg-slate-400' }
+    { reason: 'Other', percentage: 16, colorClass: 'bg-neutral-400' }
   ];
 
   // Payer performance
@@ -137,8 +137,8 @@ const ExecKPIs: React.FC = () => {
       ref={containerRef} 
       className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
-          ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-900/20 border-slate-700/80 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-500/20' 
-          : 'bg-gradient-to-br from-slate-50 via-white to-blue-50/50 border-slate-200 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-300/20'
+          ? 'bg-gradient-to-br from-neutral-900 via-neutral-900/95 to-blue-900/20 border-neutral-700/80 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-500/20' 
+          : 'bg-gradient-to-br from-neutral-50 via-white to-blue-50/50 border-neutral-200 hover:border-clarity-primary/50 hover:shadow-lg hover:shadow-blue-300/20'
       }`}
       style={{ height: '620px' }}
       whileHover={{ scale: 1.02 }}
@@ -160,20 +160,20 @@ const ExecKPIs: React.FC = () => {
 
       <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
-        <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
+        <div className={`rounded-xl ${isDark ? 'bg-neutral-800/80' : 'bg-neutral-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className={`w-7 h-7 rounded-lg bg-gradient-to-br from-clarity-primary to-blue-600 flex items-center justify-center shadow-sm`}>
                 <BarChart3 className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Exec Dashboard</h3>
-                <p className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Real-time Analytics</p>
+                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>Exec Dashboard</h3>
+                <p className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Real-time Analytics</p>
               </div>
             </div>
             
             {/* Time Range */}
-            <div className={`flex items-center gap-0.5 p-0.5 ${isDark ? 'bg-slate-700/50' : 'bg-slate-200'} rounded-md`}>
+            <div className={`flex items-center gap-0.5 p-0.5 ${isDark ? 'bg-neutral-700/50' : 'bg-neutral-200'} rounded-md`}>
               {['7d', '30d', '90d'].map((range) => (
                 <button
                   key={range}
@@ -181,7 +181,7 @@ const ExecKPIs: React.FC = () => {
                   className={`px-1.5 py-0.5 text-[8px] font-medium rounded transition-all ${
                     activeTimeframe === range
                       ? 'bg-clarity-primary text-white'
-                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'
+                      : isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-500 hover:text-neutral-800'
                   }`}
                 >
                   {range}
@@ -198,13 +198,13 @@ const ExecKPIs: React.FC = () => {
                 transition={{ duration: 2, repeat: Infinity }}
                 className="w-1.5 h-1.5 bg-emerald-500 rounded-full"
               />
-              <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Live</span>
+              <span className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Live</span>
             </div>
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
             >
-              <RefreshCw className={`w-3 h-3 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
+              <RefreshCw className={`w-3 h-3 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
             </motion.div>
           </div>
         </div>
@@ -216,16 +216,16 @@ const ExecKPIs: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className={`rounded-xl p-2.5 border ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'}`}
+            className={`rounded-xl p-2.5 border ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'}`}
           >
             <div className="flex items-center justify-between mb-1">
-              <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Claims</span>
+              <span className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Claims</span>
               <div className="flex items-center gap-0.5 text-emerald-500">
                 <ArrowUpRight className="w-2.5 h-2.5" />
                 <span className="text-[8px] font-medium">+12%</span>
               </div>
             </div>
-            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'} mb-1`}>
+            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-neutral-800'} mb-1`}>
               {(animatedValues.claimsProcessed / 1000).toFixed(0)}K
             </div>
             <Sparkline data={chartData.claims} color="#3b82f6" height={20} />
@@ -236,16 +236,16 @@ const ExecKPIs: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.3 }}
-            className={`rounded-xl p-2.5 border ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'}`}
+            className={`rounded-xl p-2.5 border ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'}`}
           >
             <div className="flex items-center justify-between mb-1">
-              <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Denial Rate</span>
+              <span className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Denial Rate</span>
               <div className="flex items-center gap-0.5 text-emerald-500">
                 <ArrowDownRight className="w-2.5 h-2.5" />
                 <span className="text-[8px] font-medium">-2.1%</span>
               </div>
             </div>
-            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'} mb-1`}>
+            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-neutral-800'} mb-1`}>
               {animatedValues.denialRate}%
             </div>
             <Sparkline data={chartData.denials} color="#10b981" height={20} />
@@ -256,16 +256,16 @@ const ExecKPIs: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4 }}
-            className={`rounded-xl p-2.5 border ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'}`}
+            className={`rounded-xl p-2.5 border ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'}`}
           >
             <div className="flex items-center justify-between mb-1">
-              <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Revenue</span>
+              <span className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Revenue</span>
               <div className="flex items-center gap-0.5 text-emerald-500">
                 <ArrowUpRight className="w-2.5 h-2.5" />
                 <span className="text-[8px] font-medium">+18%</span>
               </div>
             </div>
-            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'} mb-1`}>
+            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-neutral-800'} mb-1`}>
               ${animatedValues.revenueRecovered}M
             </div>
             <Sparkline data={chartData.revenue} color="#f59e0b" height={20} />
@@ -276,16 +276,16 @@ const ExecKPIs: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.5 }}
-            className={`rounded-xl p-2.5 border ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'}`}
+            className={`rounded-xl p-2.5 border ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'}`}
           >
             <div className="flex items-center justify-between mb-1">
-              <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Win Rate</span>
+              <span className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Win Rate</span>
               <div className="flex items-center gap-0.5 text-emerald-500">
                 <ArrowUpRight className="w-2.5 h-2.5" />
                 <span className="text-[8px] font-medium">+4.5%</span>
               </div>
             </div>
-            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'} mb-1`}>
+            <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-neutral-800'} mb-1`}>
               {animatedValues.appealWinRate}%
             </div>
             <Sparkline data={chartData.appeals} color="#8b5cf6" height={20} />
@@ -297,15 +297,15 @@ const ExecKPIs: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.6 }}
-          className={`rounded-xl p-2.5 border mb-3 ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'}`}
+          className={`rounded-xl p-2.5 border mb-3 ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'}`}
         >
           <div className="flex items-center justify-between mb-2">
-            <span className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>Denial Reasons</span>
-            <PieChart className={`w-3 h-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`} />
+            <span className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>Denial Reasons</span>
+            <PieChart className={`w-3 h-3 ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`} />
           </div>
           
           {/* Horizontal stacked bar */}
-          <div className={`h-2 rounded-full overflow-hidden flex mb-2 ${isDark ? 'bg-slate-700' : 'bg-slate-200'}`}>
+          <div className={`h-2 rounded-full overflow-hidden flex mb-2 ${isDark ? 'bg-neutral-700' : 'bg-neutral-200'}`}>
             {denialReasons.map((item, i) => (
               <motion.div
                 key={item.reason}
@@ -322,8 +322,8 @@ const ExecKPIs: React.FC = () => {
             {denialReasons.map((item) => (
               <div key={item.reason} className="flex items-center gap-1.5">
                 <div className={`w-1.5 h-1.5 rounded-full ${item.colorClass}`} />
-                <span className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'} truncate`}>{item.reason}</span>
-                <span className={`text-[8px] font-medium ${isDark ? 'text-white' : 'text-slate-700'} ml-auto`}>{item.percentage}%</span>
+                <span className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'} truncate`}>{item.reason}</span>
+                <span className={`text-[8px] font-medium ${isDark ? 'text-white' : 'text-neutral-700'} ml-auto`}>{item.percentage}%</span>
               </div>
             ))}
           </div>
@@ -334,11 +334,11 @@ const ExecKPIs: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8 }}
-          className={`rounded-xl p-2.5 border ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'}`}
+          className={`rounded-xl p-2.5 border ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'}`}
         >
           <div className="flex items-center justify-between mb-2">
-            <span className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>Top Payers</span>
-            <Building2 className={`w-3 h-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`} />
+            <span className={`text-[10px] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>Top Payers</span>
+            <Building2 className={`w-3 h-3 ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`} />
           </div>
           
           <div className="space-y-1.5">
@@ -350,8 +350,8 @@ const ExecKPIs: React.FC = () => {
                 transition={{ delay: 0.9 + i * 0.1 }}
                 className="flex items-center gap-2"
               >
-                <div className={`w-12 text-[9px] ${isDark ? 'text-slate-300' : 'text-slate-600'} truncate`}>{payer.name}</div>
-                <div className={`flex-1 h-1.5 ${isDark ? 'bg-slate-700' : 'bg-slate-200'} rounded-full overflow-hidden`}>
+                <div className={`w-12 text-[9px] ${isDark ? 'text-neutral-300' : 'text-neutral-600'} truncate`}>{payer.name}</div>
+                <div className={`flex-1 h-1.5 ${isDark ? 'bg-neutral-700' : 'bg-neutral-200'} rounded-full overflow-hidden`}>
                   <motion.div
                     className="h-full bg-gradient-to-r from-clarity-primary to-clarity-secondary rounded-full"
                     initial={{ width: 0 }}
@@ -360,7 +360,7 @@ const ExecKPIs: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center gap-1 w-12">
-                  <span className={`text-[9px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>{payer.approvalRate}%</span>
+                  <span className={`text-[9px] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{payer.approvalRate}%</span>
                   {payer.trend === 'up' && <TrendingUp className="w-2.5 h-2.5 text-emerald-500" />}
                   {payer.trend === 'down' && <TrendingDown className="w-2.5 h-2.5 text-red-500" />}
                 </div>
@@ -381,7 +381,7 @@ const ExecKPIs: React.FC = () => {
                 <Brain className="w-3 h-3 text-white" />
               </div>
               <div>
-                <h4 className={`text-[9px] font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>AI Forecast</h4>
+                <h4 className={`text-[9px] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>AI Forecast</h4>
               </div>
               <motion.div
                 animate={{ opacity: [0.5, 1, 0.5] }}
@@ -393,17 +393,17 @@ const ExecKPIs: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
-                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>7.8%</div>
-                <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Next Mo.</div>
+              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-neutral-900/50' : 'bg-white'}`}>
+                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>7.8%</div>
+                <div className={`text-[7px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Next Mo.</div>
               </div>
-              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
-                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>$8.2M</div>
-                <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Q2 Est.</div>
+              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-neutral-900/50' : 'bg-white'}`}>
+                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>$8.2M</div>
+                <div className={`text-[7px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Q2 Est.</div>
               </div>
-              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-slate-900/50' : 'bg-white'}`}>
+              <div className={`rounded-lg p-2 text-center ${isDark ? 'bg-neutral-900/50' : 'bg-white'}`}>
                 <div className="text-sm font-bold text-amber-500">2</div>
-                <div className={`text-[7px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Alerts</div>
+                <div className={`text-[7px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Alerts</div>
               </div>
             </div>
           </div>
@@ -416,22 +416,22 @@ const ExecKPIs: React.FC = () => {
           transition={{ delay: 0.5 }}
           className="mt-3 flex justify-between gap-2"
         >
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-clarity-primary to-blue-600 flex items-center justify-center`}>
               <Activity className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>100K+</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Claims/Day</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>100K+</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Claims/Day</div>
             </div>
           </div>
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center`}>
               <DollarSign className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>$2.3M</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Recovered</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>$2.3M</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Recovered</div>
             </div>
           </div>
         </motion.div>

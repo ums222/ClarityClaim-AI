@@ -148,7 +148,7 @@ const StatusPage = () => {
       case "maintenance":
         return isDark ? "text-blue-400" : "text-blue-600";
       default:
-        return isDark ? "text-slate-400" : "text-slate-600";
+        return isDark ? "text-neutral-400" : "text-neutral-600";
     }
   };
 
@@ -178,12 +178,12 @@ const StatusPage = () => {
       case "maintenance":
         return isDark ? "bg-blue-500/10" : "bg-blue-50";
       default:
-        return isDark ? "bg-slate-800" : "bg-slate-100";
+        return isDark ? "bg-neutral-800" : "bg-neutral-100";
     }
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -191,13 +191,13 @@ const StatusPage = () => {
           
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className={`text-4xl font-bold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl font-bold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
               System Status
             </h1>
             <div className="flex items-center justify-center gap-2">
               <button
                 onClick={handleRefresh}
-                className={`flex items-center gap-2 text-sm ${isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"}`}
+                className={`flex items-center gap-2 text-sm ${isDark ? "text-neutral-400 hover:text-white" : "text-neutral-600 hover:text-neutral-900"}`}
               >
                 <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
                 Last updated: {lastUpdated.toLocaleTimeString()}
@@ -220,10 +220,10 @@ const StatusPage = () => {
                 )}
               </div>
               <div>
-                <h2 className={`text-xl font-bold ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-xl font-bold ${isDark ? "text-white" : "text-neutral-900"}`}>
                   {allOperational ? "All Systems Operational" : "Some Systems Experiencing Issues"}
                 </h2>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                   {allOperational 
                     ? "All ClarityClaim AI services are running smoothly." 
                     : "We're aware of the issue and working on a fix."}
@@ -233,24 +233,24 @@ const StatusPage = () => {
           </div>
 
           {/* Services List */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} mb-8`}>
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800">
-              <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} mb-8`}>
+            <div className="p-4 border-b border-neutral-200 dark:border-neutral-800">
+              <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>
                 Services
               </h3>
             </div>
-            <div className="divide-y divide-slate-200 dark:divide-slate-800">
+            <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
               {services.map((service) => (
                 <div key={service.name} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
-                      <service.icon className={`h-5 w-5 ${isDark ? "text-slate-400" : "text-slate-600"}`} />
+                    <div className={`p-2 rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
+                      <service.icon className={`h-5 w-5 ${isDark ? "text-neutral-400" : "text-neutral-600"}`} />
                     </div>
                     <div>
-                      <p className={`font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                      <p className={`font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {service.name}
                       </p>
-                      <p className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                      <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                         {service.uptime} uptime • {service.responseTime} response
                       </p>
                     </div>
@@ -265,12 +265,12 @@ const StatusPage = () => {
           </div>
 
           {/* Uptime History */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} mb-8`}>
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800">
-              <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} mb-8`}>
+            <div className="p-4 border-b border-neutral-200 dark:border-neutral-800">
+              <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>
                 15-Day Uptime History
               </h3>
-              <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+              <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                 99.97% average uptime
               </p>
             </div>
@@ -293,16 +293,16 @@ const StatusPage = () => {
                 ))}
               </div>
               <div className="flex justify-between mt-2">
-                <span className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>15 days ago</span>
-                <span className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>Today</span>
+                <span className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>15 days ago</span>
+                <span className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>Today</span>
               </div>
             </div>
           </div>
 
           {/* Recent Incidents */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}>
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800">
-              <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}>
+            <div className="p-4 border-b border-neutral-200 dark:border-neutral-800">
+              <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>
                 Recent Incidents
               </h3>
             </div>
@@ -310,10 +310,10 @@ const StatusPage = () => {
               {recentIncidents.length === 0 ? (
                 <div className="text-center py-8">
                   <CheckCircle2 className={`h-12 w-12 mx-auto mb-4 ${isDark ? "text-green-400" : "text-green-600"}`} />
-                  <p className={`font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <p className={`font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                     No recent incidents
                   </p>
-                  <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     All systems have been running smoothly
                   </p>
                 </div>
@@ -324,7 +324,7 @@ const StatusPage = () => {
                       <div className="flex items-start justify-between mb-3">
                         <div>
                           <div className="flex items-center gap-2">
-                            <h4 className={`font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                            <h4 className={`font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                               {incident.title}
                             </h4>
                             <span className={`px-2 py-0.5 rounded text-xs font-medium capitalize ${
@@ -335,18 +335,18 @@ const StatusPage = () => {
                               {incident.status}
                             </span>
                           </div>
-                          <p className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                          <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                             {incident.createdAt}
                           </p>
                         </div>
                       </div>
-                      <div className={`pl-4 border-l-2 ${isDark ? "border-slate-700" : "border-slate-200"} space-y-3`}>
+                      <div className={`pl-4 border-l-2 ${isDark ? "border-neutral-700" : "border-neutral-200"} space-y-3`}>
                         {incident.updates.map((update, i) => (
                           <div key={i}>
-                            <p className={`text-xs font-medium ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+                            <p className={`text-xs font-medium ${isDark ? "text-neutral-400" : "text-neutral-500"}`}>
                               {update.time} - <span className="capitalize">{update.status}</span>
                             </p>
-                            <p className={`text-sm ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                            <p className={`text-sm ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                               {update.message}
                             </p>
                           </div>
@@ -360,7 +360,7 @@ const StatusPage = () => {
           </div>
 
           {/* Subscribe */}
-          <div className={`mt-8 text-center ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+          <div className={`mt-8 text-center ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
             <p className="text-sm">
               Subscribe to status updates:{" "}
               <a href="mailto:status@clarityclaim.ai" className={`font-medium ${isDark ? "text-teal-400 hover:text-teal-300" : "text-teal-600 hover:text-teal-700"}`}>

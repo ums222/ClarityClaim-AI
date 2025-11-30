@@ -99,29 +99,29 @@ export function DataEncryption() {
                 </span>
               )}
             </div>
-            <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
+            <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
               Encryption at Rest
             </h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-4">
               All stored data is encrypted in the database
             </p>
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">Algorithm</span>
-                <code className="font-mono text-slate-700 dark:text-slate-300">
+                <span className="text-neutral-500">Algorithm</span>
+                <code className="font-mono text-neutral-700 dark:text-neutral-300">
                   {status?.at_rest.algorithm || 'AES-256-GCM'}
                 </code>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">Key Rotation</span>
-                <span className="text-slate-700 dark:text-slate-300">
+                <span className="text-neutral-500">Key Rotation</span>
+                <span className="text-neutral-700 dark:text-neutral-300">
                   Every {status?.at_rest.key_rotation_days || 90} days
                 </span>
               </div>
               {status?.at_rest.last_rotation && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-500">Last Rotated</span>
-                  <span className="text-slate-700 dark:text-slate-300">
+                  <span className="text-neutral-500">Last Rotated</span>
+                  <span className="text-neutral-700 dark:text-neutral-300">
                     {formatDate(status.at_rest.last_rotation)}
                   </span>
                 </div>
@@ -153,26 +153,26 @@ export function DataEncryption() {
                 </span>
               )}
             </div>
-            <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
+            <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
               Encryption in Transit
             </h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-4">
               All network traffic is encrypted with TLS
             </p>
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">TLS Version</span>
-                <code className="font-mono text-slate-700 dark:text-slate-300">
+                <span className="text-neutral-500">TLS Version</span>
+                <code className="font-mono text-neutral-700 dark:text-neutral-300">
                   {status?.in_transit.tls_version || 'TLS 1.3'}
                 </code>
               </div>
               <div className="text-sm">
-                <span className="text-slate-500">Cipher Suites</span>
+                <span className="text-neutral-500">Cipher Suites</span>
                 <div className="mt-2 space-y-1">
                   {(status?.in_transit.cipher_suites || []).slice(0, 3).map((suite, i) => (
                     <code
                       key={i}
-                      className="block text-xs font-mono text-slate-600 dark:text-slate-400 truncate"
+                      className="block text-xs font-mono text-neutral-600 dark:text-neutral-400 truncate"
                     >
                       {suite}
                     </code>
@@ -206,15 +206,15 @@ export function DataEncryption() {
                 </span>
               )}
             </div>
-            <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
+            <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
               PHI Field Encryption
             </h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-4">
               Protected Health Information is encrypted at field level
             </p>
             <div className="space-y-3">
               <div className="text-sm">
-                <span className="text-slate-500">Encrypted Fields</span>
+                <span className="text-neutral-500">Encrypted Fields</span>
                 <div className="mt-2 flex flex-wrap gap-1">
                   {(status?.phi_encryption.fields_encrypted || []).map((field, i) => (
                     <span
@@ -228,8 +228,8 @@ export function DataEncryption() {
               </div>
               {status?.phi_encryption.last_audit && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-500">Last Audit</span>
-                  <span className="text-slate-700 dark:text-slate-300">
+                  <span className="text-neutral-500">Last Audit</span>
+                  <span className="text-neutral-700 dark:text-neutral-300">
                     {formatDate(status.phi_encryption.last_audit)}
                   </span>
                 </div>
@@ -241,7 +241,7 @@ export function DataEncryption() {
 
       {/* Security Features */}
       <Card className="p-6">
-        <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
           Additional Security Measures
         </h4>
         <div className="grid gap-4 md:grid-cols-2">
@@ -276,19 +276,19 @@ export function DataEncryption() {
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg"
+              className="flex items-start gap-3 p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg"
             >
-              <div className="p-2 bg-white dark:bg-slate-700 rounded-lg shadow-sm">
+              <div className="p-2 bg-white dark:bg-neutral-700 rounded-lg shadow-sm">
                 <feature.icon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h5 className="font-medium text-slate-900 dark:text-white">
+                  <h5 className="font-medium text-neutral-900 dark:text-white">
                     {feature.title}
                   </h5>
                   <CheckCircle className="w-4 h-4 text-emerald-500" />
                 </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
                   {feature.description}
                 </p>
               </div>
@@ -299,7 +299,7 @@ export function DataEncryption() {
 
       {/* Compliance Certifications */}
       <Card className="p-6">
-        <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
           Compliance & Certifications
         </h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -311,15 +311,15 @@ export function DataEncryption() {
           ].map((cert, index) => (
             <div
               key={index}
-              className="text-center p-4 border border-slate-200 dark:border-slate-700 rounded-lg"
+              className="text-center p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg"
             >
               <div className="w-12 h-12 mx-auto mb-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center">
                 <Shield className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
               </div>
-              <h5 className="font-semibold text-slate-900 dark:text-white">
+              <h5 className="font-semibold text-neutral-900 dark:text-white">
                 {cert.name}
               </h5>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 {cert.description}
               </p>
             </div>

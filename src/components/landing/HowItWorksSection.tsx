@@ -291,15 +291,15 @@ const HowItWorksSection = () => {
                   className={`relative cursor-pointer rounded-xl border-2 transition-all duration-300 overflow-hidden ${
                     isActive
                       ? isDark
-                        ? 'border-transparent bg-slate-800/80 shadow-lg'
+                        ? 'border-transparent bg-neutral-800/80 shadow-lg'
                         : 'border-transparent bg-white shadow-lg'
                       : isCompleted
                         ? isDark
-                          ? 'border-slate-700 bg-slate-800/40 hover:bg-slate-800/60'
-                          : 'border-slate-300 bg-slate-100/60 hover:bg-slate-100'
+                          ? 'border-neutral-700 bg-neutral-800/40 hover:bg-neutral-800/60'
+                          : 'border-neutral-300 bg-neutral-100/60 hover:bg-neutral-100'
                         : isDark
-                          ? 'border-slate-700/50 bg-slate-800/20 hover:bg-slate-800/40'
-                          : 'border-slate-200 bg-white/60 hover:bg-white'
+                          ? 'border-neutral-700/50 bg-neutral-800/20 hover:bg-neutral-800/40'
+                          : 'border-neutral-200 bg-white/60 hover:bg-white'
                   }`}
                 >
                   {/* Active indicator bar */}
@@ -315,12 +315,12 @@ const HowItWorksSection = () => {
                           ? `bg-gradient-to-br ${isDark ? step.gradient : step.gradientLight} shadow-md`
                           : isCompleted
                             ? isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'
-                            : isDark ? 'bg-slate-700/50' : 'bg-slate-200'
+                            : isDark ? 'bg-neutral-700/50' : 'bg-neutral-200'
                       }`}>
                         {isCompleted && !isActive ? (
                           <Check className={`w-4 h-4 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
                         ) : (
-                          <span className={`text-xs font-bold ${isActive ? 'text-white' : isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                          <span className={`text-xs font-bold ${isActive ? 'text-white' : isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
                             {index + 1}
                           </span>
                         )}
@@ -330,19 +330,19 @@ const HowItWorksSection = () => {
                       <div className="flex-1 min-w-0">
                         <h3 className={`text-sm font-bold transition-colors ${
                           isActive
-                            ? isDark ? 'text-white' : 'text-slate-900'
-                            : isDark ? 'text-slate-300' : 'text-slate-600'
+                            ? isDark ? 'text-white' : 'text-neutral-900'
+                            : isDark ? 'text-neutral-300' : 'text-neutral-600'
                         }`}>
                           {step.title}
                         </h3>
-                        <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{step.subtitle}</p>
+                        <p className={`text-xs ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>{step.subtitle}</p>
                       </div>
 
                       {/* Icon & Timing */}
                       <StepIcon className={`w-4 h-4 flex-shrink-0 ${
                         isActive
-                          ? isDark ? 'text-white' : 'text-slate-700'
-                          : isDark ? 'text-slate-500' : 'text-slate-400'
+                          ? isDark ? 'text-white' : 'text-neutral-700'
+                          : isDark ? 'text-neutral-500' : 'text-neutral-400'
                       }`} />
                     </div>
                   </div>
@@ -359,8 +359,8 @@ const HowItWorksSection = () => {
                 }}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
                   isDark 
-                    ? 'bg-slate-800/50 hover:bg-slate-700/50 text-slate-400 hover:text-white' 
-                    : 'bg-slate-200/80 hover:bg-slate-300 text-slate-500 hover:text-slate-800'
+                    ? 'bg-neutral-800/50 hover:bg-neutral-700/50 text-neutral-400 hover:text-white' 
+                    : 'bg-neutral-200/80 hover:bg-neutral-300 text-neutral-500 hover:text-neutral-800'
                 }`}
               >
                 {isPaused ? (
@@ -399,10 +399,10 @@ const HowItWorksSection = () => {
               />
 
               {/* Outer ring */}
-              <div className={`absolute inset-8 rounded-full border-2 ${isDark ? 'border-slate-700/30' : 'border-slate-300/50'}`} />
+              <div className={`absolute inset-8 rounded-full border-2 ${isDark ? 'border-neutral-700/30' : 'border-neutral-300/50'}`} />
               
               {/* Middle ring */}
-              <div className={`absolute inset-16 rounded-full border ${isDark ? 'border-slate-700/20' : 'border-slate-300/30'}`} />
+              <div className={`absolute inset-16 rounded-full border ${isDark ? 'border-neutral-700/20' : 'border-neutral-300/30'}`} />
 
               {/* Orbiting Elements */}
               {currentStep.orbitingElements.map((element, i) => {
@@ -438,9 +438,9 @@ const HowItWorksSection = () => {
                       transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                       className={`w-14 h-14 rounded-xl bg-gradient-to-br ${isDark ? currentStep.gradient : currentStep.gradientLight} p-0.5 shadow-lg`}
                     >
-                      <div className={`w-full h-full rounded-xl ${isDark ? 'bg-slate-900' : 'bg-white'} flex flex-col items-center justify-center`}>
-                        <OrbitIcon className={`w-5 h-5 ${isDark ? 'text-white' : 'text-slate-700'}`} />
-                        <span className={`text-[10px] mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{element.label}</span>
+                      <div className={`w-full h-full rounded-xl ${isDark ? 'bg-neutral-900' : 'bg-white'} flex flex-col items-center justify-center`}>
+                        <OrbitIcon className={`w-5 h-5 ${isDark ? 'text-white' : 'text-neutral-700'}`} />
+                        <span className={`text-[10px] mt-0.5 ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>{element.label}</span>
                       </div>
                     </motion.div>
                   </motion.div>
@@ -458,8 +458,8 @@ const HowItWorksSection = () => {
                     transition={{ duration: 0.5, type: 'spring' }}
                     className={`w-32 h-32 rounded-3xl bg-gradient-to-br ${isDark ? currentStep.gradient : currentStep.gradientLight} p-1 shadow-2xl`}
                   >
-                    <div className={`w-full h-full rounded-3xl ${isDark ? 'bg-slate-900/90' : 'bg-white/90'} flex items-center justify-center`}>
-                      <currentStep.icon className={`w-16 h-16 ${isDark ? 'text-white' : 'text-slate-700'}`} />
+                    <div className={`w-full h-full rounded-3xl ${isDark ? 'bg-neutral-900/90' : 'bg-white/90'} flex items-center justify-center`}>
+                      <currentStep.icon className={`w-16 h-16 ${isDark ? 'text-white' : 'text-neutral-700'}`} />
                     </div>
                     
                     {/* Pulse rings */}
@@ -491,9 +491,9 @@ const HowItWorksSection = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className={`mt-8 p-4 rounded-2xl ${isDark ? 'bg-slate-800/60' : 'bg-white/80'} border ${isDark ? 'border-slate-700/50' : 'border-slate-200'}`}
+              className={`mt-8 p-4 rounded-2xl ${isDark ? 'bg-neutral-800/60' : 'bg-white/80'} border ${isDark ? 'border-neutral-700/50' : 'border-neutral-200'}`}
             >
-              <p className={`text-sm mb-4 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+              <p className={`text-sm mb-4 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
                 {currentStep.description}
               </p>
 
@@ -505,19 +505,19 @@ const HowItWorksSection = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`rounded-xl p-3 text-center ${isDark ? 'bg-slate-900/50' : 'bg-slate-100'}`}
+                    className={`rounded-xl p-3 text-center ${isDark ? 'bg-neutral-900/50' : 'bg-neutral-100'}`}
                   >
                     <div className={`text-lg font-bold bg-gradient-to-r ${isDark ? currentStep.gradient : currentStep.gradientLight} bg-clip-text text-transparent`}>
                       {stat.value}
                     </div>
-                    <div className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{stat.label}</div>
+                    <div className={`text-xs ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
 
               {/* Timing Badge */}
               <div className="mt-3 flex justify-center">
-                <div className={`px-3 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-slate-200 text-slate-600'}`}>
+                <div className={`px-3 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-neutral-700/50 text-neutral-300' : 'bg-neutral-200 text-neutral-600'}`}>
                   {currentStep.timing}
                 </div>
               </div>
@@ -533,7 +533,7 @@ const HowItWorksSection = () => {
           className="relative"
         >
           {/* Track */}
-          <div className={`relative h-2 rounded-full overflow-hidden ${isDark ? 'bg-slate-800' : 'bg-slate-200'}`}>
+          <div className={`relative h-2 rounded-full overflow-hidden ${isDark ? 'bg-neutral-800' : 'bg-neutral-200'}`}>
             {/* Progress fill */}
             <motion.div
               className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 via-violet-500 via-amber-500 via-rose-500 to-emerald-500"
@@ -582,8 +582,8 @@ const HowItWorksSection = () => {
                         : isCompleted
                           ? 'bg-emerald-500'
                           : isDark 
-                            ? 'bg-slate-700 group-hover:bg-slate-600' 
-                            : 'bg-slate-300 group-hover:bg-slate-400'
+                            ? 'bg-neutral-700 group-hover:bg-neutral-600' 
+                            : 'bg-neutral-300 group-hover:bg-neutral-400'
                     }`}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
@@ -595,8 +595,8 @@ const HowItWorksSection = () => {
                         isActive 
                           ? 'text-white' 
                           : isDark 
-                            ? 'text-slate-400 group-hover:text-white' 
-                            : 'text-slate-500 group-hover:text-white'
+                            ? 'text-neutral-400 group-hover:text-white' 
+                            : 'text-neutral-500 group-hover:text-white'
                       }`} />
                     )}
                   </motion.div>
@@ -604,10 +604,10 @@ const HowItWorksSection = () => {
                   {/* Label */}
                   <span className={`mt-2 text-xs font-medium transition-colors ${
                     isActive 
-                      ? isDark ? 'text-white' : 'text-slate-900' 
+                      ? isDark ? 'text-white' : 'text-neutral-900' 
                       : isDark 
-                        ? 'text-slate-500 group-hover:text-slate-300' 
-                        : 'text-slate-400 group-hover:text-slate-600'
+                        ? 'text-neutral-500 group-hover:text-neutral-300' 
+                        : 'text-neutral-400 group-hover:text-neutral-600'
                   }`}>
                     {step.title}
                   </span>
@@ -624,7 +624,7 @@ const HowItWorksSection = () => {
                 className={`flex-1 h-0.5 mx-2 transition-colors ${
                   i < activeStep 
                     ? 'bg-emerald-500' 
-                    : isDark ? 'bg-slate-700' : 'bg-slate-300'
+                    : isDark ? 'bg-neutral-700' : 'bg-neutral-300'
                 }`}
               />
             ))}

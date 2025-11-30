@@ -18,7 +18,7 @@ const LandingPage = () => {
   return (
     <div className={cn(
       "min-h-screen transition-colors duration-300",
-      theme === "dark" ? "bg-slate-950 text-slate-50" : "bg-white text-slate-900"
+      theme === "dark" ? "bg-neutral-950 text-neutral-50" : "bg-white text-neutral-900"
     )}>
       <NavBar />
       <main className="pt-20 md:pt-24">

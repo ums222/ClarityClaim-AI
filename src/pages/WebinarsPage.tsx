@@ -145,7 +145,7 @@ const WebinarsPage = () => {
     : webinars.filter(w => w.type === filter);
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -156,10 +156,10 @@ const WebinarsPage = () => {
             <p className={`text-xs font-medium uppercase tracking-wider mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
               Webinars & Events
             </p>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Learn From the Experts
             </h1>
-            <p className={`text-lg max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Join our webinars to learn best practices for healthcare claims management, denial prevention, and revenue cycle optimization.
             </p>
           </div>
@@ -174,8 +174,8 @@ const WebinarsPage = () => {
                     ? "bg-teal-500/20 text-teal-400 ring-1 ring-teal-500/30"
                     : "bg-teal-50 text-teal-700 ring-1 ring-teal-500/30"
                   : isDark
-                    ? "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    ? "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
+                    : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
               }`}
             >
               All ({webinars.length})
@@ -188,8 +188,8 @@ const WebinarsPage = () => {
                     ? "bg-teal-500/20 text-teal-400 ring-1 ring-teal-500/30"
                     : "bg-teal-50 text-teal-700 ring-1 ring-teal-500/30"
                   : isDark
-                    ? "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    ? "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
+                    : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
               }`}
             >
               Upcoming ({upcomingWebinars.length})
@@ -202,8 +202,8 @@ const WebinarsPage = () => {
                     ? "bg-teal-500/20 text-teal-400 ring-1 ring-teal-500/30"
                     : "bg-teal-50 text-teal-700 ring-1 ring-teal-500/30"
                   : isDark
-                    ? "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    ? "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
+                    : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
               }`}
             >
               On-Demand ({onDemandWebinars.length})
@@ -227,14 +227,14 @@ const WebinarsPage = () => {
                   </div>
                 </div>
                 <div className="p-6 md:p-8 flex flex-col justify-center">
-                  <h2 className={`text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {upcomingWebinars[0].title}
                   </h2>
-                  <p className={`mb-6 ${isDark ? "text-slate-300" : "text-slate-600"}`}>
+                  <p className={`mb-6 ${isDark ? "text-neutral-300" : "text-neutral-600"}`}>
                     {upcomingWebinars[0].description}
                   </p>
                   
-                  <div className={`flex flex-wrap gap-4 mb-6 text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <div className={`flex flex-wrap gap-4 mb-6 text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     <span className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
                       {upcomingWebinars[0].date}
@@ -258,10 +258,10 @@ const WebinarsPage = () => {
                           className="w-10 h-10 rounded-full object-cover"
                         />
                         <div>
-                          <p className={`text-sm font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                          <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                             {speaker.name}
                           </p>
-                          <p className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                          <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                             {speaker.role}
                           </p>
                         </div>
@@ -288,7 +288,7 @@ const WebinarsPage = () => {
               <div 
                 key={webinar.id}
                 className={`rounded-2xl border overflow-hidden transition-all hover:shadow-lg ${
-                  isDark ? "border-slate-800 bg-slate-900/50 hover:border-slate-700" : "border-slate-200 bg-white hover:border-slate-300"
+                  isDark ? "border-neutral-800 bg-neutral-900/50 hover:border-neutral-700" : "border-neutral-200 bg-white hover:border-neutral-300"
                 }`}
               >
                 <div className="relative h-48">
@@ -301,7 +301,7 @@ const WebinarsPage = () => {
                     <span className={`px-2 py-0.5 rounded text-xs font-medium ${
                       webinar.type === "upcoming" 
                         ? "bg-teal-500 text-white" 
-                        : isDark ? "bg-slate-700 text-slate-300" : "bg-slate-200 text-slate-700"
+                        : isDark ? "bg-neutral-700 text-neutral-300" : "bg-neutral-200 text-neutral-700"
                     }`}>
                       {webinar.type === "upcoming" ? "Upcoming" : "On-Demand"}
                     </span>
@@ -316,14 +316,14 @@ const WebinarsPage = () => {
                 </div>
                 
                 <div className="p-6">
-                  <h3 className={`text-lg font-semibold mb-2 line-clamp-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`text-lg font-semibold mb-2 line-clamp-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {webinar.title}
                   </h3>
-                  <p className={`text-sm mb-4 line-clamp-2 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm mb-4 line-clamp-2 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {webinar.description}
                   </p>
 
-                  <div className={`flex flex-wrap gap-3 mb-4 text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                  <div className={`flex flex-wrap gap-3 mb-4 text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {webinar.date}
@@ -338,7 +338,7 @@ const WebinarsPage = () => {
                     {webinar.topics.map((topic) => (
                       <span 
                         key={topic}
-                        className={`px-2 py-0.5 rounded text-xs ${isDark ? "bg-slate-800 text-slate-400" : "bg-slate-100 text-slate-600"}`}
+                        className={`px-2 py-0.5 rounded text-xs ${isDark ? "bg-neutral-800 text-neutral-400" : "bg-neutral-100 text-neutral-600"}`}
                       >
                         {topic}
                       </span>
@@ -351,8 +351,8 @@ const WebinarsPage = () => {
                         ? "bg-teal-500/20 text-teal-400 hover:bg-teal-500/30" 
                         : "bg-teal-50 text-teal-700 hover:bg-teal-100"
                       : isDark
-                        ? "border border-slate-700 text-slate-300 hover:bg-slate-800"
-                        : "border border-slate-200 text-slate-700 hover:bg-slate-50"
+                        ? "border border-neutral-700 text-neutral-300 hover:bg-neutral-800"
+                        : "border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
                   }`}>
                     {webinar.type === "upcoming" ? (
                       <>Register<ArrowRight className="h-4 w-4" /></>
@@ -366,12 +366,12 @@ const WebinarsPage = () => {
           </div>
 
           {/* Newsletter Signup */}
-          <div className={`mt-16 rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 text-center`}>
+          <div className={`mt-16 rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 text-center`}>
             <Video className={`h-12 w-12 mx-auto mb-4 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Never Miss a Webinar
             </h2>
-            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Subscribe to get notified about upcoming webinars and receive on-demand content directly in your inbox.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
@@ -380,8 +380,8 @@ const WebinarsPage = () => {
                 placeholder="Enter your email"
                 className={`flex-1 px-4 py-3 rounded-lg border ${
                   isDark 
-                    ? "bg-slate-800 border-slate-700 text-white placeholder-slate-500" 
-                    : "bg-white border-slate-200 text-slate-900 placeholder-slate-400"
+                    ? "bg-neutral-800 border-neutral-700 text-white placeholder-neutral-500" 
+                    : "bg-white border-neutral-200 text-neutral-900 placeholder-neutral-400"
                 } focus:outline-none focus:ring-2 focus:ring-teal-500`}
               />
               <button className={`px-6 py-3 rounded-lg font-medium transition-colors ${isDark ? "bg-teal-500 text-white hover:bg-teal-600" : "bg-teal-600 text-white hover:bg-teal-700"}`}>

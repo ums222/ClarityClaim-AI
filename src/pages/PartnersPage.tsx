@@ -121,7 +121,7 @@ const PartnersPage = () => {
   const isDark = theme === "dark";
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -132,18 +132,18 @@ const PartnersPage = () => {
             <p className={`text-xs font-medium uppercase tracking-wider mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
               Partner Program
             </p>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Partner With ClarityClaim AI
             </h1>
-            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Join our partner ecosystem and help healthcare organizations recover billions in denied claims 
               while growing your business.
             </p>
           </div>
 
           {/* Partner Benefits Overview */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 mb-16`}>
-            <h2 className={`text-xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 mb-16`}>
+            <h2 className={`text-xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               Why Partner With Us
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -152,10 +152,10 @@ const PartnersPage = () => {
                   <div className={`p-3 rounded-xl inline-block mb-4 ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                     <benefit.icon className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                   </div>
-                  <h3 className={`font-semibold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`font-semibold mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {benefit.title}
                   </h3>
-                  <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {benefit.description}
                   </p>
                 </div>
@@ -165,36 +165,36 @@ const PartnersPage = () => {
 
           {/* Partner Types */}
           <div className="mb-16">
-            <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               Partnership Options
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {partnerTypes.map((type) => (
                 <div 
                   key={type.id}
-                  className={`rounded-2xl border p-6 ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}
+                  className={`rounded-2xl border p-6 ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}
                 >
                   <div className="flex items-start gap-4 mb-4">
                     <div className={`p-3 rounded-xl ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                       <type.icon className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                     </div>
                     <div>
-                      <h3 className={`text-lg font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>
+                      <h3 className={`text-lg font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {type.title}
                       </h3>
-                      <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                      <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                         {type.description}
                       </p>
                     </div>
                   </div>
 
                   <div className="mb-4">
-                    <h4 className={`text-sm font-medium mb-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                    <h4 className={`text-sm font-medium mb-2 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                       Benefits:
                     </h4>
                     <ul className="space-y-2">
                       {type.benefits.map((benefit, i) => (
-                        <li key={i} className={`flex items-center gap-2 text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                        <li key={i} className={`flex items-center gap-2 text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                           <CheckCircle2 className={`h-4 w-4 flex-shrink-0 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                           {benefit}
                         </li>
@@ -202,8 +202,8 @@ const PartnersPage = () => {
                     </ul>
                   </div>
 
-                  <div className={`p-3 rounded-lg ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
-                    <p className={`text-xs ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <div className={`p-3 rounded-lg ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
+                    <p className={`text-xs ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                       <span className="font-medium">Ideal for:</span> {type.ideal}
                     </p>
                   </div>
@@ -213,21 +213,21 @@ const PartnersPage = () => {
           </div>
 
           {/* Existing Partners */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 mb-16`}>
-            <h2 className={`text-xl font-bold mb-6 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 mb-16`}>
+            <h2 className={`text-xl font-bold mb-6 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               Our Partner Ecosystem
             </h2>
             <div className="flex flex-wrap justify-center gap-4">
               {existingPartners.map((partner) => (
                 <div 
                   key={partner.name}
-                  className={`px-4 py-2 rounded-lg flex items-center gap-2 ${isDark ? "bg-slate-800" : "bg-white border border-slate-200"}`}
+                  className={`px-4 py-2 rounded-lg flex items-center gap-2 ${isDark ? "bg-neutral-800" : "bg-white border border-neutral-200"}`}
                 >
-                  <Building className={`h-4 w-4 ${isDark ? "text-slate-500" : "text-slate-400"}`} />
-                  <span className={`text-sm font-medium ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                  <Building className={`h-4 w-4 ${isDark ? "text-neutral-500" : "text-neutral-400"}`} />
+                  <span className={`text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                     {partner.name}
                   </span>
-                  <span className={`text-xs px-2 py-0.5 rounded ${isDark ? "bg-slate-700 text-slate-400" : "bg-slate-100 text-slate-500"}`}>
+                  <span className={`text-xs px-2 py-0.5 rounded ${isDark ? "bg-neutral-700 text-neutral-400" : "bg-neutral-100 text-neutral-500"}`}>
                     {partner.type}
                   </span>
                 </div>
@@ -237,7 +237,7 @@ const PartnersPage = () => {
 
           {/* How It Works */}
           <div className="mb-16">
-            <h2 className={`text-2xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               How to Become a Partner
             </h2>
             <div className="grid md:grid-cols-4 gap-6">
@@ -253,10 +253,10 @@ const PartnersPage = () => {
                   }`}>
                     <span className="text-xl font-bold">{step.step}</span>
                   </div>
-                  <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {step.title}
                   </h3>
-                  <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {step.description}
                   </p>
                 </div>
@@ -267,10 +267,10 @@ const PartnersPage = () => {
           {/* CTA */}
           <div className={`rounded-2xl border ${isDark ? "border-teal-500/30 bg-teal-500/5" : "border-teal-200 bg-teal-50"} p-8 text-center`}>
             <Handshake className={`h-12 w-12 mx-auto mb-4 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Ready to Partner?
             </h2>
-            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Join our partner ecosystem and help healthcare organizations transform their revenue cycle 
               with AI-powered claims management.
             </p>
@@ -290,8 +290,8 @@ const PartnersPage = () => {
                 href="mailto:partners@clarityclaim.ai"
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
                   isDark 
-                    ? "border border-slate-700 text-slate-300 hover:bg-slate-800" 
-                    : "border border-slate-300 text-slate-700 hover:bg-slate-100"
+                    ? "border border-neutral-700 text-neutral-300 hover:bg-neutral-800" 
+                    : "border border-neutral-300 text-neutral-700 hover:bg-neutral-100"
                 }`}
               >
                 Contact Partnerships Team

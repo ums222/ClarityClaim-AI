@@ -90,18 +90,18 @@ export function ClaimWorkflow({
                 transition={{ delay: index * 0.1 }}
                 className={`
                   w-2 h-2 rounded-full
-                  ${isActive ? 'ring-2 ring-offset-2 dark:ring-offset-gray-900' : ''}
+                  ${isActive ? 'ring-2 ring-offset-2 dark:ring-offset-neutral-900' : ''}
                   ${isDenied && (isActive || isPast) ? 'bg-red-500 ring-red-500' : ''}
                   ${isSuccess && (isActive || isPast) ? 'bg-emerald-500 ring-emerald-500' : ''}
                   ${!isDenied && !isSuccess && isActive ? 'bg-blue-500 ring-blue-500' : ''}
                   ${!isDenied && !isSuccess && isPast ? 'bg-blue-500' : ''}
-                  ${!isActive && !isPast ? 'bg-gray-300 dark:bg-gray-600' : ''}
+                  ${!isActive && !isPast ? 'bg-neutral-300 dark:bg-neutral-600' : ''}
                 `}
               />
               {index < path.length - 1 && (
                 <div 
                   className={`w-4 h-0.5 ${
-                    isPast ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
+                    isPast ? 'bg-blue-500' : 'bg-neutral-300 dark:bg-neutral-600'
                   }`} 
                 />
               )}
@@ -128,7 +128,7 @@ export function ClaimWorkflow({
                 <div 
                   className={`
                     absolute top-5 right-1/2 w-full h-0.5 -translate-y-1/2
-                    ${isPast || isActive ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}
+                    ${isPast || isActive ? 'bg-blue-500' : 'bg-neutral-300 dark:bg-neutral-600'}
                   `}
                   style={{ left: '-50%' }}
                 />
@@ -143,7 +143,7 @@ export function ClaimWorkflow({
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center z-10
                     transition-all duration-200
-                    ${isActive ? 'ring-4 ring-offset-2 dark:ring-offset-gray-900' : ''}
+                    ${isActive ? 'ring-4 ring-offset-2 dark:ring-offset-neutral-900' : ''}
                     ${isDenied && (isActive || isPast) 
                       ? 'bg-red-500 text-white ring-red-200 dark:ring-red-800' 
                       : ''}
@@ -157,7 +157,7 @@ export function ClaimWorkflow({
                       ? 'bg-blue-500 text-white' 
                       : ''}
                     ${!isActive && !isPast 
-                      ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                      ? 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400' 
                       : ''}
                   `}
                 >
@@ -173,8 +173,8 @@ export function ClaimWorkflow({
                   className={`
                     mt-2 text-xs font-medium text-center whitespace-nowrap
                     ${isActive 
-                      ? 'text-gray-900 dark:text-white' 
-                      : 'text-gray-500 dark:text-gray-400'}
+                      ? 'text-neutral-900 dark:text-white' 
+                      : 'text-neutral-500 dark:text-neutral-400'}
                   `}
                 >
                   {STATUS_LABELS[status]}
@@ -211,7 +211,7 @@ export function WorkflowMini({ status }: { status: ClaimStatus }) {
                   : 'bg-blue-500')
               : steps.indexOf(status) > i || (isDenialPath && denialSteps.indexOf(status) >= denialSteps.indexOf(s))
               ? 'bg-blue-400'
-              : 'bg-gray-300 dark:bg-gray-600'
+              : 'bg-neutral-300 dark:bg-neutral-600'
             }
           `}
         />

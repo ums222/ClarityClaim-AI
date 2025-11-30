@@ -109,7 +109,7 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
     }
     switch (planId) {
       case 'free':
-        return 'from-gray-400 to-gray-500';
+        return 'from-neutral-400 to-neutral-500';
       case 'starter':
         return 'from-emerald-400 to-teal-500';
       case 'professional':
@@ -117,7 +117,7 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
       case 'enterprise':
         return 'from-amber-400 to-orange-500';
       default:
-        return 'from-gray-400 to-gray-500';
+        return 'from-neutral-400 to-neutral-500';
     }
   };
 
@@ -135,13 +135,13 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
     <div className="space-y-8">
       {/* Billing Cycle Toggle */}
       <div className="flex justify-center">
-        <div className="relative bg-slate-100 dark:bg-slate-800 rounded-full p-1 flex">
+        <div className="relative bg-neutral-100 dark:bg-neutral-800 rounded-full p-1 flex">
           <button
             onClick={() => setBillingCycle('monthly')}
             className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all ${
               billingCycle === 'monthly'
                 ? 'text-white'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
             }`}
           >
             {billingCycle === 'monthly' && (
@@ -159,7 +159,7 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
             className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all ${
               billingCycle === 'yearly'
                 ? 'text-white'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
             }`}
           >
             {billingCycle === 'yearly' && (
@@ -192,8 +192,8 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
               className={`relative rounded-2xl ${
                 plan.is_popular
                   ? 'ring-2 ring-indigo-500 shadow-xl shadow-indigo-500/20'
-                  : 'ring-1 ring-slate-200 dark:ring-slate-700'
-              } bg-white dark:bg-slate-800 overflow-hidden`}
+                  : 'ring-1 ring-neutral-200 dark:ring-neutral-700'
+              } bg-white dark:bg-neutral-800 overflow-hidden`}
             >
               {/* Popular Badge */}
               {plan.is_popular && (
@@ -242,7 +242,7 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
                       <div className="flex-shrink-0 mt-0.5">
                         <Check className="w-4 h-4 text-emerald-500" />
                       </div>
-                      <span className="text-sm text-slate-600 dark:text-slate-300">
+                      <span className="text-sm text-neutral-600 dark:text-neutral-300">
                         {feature}
                       </span>
                     </li>
@@ -250,22 +250,22 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
                 </ul>
 
                 {/* Limits Summary */}
-                <div className="pt-4 border-t border-slate-200 dark:border-slate-700 space-y-2">
+                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-700 space-y-2">
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500">Claims/month</span>
-                    <span className="font-medium text-slate-700 dark:text-slate-300">
+                    <span className="text-neutral-500">Claims/month</span>
+                    <span className="font-medium text-neutral-700 dark:text-neutral-300">
                       {plan.claims_per_month === -1 ? 'Unlimited' : plan.claims_per_month.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500">Team members</span>
-                    <span className="font-medium text-slate-700 dark:text-slate-300">
+                    <span className="text-neutral-500">Team members</span>
+                    <span className="font-medium text-neutral-700 dark:text-neutral-300">
                       {plan.users_limit === -1 ? 'Unlimited' : plan.users_limit}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500">Integrations</span>
-                    <span className="font-medium text-slate-700 dark:text-slate-300">
+                    <span className="text-neutral-500">Integrations</span>
+                    <span className="font-medium text-neutral-700 dark:text-neutral-300">
                       {plan.integrations_limit === -1 ? 'Unlimited' : plan.integrations_limit}
                     </span>
                   </div>
@@ -323,7 +323,7 @@ export function SubscriptionPlans({ onUpgrade }: SubscriptionPlansProps) {
 
       {/* FAQ Link */}
       <div className="text-center">
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
           Need help choosing?{' '}
           <a href="#" className="text-indigo-600 hover:text-indigo-500 font-medium">
             Compare all features

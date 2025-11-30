@@ -178,19 +178,19 @@ export function TwoFactorAuth() {
             <div className={`p-3 rounded-lg ${
               settings?.totp_enabled
                 ? 'bg-emerald-100 dark:bg-emerald-900/30'
-                : 'bg-slate-100 dark:bg-slate-800'
+                : 'bg-neutral-100 dark:bg-neutral-800'
             }`}>
               <Shield className={`w-6 h-6 ${
                 settings?.totp_enabled
                   ? 'text-emerald-600 dark:text-emerald-400'
-                  : 'text-slate-400'
+                  : 'text-neutral-400'
               }`} />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+              <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
                 Two-Factor Authentication
               </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
                 Add an extra layer of security to your account using a time-based one-time password (TOTP).
               </p>
               {settings?.totp_enabled && settings.totp_verified_at && (
@@ -216,7 +216,7 @@ export function TwoFactorAuth() {
         </div>
 
         {/* Actions */}
-        <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+        <div className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
           {!settings?.totp_enabled && !setupMode && (
             <Button
               onClick={handleSetup}
@@ -263,31 +263,31 @@ export function TwoFactorAuth() {
             exit={{ opacity: 0, y: -20 }}
           >
             <Card className="p-6">
-              <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+              <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
                 Set Up Two-Factor Authentication
               </h4>
               
               <div className="grid md:grid-cols-2 gap-6">
                 {/* QR Code */}
                 <div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
                     1. Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.)
                   </p>
                   <div className="bg-white p-4 rounded-lg inline-block">
-                    <div className="w-48 h-48 bg-slate-100 flex items-center justify-center rounded">
-                      <QrCode className="w-24 h-24 text-slate-400" />
+                    <div className="w-48 h-48 bg-neutral-100 flex items-center justify-center rounded">
+                      <QrCode className="w-24 h-24 text-neutral-400" />
                     </div>
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">
+                  <p className="text-xs text-neutral-500 mt-2">
                     Or enter this code manually:
                   </p>
                   <div className="flex items-center gap-2 mt-1">
-                    <code className="text-sm bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded font-mono">
+                    <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-3 py-1 rounded font-mono">
                       {setupData.secret}
                     </code>
                     <button
                       onClick={() => copyToClipboard(setupData.secret)}
-                      className="p-1 text-slate-400 hover:text-slate-600"
+                      className="p-1 text-neutral-400 hover:text-neutral-600"
                     >
                       {copiedCode === setupData.secret ? (
                         <Check className="w-4 h-4 text-emerald-500" />
@@ -300,7 +300,7 @@ export function TwoFactorAuth() {
 
                 {/* Verification */}
                 <div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
                     2. Enter the 6-digit code from your authenticator app to verify
                   </p>
                   <Input
@@ -336,15 +336,15 @@ export function TwoFactorAuth() {
 
                   {/* Backup Codes */}
                   <div className="mt-6">
-                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                       3. Save these backup codes in a safe place
                     </p>
-                    <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <div className="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-lg">
                       <div className="grid grid-cols-2 gap-2">
                         {setupData.backupCodes.map((code, i) => (
                           <code
                             key={i}
-                            className="text-sm font-mono text-slate-600 dark:text-slate-400"
+                            className="text-sm font-mono text-neutral-600 dark:text-neutral-400"
                           >
                             {code}
                           </code>
@@ -378,7 +378,7 @@ export function TwoFactorAuth() {
               <h4 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-4">
                 Disable Two-Factor Authentication
               </h4>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
                 Enter your current 2FA code to disable two-factor authentication. This will make your account less secure.
               </p>
               <Input
@@ -425,10 +425,10 @@ export function TwoFactorAuth() {
           >
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
+                <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
                   Backup Codes
                 </h4>
-                <span className="text-sm text-slate-500">
+                <span className="text-sm text-neutral-500">
                   {settings.backup_codes_used || 0} of 10 used
                 </span>
               </div>
@@ -457,7 +457,7 @@ export function TwoFactorAuth() {
                   </button>
                 </div>
               ) : (
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
                   Backup codes can be used to access your account if you lose your authenticator device.
                   Each code can only be used once.
                 </p>
@@ -493,25 +493,25 @@ export function TwoFactorAuth() {
       {/* Trusted Devices */}
       {settings?.trusted_devices && settings.trusted_devices.length > 0 && (
         <Card className="p-6">
-          <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+          <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
             Trusted Devices
           </h4>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
             These devices don't require 2FA verification for 30 days.
           </p>
           <div className="space-y-3">
             {settings.trusted_devices.map((device) => (
               <div
                 key={device.id}
-                className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"
+                className="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg"
               >
                 <div className="flex items-center gap-3">
-                  <Monitor className="w-5 h-5 text-slate-400" />
+                  <Monitor className="w-5 h-5 text-neutral-400" />
                   <div>
-                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                       {device.name}
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-neutral-500">
                       {device.browser} on {device.os} • Last used {formatDate(device.last_used)}
                     </p>
                   </div>

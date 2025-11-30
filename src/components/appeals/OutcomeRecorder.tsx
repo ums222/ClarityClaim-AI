@@ -110,20 +110,20 @@ export function OutcomeRecorder({
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
+          <div className="px-6 py-4 border-b border-neutral-100 bg-gradient-to-r from-blue-50 to-indigo-50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl">
                   <TrendingUp className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">Record Outcome</h2>
-                  <p className="text-sm text-gray-500">{appeal.appeal_number}</p>
+                  <h2 className="text-lg font-semibold text-neutral-900">Record Outcome</h2>
+                  <p className="text-sm text-neutral-500">{appeal.appeal_number}</p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+                className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-lg"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -133,17 +133,17 @@ export function OutcomeRecorder({
           {/* Content */}
           <div className="p-6 space-y-5">
             {/* Appeal Summary */}
-            <div className="p-4 bg-gray-50 rounded-xl">
+            <div className="p-4 bg-neutral-50 rounded-xl">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-gray-500">Amount Appealed</p>
-                  <p className="font-medium text-gray-900">
+                  <p className="text-neutral-500">Amount Appealed</p>
+                  <p className="font-medium text-neutral-900">
                     ${(appeal.amount_appealed || 0).toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500">Submitted</p>
-                  <p className="font-medium text-gray-900">
+                  <p className="text-neutral-500">Submitted</p>
+                  <p className="font-medium text-neutral-900">
                     {appeal.submitted_at
                       ? new Date(appeal.submitted_at).toLocaleDateString()
                       : 'Not submitted'
@@ -155,7 +155,7 @@ export function OutcomeRecorder({
 
             {/* Outcome Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-neutral-700 mb-3">
                 Select Outcome
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -179,18 +179,18 @@ export function OutcomeRecorder({
                       className={`p-4 border-2 rounded-xl text-center transition-all ${
                         outcome === option.value
                           ? `${colorClasses[option.color]} ring-2`
-                          : 'border-gray-200 bg-white hover:border-gray-300'
+                          : 'border-neutral-200 bg-white hover:border-neutral-300'
                       }`}
                     >
                       <Icon className={`w-6 h-6 mx-auto mb-2 ${
                         outcome === option.value
                           ? iconColorClasses[option.color]
-                          : 'text-gray-400'
+                          : 'text-neutral-400'
                       }`} />
                       <p className={`text-sm font-medium ${
                         outcome === option.value
-                          ? 'text-gray-900'
-                          : 'text-gray-600'
+                          ? 'text-neutral-900'
+                          : 'text-neutral-600'
                       }`}>
                         {option.label}
                       </p>
@@ -204,32 +204,32 @@ export function OutcomeRecorder({
             {(outcome === 'approved' || outcome === 'partially_approved') && (
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                     Amount Approved
                   </label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                     <input
                       type="number"
                       value={amountApproved}
                       onChange={(e) => setAmountApproved(e.target.value)}
                       placeholder="0.00"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full pl-10 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                     Amount Recovered
                   </label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                     <input
                       type="number"
                       value={amountRecovered}
                       onChange={(e) => setAmountRecovered(e.target.value)}
                       placeholder="0.00"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full pl-10 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -238,7 +238,7 @@ export function OutcomeRecorder({
 
             {/* Outcome Reason */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                 Outcome Reason / Notes
               </label>
               <textarea
@@ -246,13 +246,13 @@ export function OutcomeRecorder({
                 onChange={(e) => setOutcomeReason(e.target.value)}
                 placeholder="Enter payer's response or reason for outcome..."
                 rows={3}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               />
             </div>
 
             {/* Payer Response */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-neutral-700 mb-1.5">
                 Payer's Official Response (Optional)
               </label>
               <textarea
@@ -260,7 +260,7 @@ export function OutcomeRecorder({
                 onChange={(e) => setPayerResponse(e.target.value)}
                 placeholder="Paste the payer's official response here..."
                 rows={2}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               />
             </div>
 
@@ -275,10 +275,10 @@ export function OutcomeRecorder({
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50">
+          <div className="px-6 py-4 border-t border-neutral-100 flex items-center justify-between bg-neutral-50">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="px-4 py-2 text-neutral-600 hover:text-neutral-800 transition-colors"
             >
               Cancel
             </button>

@@ -141,7 +141,7 @@ const HelpCenterPage = () => {
   });
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -152,16 +152,16 @@ const HelpCenterPage = () => {
             <p className={`text-xs font-medium uppercase tracking-wider mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
               Help Center
             </p>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               How Can We Help?
             </h1>
-            <p className={`text-lg max-w-2xl mx-auto mb-8 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-2xl mx-auto mb-8 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Find answers, guides, and support resources for using ClarityClaim AI.
             </p>
 
             {/* Search */}
             <div className="max-w-2xl mx-auto relative">
-              <Search className={`absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 ${isDark ? "text-slate-500" : "text-slate-400"}`} />
+              <Search className={`absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 ${isDark ? "text-neutral-500" : "text-neutral-400"}`} />
               <input
                 type="text"
                 placeholder="Search for help..."
@@ -169,8 +169,8 @@ const HelpCenterPage = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-12 pr-4 py-4 rounded-xl border text-lg ${
                   isDark 
-                    ? "bg-slate-900 border-slate-700 text-white placeholder-slate-500" 
-                    : "bg-white border-slate-200 text-slate-900 placeholder-slate-400 shadow-sm"
+                    ? "bg-neutral-900 border-neutral-700 text-white placeholder-neutral-500" 
+                    : "bg-white border-neutral-200 text-neutral-900 placeholder-neutral-400 shadow-sm"
                 } focus:outline-none focus:ring-2 focus:ring-teal-500`}
               />
             </div>
@@ -184,17 +184,17 @@ const HelpCenterPage = () => {
                 to={resource.link}
                 className={`p-6 rounded-2xl border transition-all hover:shadow-lg ${
                   isDark 
-                    ? "border-slate-800 bg-slate-900/50 hover:border-slate-700" 
-                    : "border-slate-200 bg-slate-50 hover:border-slate-300"
+                    ? "border-neutral-800 bg-neutral-900/50 hover:border-neutral-700" 
+                    : "border-neutral-200 bg-neutral-50 hover:border-neutral-300"
                 }`}
               >
                 <div className={`p-3 rounded-xl inline-block mb-4 ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                   <resource.icon className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                 </div>
-                <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   {resource.title}
                 </h3>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                   {resource.description}
                 </p>
               </Link>
@@ -205,7 +205,7 @@ const HelpCenterPage = () => {
           <div className="grid lg:grid-cols-4 gap-8">
             {/* Categories Sidebar */}
             <div className="lg:col-span-1">
-              <h2 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+              <h2 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                 Categories
               </h2>
               <nav className="space-y-2">
@@ -217,8 +217,8 @@ const HelpCenterPage = () => {
                         ? "bg-teal-500/20 text-teal-400"
                         : "bg-teal-50 text-teal-700"
                       : isDark
-                        ? "text-slate-400 hover:bg-slate-800"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "text-neutral-400 hover:bg-neutral-800"
+                        : "text-neutral-600 hover:bg-neutral-100"
                   }`}
                 >
                   <span className="flex items-center gap-2">
@@ -237,8 +237,8 @@ const HelpCenterPage = () => {
                           ? "bg-teal-500/20 text-teal-400"
                           : "bg-teal-50 text-teal-700"
                         : isDark
-                          ? "text-slate-400 hover:bg-slate-800"
-                          : "text-slate-600 hover:bg-slate-100"
+                          ? "text-neutral-400 hover:bg-neutral-800"
+                          : "text-neutral-600 hover:bg-neutral-100"
                     }`}
                   >
                     <span className="flex items-center gap-2">
@@ -253,14 +253,14 @@ const HelpCenterPage = () => {
 
             {/* FAQs */}
             <div className="lg:col-span-3">
-              <h2 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+              <h2 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                 Frequently Asked Questions
               </h2>
               
               {filteredFAQs.length === 0 ? (
-                <div className={`text-center py-12 rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}>
-                  <HelpCircle className={`h-12 w-12 mx-auto mb-4 ${isDark ? "text-slate-600" : "text-slate-400"}`} />
-                  <p className={`${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                <div className={`text-center py-12 rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}>
+                  <HelpCircle className={`h-12 w-12 mx-auto mb-4 ${isDark ? "text-neutral-600" : "text-neutral-400"}`} />
+                  <p className={`${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     No results found. Try a different search term.
                   </p>
                 </div>
@@ -269,25 +269,25 @@ const HelpCenterPage = () => {
                   {filteredFAQs.map((faq) => (
                     <div 
                       key={faq.id}
-                      className={`rounded-xl border overflow-hidden ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}
+                      className={`rounded-xl border overflow-hidden ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}
                     >
                       <button
                         onClick={() => setExpandedFAQ(expandedFAQ === faq.id ? null : faq.id)}
                         className="w-full p-4 flex items-center justify-between text-left"
                       >
-                        <span className={`font-medium pr-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                        <span className={`font-medium pr-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                           {faq.question}
                         </span>
                         {expandedFAQ === faq.id ? (
-                          <ChevronUp className={`h-5 w-5 flex-shrink-0 ${isDark ? "text-slate-400" : "text-slate-600"}`} />
+                          <ChevronUp className={`h-5 w-5 flex-shrink-0 ${isDark ? "text-neutral-400" : "text-neutral-600"}`} />
                         ) : (
-                          <ChevronDown className={`h-5 w-5 flex-shrink-0 ${isDark ? "text-slate-400" : "text-slate-600"}`} />
+                          <ChevronDown className={`h-5 w-5 flex-shrink-0 ${isDark ? "text-neutral-400" : "text-neutral-600"}`} />
                         )}
                       </button>
                       
                       {expandedFAQ === faq.id && (
-                        <div className={`px-4 pb-4 border-t ${isDark ? "border-slate-800" : "border-slate-200"}`}>
-                          <p className={`pt-4 text-sm leading-relaxed ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                        <div className={`px-4 pb-4 border-t ${isDark ? "border-neutral-800" : "border-neutral-200"}`}>
+                          <p className={`pt-4 text-sm leading-relaxed ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                             {faq.answer}
                           </p>
                         </div>
@@ -307,10 +307,10 @@ const HelpCenterPage = () => {
                   <MessageCircle className={`h-8 w-8 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                 </div>
                 <div>
-                  <h3 className={`text-xl font-bold ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`text-xl font-bold ${isDark ? "text-white" : "text-neutral-900"}`}>
                     Still Need Help?
                   </h3>
-                  <p className={`${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     Our support team is here to assist you
                   </p>
                 </div>
@@ -331,8 +331,8 @@ const HelpCenterPage = () => {
                   href="/status"
                   className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
                     isDark 
-                      ? "border border-slate-700 text-slate-300 hover:bg-slate-800" 
-                      : "border border-slate-300 text-slate-700 hover:bg-slate-100"
+                      ? "border border-neutral-700 text-neutral-300 hover:bg-neutral-800" 
+                      : "border border-neutral-300 text-neutral-700 hover:bg-neutral-100"
                   }`}
                 >
                   System Status

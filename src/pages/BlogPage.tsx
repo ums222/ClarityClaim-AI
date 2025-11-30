@@ -127,7 +127,7 @@ const BlogPage = () => {
   const regularPosts = filteredPosts.filter(post => !post.featured);
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -138,10 +138,10 @@ const BlogPage = () => {
             <p className={`text-xs font-medium uppercase tracking-wider mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
               ClarityClaim Blog
             </p>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Insights & Resources
             </h1>
-            <p className={`text-lg max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Expert insights on healthcare claims management, denial prevention, and revenue cycle optimization.
             </p>
           </div>
@@ -149,7 +149,7 @@ const BlogPage = () => {
           {/* Search and Filter */}
           <div className="flex flex-col md:flex-row gap-4 mb-12">
             <div className="relative flex-1">
-              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 ${isDark ? "text-slate-500" : "text-slate-400"}`} />
+              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 ${isDark ? "text-neutral-500" : "text-neutral-400"}`} />
               <input
                 type="text"
                 placeholder="Search articles..."
@@ -157,8 +157,8 @@ const BlogPage = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
                   isDark 
-                    ? "bg-slate-900 border-slate-700 text-white placeholder-slate-500" 
-                    : "bg-white border-slate-200 text-slate-900 placeholder-slate-400"
+                    ? "bg-neutral-900 border-neutral-700 text-white placeholder-neutral-500" 
+                    : "bg-white border-neutral-200 text-neutral-900 placeholder-neutral-400"
                 } focus:outline-none focus:ring-2 focus:ring-teal-500`}
               />
             </div>
@@ -173,8 +173,8 @@ const BlogPage = () => {
                         ? "bg-teal-500/20 text-teal-400 ring-1 ring-teal-500/30"
                         : "bg-teal-50 text-teal-700 ring-1 ring-teal-500/30"
                       : isDark
-                        ? "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                        ? "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
+                        : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
                   }`}
                 >
                   {category}
@@ -185,7 +185,7 @@ const BlogPage = () => {
 
           {/* Featured Post */}
           {featuredPost && selectedCategory === "All" && !searchQuery && (
-            <div className={`rounded-2xl border overflow-hidden mb-12 ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}>
+            <div className={`rounded-2xl border overflow-hidden mb-12 ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}>
               <div className="grid md:grid-cols-2">
                 <div className="h-64 md:h-auto">
                   <img 
@@ -199,15 +199,15 @@ const BlogPage = () => {
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${isDark ? "bg-teal-500/20 text-teal-400" : "bg-teal-50 text-teal-600"}`}>
                       Featured
                     </span>
-                    <span className={`flex items-center gap-1 text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                    <span className={`flex items-center gap-1 text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                       <Tag className="h-3 w-3" />
                       {featuredPost.category}
                     </span>
                   </div>
-                  <h2 className={`text-2xl md:text-3xl font-bold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h2 className={`text-2xl md:text-3xl font-bold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {featuredPost.title}
                   </h2>
-                  <p className={`mb-6 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`mb-6 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {featuredPost.excerpt}
                   </p>
                   <div className="flex items-center gap-4">
@@ -217,10 +217,10 @@ const BlogPage = () => {
                       className="w-10 h-10 rounded-full object-cover"
                     />
                     <div>
-                      <p className={`text-sm font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                      <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {featuredPost.author.name}
                       </p>
-                      <div className={`flex items-center gap-3 text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                      <div className={`flex items-center gap-3 text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
                           {featuredPost.publishedAt}
@@ -243,7 +243,7 @@ const BlogPage = () => {
               <article 
                 key={post.id}
                 className={`rounded-2xl border overflow-hidden transition-all hover:shadow-lg ${
-                  isDark ? "border-slate-800 bg-slate-900/50 hover:border-slate-700" : "border-slate-200 bg-white hover:border-slate-300"
+                  isDark ? "border-neutral-800 bg-neutral-900/50 hover:border-neutral-700" : "border-neutral-200 bg-white hover:border-neutral-300"
                 }`}
               >
                 <div className="h-48">
@@ -255,17 +255,17 @@ const BlogPage = () => {
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${isDark ? "bg-slate-800 text-slate-400" : "bg-slate-100 text-slate-600"}`}>
+                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${isDark ? "bg-neutral-800 text-neutral-400" : "bg-neutral-100 text-neutral-600"}`}>
                       {post.category}
                     </span>
-                    <span className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                    <span className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                       {post.readTime}
                     </span>
                   </div>
-                  <h3 className={`text-lg font-semibold mb-2 line-clamp-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`text-lg font-semibold mb-2 line-clamp-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {post.title}
                   </h3>
-                  <p className={`text-sm mb-4 line-clamp-2 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm mb-4 line-clamp-2 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {post.excerpt}
                   </p>
                   <div className="flex items-center justify-between">
@@ -276,10 +276,10 @@ const BlogPage = () => {
                         className="w-8 h-8 rounded-full object-cover"
                       />
                       <div>
-                        <p className={`text-xs font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                        <p className={`text-xs font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                           {post.author.name}
                         </p>
-                        <p className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                        <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                           {post.publishedAt}
                         </p>
                       </div>
@@ -296,7 +296,7 @@ const BlogPage = () => {
 
           {filteredPosts.length === 0 && (
             <div className="text-center py-12">
-              <p className={`text-lg ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+              <p className={`text-lg ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                 No articles found matching your criteria.
               </p>
               <button
@@ -310,10 +310,10 @@ const BlogPage = () => {
 
           {/* Newsletter Signup */}
           <div className={`mt-16 rounded-2xl border ${isDark ? "border-teal-500/30 bg-teal-500/5" : "border-teal-200 bg-teal-50"} p-8 text-center`}>
-            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Subscribe to Our Newsletter
             </h2>
-            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Get the latest insights on healthcare claims management, AI innovations, and industry trends delivered to your inbox.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
@@ -322,8 +322,8 @@ const BlogPage = () => {
                 placeholder="Enter your email"
                 className={`flex-1 px-4 py-3 rounded-lg border ${
                   isDark 
-                    ? "bg-slate-900 border-slate-700 text-white placeholder-slate-500" 
-                    : "bg-white border-slate-200 text-slate-900 placeholder-slate-400"
+                    ? "bg-neutral-900 border-neutral-700 text-white placeholder-neutral-500" 
+                    : "bg-white border-neutral-200 text-neutral-900 placeholder-neutral-400"
                 } focus:outline-none focus:ring-2 focus:ring-teal-500`}
               />
               <button className={`px-6 py-3 rounded-lg font-medium transition-colors ${isDark ? "bg-teal-500 text-white hover:bg-teal-600" : "bg-teal-600 text-white hover:bg-teal-700"}`}>

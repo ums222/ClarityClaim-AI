@@ -139,7 +139,7 @@ const CaseStudiesPage = () => {
   void _selectedStudy; void _setSelectedStudy;
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -150,33 +150,33 @@ const CaseStudiesPage = () => {
             <p className={`text-xs font-medium uppercase tracking-wider mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
               Case Studies
             </p>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Real Results from Real Customers
             </h1>
-            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               See how healthcare organizations are using ClarityClaim AI to reduce denials, 
               recover revenue, and transform their revenue cycle operations.
             </p>
           </div>
 
           {/* Summary Stats */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 mb-16`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 mb-16`}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
                 <p className={`text-3xl md:text-4xl font-bold ${isDark ? "text-teal-400" : "text-teal-600"}`}>$250M+</p>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Revenue Recovered</p>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Revenue Recovered</p>
               </div>
               <div>
                 <p className={`text-3xl md:text-4xl font-bold ${isDark ? "text-teal-400" : "text-teal-600"}`}>35%</p>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Avg Denial Reduction</p>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Avg Denial Reduction</p>
               </div>
               <div>
                 <p className={`text-3xl md:text-4xl font-bold ${isDark ? "text-teal-400" : "text-teal-600"}`}>87%</p>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Appeal Success Rate</p>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Appeal Success Rate</p>
               </div>
               <div>
                 <p className={`text-3xl md:text-4xl font-bold ${isDark ? "text-teal-400" : "text-teal-600"}`}>500+</p>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Organizations</p>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Organizations</p>
               </div>
             </div>
           </div>
@@ -186,7 +186,7 @@ const CaseStudiesPage = () => {
             {caseStudies.map((study, index) => (
               <div 
                 key={study.id}
-                className={`rounded-2xl border overflow-hidden ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}
+                className={`rounded-2xl border overflow-hidden ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}
               >
                 <div className={`grid md:grid-cols-2 ${index % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
                   {/* Image */}
@@ -202,16 +202,16 @@ const CaseStudiesPage = () => {
                   <div className="p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-4">
                       <Building className={`h-5 w-5 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-                      <span className={`text-sm font-medium ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                      <span className={`text-sm font-medium ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                         {study.type}
                       </span>
                     </div>
 
-                    <h2 className={`text-xl md:text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                    <h2 className={`text-xl md:text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                       {study.headline}
                     </h2>
 
-                    <p className={`mb-6 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                    <p className={`mb-6 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                       {study.summary}
                     </p>
 
@@ -222,10 +222,10 @@ const CaseStudiesPage = () => {
                           <p className={`text-2xl font-bold ${isDark ? "text-teal-400" : "text-teal-600"}`}>
                             {metric.value}
                           </p>
-                          <p className={`text-sm font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                          <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                             {metric.label}
                           </p>
-                          <p className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                          <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                             {metric.description}
                           </p>
                         </div>
@@ -233,15 +233,15 @@ const CaseStudiesPage = () => {
                     </div>
 
                     {/* Quote */}
-                    <div className={`p-4 rounded-xl ${isDark ? "bg-slate-800" : "bg-white"}`}>
+                    <div className={`p-4 rounded-xl ${isDark ? "bg-neutral-800" : "bg-white"}`}>
                       <Quote className={`h-6 w-6 mb-2 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-                      <p className={`text-sm italic mb-3 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                      <p className={`text-sm italic mb-3 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                         "{study.quote.text}"
                       </p>
-                      <p className={`text-sm font-medium ${isDark ? "text-white" : "text-slate-900"}`}>
+                      <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {study.quote.author}
                       </p>
-                      <p className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                      <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                         {study.quote.role}
                       </p>
                     </div>
@@ -249,15 +249,15 @@ const CaseStudiesPage = () => {
                 </div>
 
                 {/* Expanded Details */}
-                <div className={`grid md:grid-cols-2 gap-6 p-6 md:p-8 border-t ${isDark ? "border-slate-800" : "border-slate-200"}`}>
+                <div className={`grid md:grid-cols-2 gap-6 p-6 md:p-8 border-t ${isDark ? "border-neutral-800" : "border-neutral-200"}`}>
                   <div>
-                    <h3 className={`font-semibold mb-3 flex items-center gap-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                    <h3 className={`font-semibold mb-3 flex items-center gap-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                       <TrendingUp className={`h-4 w-4 ${isDark ? "text-red-400" : "text-red-600"}`} />
                       Challenges
                     </h3>
                     <ul className="space-y-2">
                       {study.challenges.map((challenge, i) => (
-                        <li key={i} className={`flex items-start gap-2 text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                        <li key={i} className={`flex items-start gap-2 text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                           <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${isDark ? "bg-red-400" : "bg-red-500"}`} />
                           {challenge}
                         </li>
@@ -265,13 +265,13 @@ const CaseStudiesPage = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className={`font-semibold mb-3 flex items-center gap-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                    <h3 className={`font-semibold mb-3 flex items-center gap-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                       <CheckCircle2 className={`h-4 w-4 ${isDark ? "text-green-400" : "text-green-600"}`} />
                       Solutions
                     </h3>
                     <ul className="space-y-2">
                       {study.solutions.map((solution, i) => (
-                        <li key={i} className={`flex items-start gap-2 text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                        <li key={i} className={`flex items-start gap-2 text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                           <CheckCircle2 className={`h-4 w-4 mt-0.5 flex-shrink-0 ${isDark ? "text-green-400" : "text-green-600"}`} />
                           {solution}
                         </li>
@@ -285,10 +285,10 @@ const CaseStudiesPage = () => {
 
           {/* CTA */}
           <div className={`mt-16 rounded-2xl border ${isDark ? "border-teal-500/30 bg-teal-500/5" : "border-teal-200 bg-teal-50"} p-8 text-center`}>
-            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Ready to Write Your Success Story?
             </h2>
-            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Join hundreds of healthcare organizations recovering millions in denied claims with ClarityClaim AI.
             </p>
             <a 

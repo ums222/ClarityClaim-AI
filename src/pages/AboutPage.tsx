@@ -65,7 +65,7 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -76,23 +76,23 @@ const AboutPage = () => {
             <p className={`text-xs font-medium uppercase tracking-wider mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
               About ClarityClaim AI
             </p>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Fighting Claim Denials with AI
             </h1>
-            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               We're on a mission to end the $25.7 billion problem of healthcare claim denials. Using advanced AI, we help healthcare organizations predict, prevent, and appeal denials—recovering millions in lost revenue.
             </p>
           </div>
 
           {/* Stats */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 mb-16`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 mb-16`}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center">
                   <p className={`text-3xl md:text-4xl font-bold mb-1 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
                     {stat.value}
                   </p>
-                  <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {stat.label}
                   </p>
                 </div>
@@ -104,10 +104,10 @@ const AboutPage = () => {
           <div className="mb-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Our Story
                 </h2>
-                <div className={`space-y-4 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <div className={`space-y-4 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <p>
                     ClarityClaim AI was founded in 2022 by healthcare and technology veterans who witnessed firsthand the devastating impact of claim denials on healthcare organizations and patients.
                   </p>
@@ -119,7 +119,7 @@ const AboutPage = () => {
                   </p>
                 </div>
               </div>
-              <div className={`rounded-2xl overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
+              <div className={`rounded-2xl overflow-hidden ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
                 <img 
                   src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" 
                   alt="Healthcare team collaboration"
@@ -131,24 +131,24 @@ const AboutPage = () => {
 
           {/* Values */}
           <div className="mb-16">
-            <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               Our Values
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {values.map((value) => (
                 <div 
                   key={value.title}
-                  className={`p-6 rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}
+                  className={`p-6 rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}
                 >
                   <div className="flex items-start gap-4">
                     <div className={`p-3 rounded-xl ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                       <value.icon className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                     </div>
                     <div>
-                      <h3 className={`text-lg font-semibold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                      <h3 className={`text-lg font-semibold mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {value.title}
                       </h3>
-                      <p className={`${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                      <p className={`${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                         {value.description}
                       </p>
                     </div>
@@ -160,27 +160,27 @@ const AboutPage = () => {
 
           {/* Leadership Team */}
           <div className="mb-16">
-            <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               Leadership Team
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {team.map((member) => (
                 <div 
                   key={member.name}
-                  className={`p-6 rounded-2xl border text-center ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}
+                  className={`p-6 rounded-2xl border text-center ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}
                 >
                   <img 
                     src={member.image} 
                     alt={member.name}
                     className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                   />
-                  <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`font-semibold mb-1 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {member.name}
                   </h3>
                   <p className={`text-sm font-medium mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
                     {member.role}
                   </p>
-                  <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {member.bio}
                   </p>
                 </div>
@@ -189,21 +189,21 @@ const AboutPage = () => {
           </div>
 
           {/* Backed By */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 text-center`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 text-center`}>
             <div className="flex items-center justify-center gap-2 mb-4">
               <Building className={`h-5 w-5 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-              <h2 className={`text-xl font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>
+              <h2 className={`text-xl font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>
                 Backed by Leading Healthcare Investors
               </h2>
             </div>
-            <p className={`mb-6 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`mb-6 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               We're proud to be supported by investors who share our vision for transforming healthcare revenue cycle management.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-8">
               {["Andreessen Horowitz", "General Catalyst", "Oak HC/FT", "GV"].map((investor) => (
                 <span 
                   key={investor}
-                  className={`text-lg font-semibold ${isDark ? "text-slate-500" : "text-slate-400"}`}
+                  className={`text-lg font-semibold ${isDark ? "text-neutral-500" : "text-neutral-400"}`}
                 >
                   {investor}
                 </span>

@@ -165,14 +165,14 @@ const IntegrationsPage = () => {
       case "beta":
         return isDark ? "bg-blue-500/20 text-blue-400" : "bg-blue-50 text-blue-700";
       case "coming-soon":
-        return isDark ? "bg-slate-700 text-slate-400" : "bg-slate-100 text-slate-600";
+        return isDark ? "bg-neutral-700 text-neutral-400" : "bg-neutral-100 text-neutral-600";
       default:
         return "";
     }
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -183,44 +183,44 @@ const IntegrationsPage = () => {
             <p className={`text-xs font-medium uppercase tracking-wider mb-3 ${isDark ? "text-teal-400" : "text-teal-600"}`}>
               Integrations
             </p>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Connect Your Healthcare Stack
             </h1>
-            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               ClarityClaim AI integrates with your existing EHR, clearinghouse, and payer systems for seamless claims management.
             </p>
           </div>
 
           {/* Integration Benefits */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 mb-12`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 mb-12`}>
             <div className="grid md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className={`p-3 rounded-xl inline-block mb-3 ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                   <Plug className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                 </div>
-                <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>Easy Setup</h3>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Most integrations live in minutes</p>
+                <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>Easy Setup</h3>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Most integrations live in minutes</p>
               </div>
               <div className="text-center">
                 <div className={`p-3 rounded-xl inline-block mb-3 ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                   <Zap className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                 </div>
-                <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>Real-Time Sync</h3>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Automatic bi-directional data flow</p>
+                <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>Real-Time Sync</h3>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Automatic bi-directional data flow</p>
               </div>
               <div className="text-center">
                 <div className={`p-3 rounded-xl inline-block mb-3 ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                   <Shield className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                 </div>
-                <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>HIPAA Compliant</h3>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Secure, encrypted connections</p>
+                <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>HIPAA Compliant</h3>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Secure, encrypted connections</p>
               </div>
               <div className="text-center">
                 <div className={`p-3 rounded-xl inline-block mb-3 ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                   <Clock className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                 </div>
-                <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>24/7 Monitoring</h3>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Proactive issue detection</p>
+                <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>24/7 Monitoring</h3>
+                <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Proactive issue detection</p>
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@ const IntegrationsPage = () => {
           {/* Search and Filter */}
           <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="relative flex-1">
-              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 ${isDark ? "text-slate-500" : "text-slate-400"}`} />
+              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 ${isDark ? "text-neutral-500" : "text-neutral-400"}`} />
               <input
                 type="text"
                 placeholder="Search integrations..."
@@ -236,8 +236,8 @@ const IntegrationsPage = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
                   isDark 
-                    ? "bg-slate-900 border-slate-700 text-white placeholder-slate-500" 
-                    : "bg-white border-slate-200 text-slate-900 placeholder-slate-400"
+                    ? "bg-neutral-900 border-neutral-700 text-white placeholder-neutral-500" 
+                    : "bg-white border-neutral-200 text-neutral-900 placeholder-neutral-400"
                 } focus:outline-none focus:ring-2 focus:ring-teal-500`}
               />
             </div>
@@ -252,8 +252,8 @@ const IntegrationsPage = () => {
                         ? "bg-teal-500/20 text-teal-400 ring-1 ring-teal-500/30"
                         : "bg-teal-50 text-teal-700 ring-1 ring-teal-500/30"
                       : isDark
-                        ? "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                        ? "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
+                        : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
                   }`}
                 >
                   {category}
@@ -268,19 +268,19 @@ const IntegrationsPage = () => {
               <div 
                 key={integration.id}
                 className={`rounded-2xl border p-6 transition-all hover:shadow-lg ${
-                  isDark ? "border-slate-800 bg-slate-900/50 hover:border-slate-700" : "border-slate-200 bg-white hover:border-slate-300"
+                  isDark ? "border-neutral-800 bg-neutral-900/50 hover:border-neutral-700" : "border-neutral-200 bg-white hover:border-neutral-300"
                 }`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
-                      <Plug className={`h-6 w-6 ${isDark ? "text-slate-400" : "text-slate-600"}`} />
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
+                      <Plug className={`h-6 w-6 ${isDark ? "text-neutral-400" : "text-neutral-600"}`} />
                     </div>
                     <div>
-                      <h3 className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>
+                      <h3 className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}>
                         {integration.name}
                       </h3>
-                      <p className={`text-xs ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                      <p className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
                         {integration.category}
                       </p>
                     </div>
@@ -290,13 +290,13 @@ const IntegrationsPage = () => {
                   </span>
                 </div>
 
-                <p className={`text-sm mb-4 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                <p className={`text-sm mb-4 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                   {integration.description}
                 </p>
 
                 <div className="space-y-2 mb-4">
                   {integration.features.slice(0, 3).map((feature, i) => (
-                    <div key={i} className={`flex items-center gap-2 text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                    <div key={i} className={`flex items-center gap-2 text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                       <CheckCircle2 className={`h-4 w-4 flex-shrink-0 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                       {feature}
                     </div>
@@ -310,8 +310,8 @@ const IntegrationsPage = () => {
                         ? "bg-teal-500/20 text-teal-400 hover:bg-teal-500/30" 
                         : "bg-teal-50 text-teal-700 hover:bg-teal-100"
                       : isDark
-                        ? "bg-slate-800 text-slate-500 cursor-not-allowed"
-                        : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                        ? "bg-neutral-800 text-neutral-500 cursor-not-allowed"
+                        : "bg-neutral-100 text-neutral-400 cursor-not-allowed"
                   }`}
                   disabled={integration.status !== "available"}
                 >
@@ -329,10 +329,10 @@ const IntegrationsPage = () => {
 
           {/* Custom Integration CTA */}
           <div className={`rounded-2xl border ${isDark ? "border-teal-500/30 bg-teal-500/5" : "border-teal-200 bg-teal-50"} p-8 text-center`}>
-            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Don't See Your System?
             </h2>
-            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               We're constantly adding new integrations. Contact us about custom integrations for your healthcare stack.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -351,8 +351,8 @@ const IntegrationsPage = () => {
                 href="mailto:integrations@clarityclaim.ai"
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
                   isDark 
-                    ? "border border-slate-700 text-slate-300 hover:bg-slate-800" 
-                    : "border border-slate-300 text-slate-700 hover:bg-slate-100"
+                    ? "border border-neutral-700 text-neutral-300 hover:bg-neutral-800" 
+                    : "border border-neutral-300 text-neutral-700 hover:bg-neutral-100"
                 }`}
               >
                 Request Integration

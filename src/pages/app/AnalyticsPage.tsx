@@ -42,7 +42,7 @@ export function AnalyticsPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
               <span className="p-2 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -50,7 +50,7 @@ export function AnalyticsPage() {
               </span>
               AI Analytics & Insights
             </h1>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
               AI-powered analysis of your claims data and denial patterns
             </p>
           </div>
@@ -60,7 +60,7 @@ export function AnalyticsPage() {
             <select
               value={selectedDays}
               onChange={(e) => setSelectedDays(parseInt(e.target.value))}
-              className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-purple-500"
             >
               <option value={30}>Last 30 days</option>
               <option value={60}>Last 60 days</option>
@@ -139,7 +139,7 @@ export function AnalyticsPage() {
                     className={`px-2 py-1 rounded text-xs font-medium ${
                       enabled 
                         ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+                        : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
                     }`}
                   >
                     {key.replace(/([A-Z])/g, ' $1').trim()}
@@ -164,7 +164,7 @@ export function AnalyticsPage() {
         )}
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 dark:border-gray-700">
+        <div className="border-b border-neutral-200 dark:border-neutral-700">
           <div className="flex gap-6">
             {(['overview', 'patterns', 'payers', 'risk'] as const).map(tab => (
               <button
@@ -173,7 +173,7 @@ export function AnalyticsPage() {
                 className={`pb-3 text-sm font-medium border-b-2 transition-colors capitalize ${
                   activeTab === tab
                     ? 'border-purple-500 text-purple-600 dark:text-purple-400'
-                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                    : 'border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
                 }`}
               >
                 {tab === 'risk' ? 'Risk Analysis' : tab}
@@ -187,7 +187,7 @@ export function AnalyticsPage() {
           <div className="flex items-center justify-center h-64">
             <div className="flex flex-col items-center gap-4">
               <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
-              <p className="text-gray-500 dark:text-gray-400">Analyzing claims data...</p>
+              <p className="text-neutral-500 dark:text-neutral-400">Analyzing claims data...</p>
             </div>
           </div>
         )}
@@ -224,11 +224,11 @@ export function AnalyticsPage() {
         {/* No Stats State */}
         {!isLoading && analysis && !analysis.stats && (
           <div className="flex flex-col items-center justify-center h-64 text-center">
-            <svg className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-16 h-16 text-neutral-300 dark:text-neutral-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <p className="text-gray-500 dark:text-gray-400 mb-2">Unable to load analytics data</p>
-            <p className="text-sm text-gray-400 dark:text-gray-500">Please try refreshing the page</p>
+            <p className="text-neutral-500 dark:text-neutral-400 mb-2">Unable to load analytics data</p>
+            <p className="text-sm text-neutral-400 dark:text-neutral-500">Please try refreshing the page</p>
             <button
               onClick={fetchData}
               className="mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
@@ -241,11 +241,11 @@ export function AnalyticsPage() {
         {/* Empty State */}
         {!isLoading && !error && analysis?.claimsAnalyzed === 0 && (
           <div className="flex flex-col items-center justify-center h-64 text-center">
-            <svg className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-16 h-16 text-neutral-300 dark:text-neutral-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <p className="text-gray-500 dark:text-gray-400 mb-2">No claims data to analyze</p>
-            <p className="text-sm text-gray-400 dark:text-gray-500">Create some claims first to see analytics</p>
+            <p className="text-neutral-500 dark:text-neutral-400 mb-2">No claims data to analyze</p>
+            <p className="text-sm text-neutral-400 dark:text-neutral-500">Create some claims first to see analytics</p>
           </div>
         )}
       </div>
@@ -299,15 +299,15 @@ function OverviewTab({ analysis }: { analysis: PatternAnalysis }) {
       </div>
 
       {/* Status Distribution */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+        <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
           Claims by Status
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {Object.entries(stats.byStatus || {}).map(([status, count]) => (
-            <div key={status} className="text-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{count}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 capitalize mt-1">
+            <div key={status} className="text-center p-4 bg-neutral-50 dark:bg-neutral-700/50 rounded-lg">
+              <p className="text-2xl font-bold text-neutral-900 dark:text-white">{count}</p>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 capitalize mt-1">
                 {status.replace(/_/g, ' ')}
               </p>
             </div>
@@ -317,8 +317,8 @@ function OverviewTab({ analysis }: { analysis: PatternAnalysis }) {
 
       {/* Patterns Summary */}
       {analysis.patterns.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
             AI-Detected Patterns ({analysis.patterns.length})
           </h3>
           <div className="space-y-3">
@@ -340,8 +340,8 @@ function PatternsTab({ patterns }: { patterns: PatternData[] }) {
         <svg className="w-16 h-16 text-green-300 dark:text-green-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p className="text-gray-500 dark:text-gray-400 mb-2">No concerning patterns detected</p>
-        <p className="text-sm text-gray-400 dark:text-gray-500">Your claims data looks healthy!</p>
+        <p className="text-neutral-500 dark:text-neutral-400 mb-2">No concerning patterns detected</p>
+        <p className="text-sm text-neutral-400 dark:text-neutral-500">Your claims data looks healthy!</p>
       </div>
     );
   }
@@ -376,51 +376,51 @@ function PayersTab({ stats }: { stats: PatternAnalysis['stats'] }) {
   if (payerData.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-center">
-        <p className="text-gray-500 dark:text-gray-400">No payer data available</p>
+        <p className="text-neutral-500 dark:text-neutral-400">No payer data available</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
       <table className="w-full">
-        <thead className="bg-gray-50 dark:bg-gray-700/50">
+        <thead className="bg-neutral-50 dark:bg-neutral-700/50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
               Payer
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
               Claims
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
               Total Billed
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
               Denied
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
               Denial Rate
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+        <tbody className="divide-y divide-neutral-200 dark:divide-neutral-700">
           {payerData.map((payer) => (
-            <tr key={payer.name} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+            <tr key={payer.name} className="hover:bg-neutral-50 dark:hover:bg-neutral-700/50">
               <td className="px-6 py-4">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
                     {payer.name.charAt(0)}
                   </div>
-                  <span className="font-medium text-gray-900 dark:text-white">{payer.name}</span>
+                  <span className="font-medium text-neutral-900 dark:text-white">{payer.name}</span>
                 </div>
               </td>
-              <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+              <td className="px-6 py-4 text-neutral-700 dark:text-neutral-300">
                 {payer.count}
               </td>
-              <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+              <td className="px-6 py-4 text-neutral-700 dark:text-neutral-300">
                 {formatCurrency(payer.total_billed)}
               </td>
-              <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+              <td className="px-6 py-4 text-neutral-700 dark:text-neutral-300">
                 {payer.denied}
               </td>
               <td className="px-6 py-4">
@@ -477,9 +477,9 @@ function RiskTab({ analysis }: { analysis: PatternAnalysis }) {
     <div className="space-y-6">
       {/* Risk Score Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
               Average Risk Score
             </h3>
             <span className={`px-2 py-1 rounded text-xs font-medium ${
@@ -492,47 +492,47 @@ function RiskTab({ analysis }: { analysis: PatternAnalysis }) {
               {(stats.avgRiskScore || 0) > 50 ? 'High' : (stats.avgRiskScore || 0) > 30 ? 'Medium' : 'Low'}
             </span>
           </div>
-          <p className="text-4xl font-bold text-gray-900 dark:text-white">
+          <p className="text-4xl font-bold text-neutral-900 dark:text-white">
             {(stats.avgRiskScore || 0).toFixed(0)}
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
             Out of 100
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+          <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-4">
             Denial Categories
           </h3>
           <div className="space-y-2">
             {Object.entries(stats.byDenialCategory || {}).slice(0, 5).map(([category, count]) => (
               <div key={category} className="flex items-center justify-between">
-                <span className="text-sm text-gray-700 dark:text-gray-300">{category}</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">{count}</span>
+                <span className="text-sm text-neutral-700 dark:text-neutral-300">{category}</span>
+                <span className="text-sm font-medium text-neutral-900 dark:text-white">{count}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+          <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-4">
             Revenue Impact
           </h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Billed</span>
-              <span className="font-medium text-gray-900 dark:text-white">
+              <span className="text-sm text-neutral-500 dark:text-neutral-400">Billed</span>
+              <span className="font-medium text-neutral-900 dark:text-white">
                 {formatCurrency(stats.totalBilled || 0)}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Collected</span>
+              <span className="text-sm text-neutral-500 dark:text-neutral-400">Collected</span>
               <span className="font-medium text-green-600 dark:text-green-400">
                 {formatCurrency(stats.totalPaid || 0)}
               </span>
             </div>
-            <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Lost Revenue</span>
+            <div className="flex items-center justify-between pt-2 border-t border-neutral-200 dark:border-neutral-700">
+              <span className="text-sm text-neutral-500 dark:text-neutral-400">Lost Revenue</span>
               <span className="font-medium text-red-600 dark:text-red-400">
                 {formatCurrency((stats.totalBilled || 0) - (stats.totalPaid || 0))}
               </span>
@@ -594,7 +594,7 @@ function MetricCard({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
       <div className="flex items-center justify-between">
         <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
           {icon}
@@ -605,8 +605,8 @@ function MetricCard({
           </span>
         )}
       </div>
-      <p className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{label}</p>
+      <p className="mt-4 text-2xl font-bold text-neutral-900 dark:text-white">{value}</p>
+      <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{label}</p>
     </div>
   );
 }
@@ -638,17 +638,17 @@ function PatternCard({ pattern, compact = false }: { pattern: PatternData; compa
             {pattern.description}
           </p>
           {!compact && (
-            <div className="mt-3 p-3 bg-white/50 dark:bg-gray-800/50 rounded border border-gray-200 dark:border-gray-700">
-              <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase mb-1">
+            <div className="mt-3 p-3 bg-white/50 dark:bg-neutral-800/50 rounded border border-neutral-200 dark:border-neutral-700">
+              <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase mb-1">
                 Recommendation
               </p>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-neutral-700 dark:text-neutral-300">
                 {pattern.recommendation}
               </p>
             </div>
           )}
         </div>
-        <span className={`text-xs font-medium px-2 py-1 rounded uppercase ${severityText[pattern.severity]} bg-white/50 dark:bg-gray-800/50`}>
+        <span className={`text-xs font-medium px-2 py-1 rounded uppercase ${severityText[pattern.severity]} bg-white/50 dark:bg-neutral-800/50`}>
           {pattern.severity}
         </span>
       </div>

@@ -109,9 +109,9 @@ const PatternNode: React.FC<PatternNodeProps> = ({
         } : {}}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className={`w-full h-full rounded-xl ${isDark ? 'bg-slate-900/80' : 'bg-white/90'} backdrop-blur-sm flex flex-col items-center justify-center gap-0.5`}>
-          <Icon className={`${isCenter ? 'w-6 h-6 md:w-7 md:h-7' : 'w-4 h-4 md:w-5 md:h-5'} ${isDark ? 'text-white' : 'text-slate-800'}`} />
-          <span className={`${isCenter ? 'text-[8px] md:text-[9px]' : 'text-[7px] md:text-[8px]'} font-medium ${isDark ? 'text-white/80' : 'text-slate-700'} text-center px-1 leading-tight`}>
+        <div className={`w-full h-full rounded-xl ${isDark ? 'bg-neutral-900/80' : 'bg-white/90'} backdrop-blur-sm flex flex-col items-center justify-center gap-0.5`}>
+          <Icon className={`${isCenter ? 'w-6 h-6 md:w-7 md:h-7' : 'w-4 h-4 md:w-5 md:h-5'} ${isDark ? 'text-white' : 'text-neutral-800'}`} />
+          <span className={`${isCenter ? 'text-[8px] md:text-[9px]' : 'text-[7px] md:text-[8px]'} font-medium ${isDark ? 'text-white/80' : 'text-neutral-700'} text-center px-1 leading-tight`}>
             {node.label}
           </span>
         </div>
@@ -137,7 +137,7 @@ const PatternNode: React.FC<PatternNodeProps> = ({
             exit={{ opacity: 0, y: 8 }}
             className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap z-10"
           >
-            <div className={`px-2 py-0.5 ${isDark ? 'bg-white/10 border-white/20' : 'bg-slate-900/10 border-slate-900/20'} backdrop-blur-sm rounded-lg border`}>
+            <div className={`px-2 py-0.5 ${isDark ? 'bg-white/10 border-white/20' : 'bg-neutral-900/10 border-neutral-900/20'} backdrop-blur-sm rounded-lg border`}>
               <span className="text-[9px] font-bold text-clarity-secondary">{node.stats}</span>
             </div>
           </motion.div>
@@ -176,8 +176,8 @@ const AIPatternMap: React.FC = () => {
       id: 'input',
       label: 'Claims Input',
       icon: FileText,
-      colorDark: 'from-slate-500 to-slate-600',
-      colorLight: 'from-slate-400 to-slate-500',
+      colorDark: 'from-neutral-500 to-neutral-600',
+      colorLight: 'from-neutral-400 to-neutral-500',
       glowColorDark: 'rgba(100, 116, 139, 0.4)',
       glowColorLight: 'rgba(100, 116, 139, 0.3)',
       description: 'EHR, Clearinghouse & EDI X12 data ingestion',
@@ -285,8 +285,8 @@ const AIPatternMap: React.FC = () => {
       ref={containerRef} 
       className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
-          ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-clarity-primary/20 border-slate-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
-          : 'bg-gradient-to-br from-slate-50 via-white to-clarity-secondary/10 border-slate-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
+          ? 'bg-gradient-to-br from-neutral-900 via-neutral-900/95 to-clarity-primary/20 border-neutral-700/80 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20' 
+          : 'bg-gradient-to-br from-neutral-50 via-white to-clarity-secondary/10 border-neutral-200 hover:border-clarity-secondary/50 hover:shadow-lg hover:shadow-clarity-secondary/20'
       }`}
       style={{ height: '440px' }}
       whileHover={{ scale: 1.02 }}
@@ -344,7 +344,7 @@ const AIPatternMap: React.FC = () => {
           transition={{ duration: 0.4 }}
           className="flex items-center justify-between mb-4"
         >
-          <div className={`inline-flex items-center gap-1.5 px-2 py-1 ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-900/5 border-slate-900/10'} backdrop-blur-sm rounded-full border`}>
+          <div className={`inline-flex items-center gap-1.5 px-2 py-1 ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-900/5 border-neutral-900/10'} backdrop-blur-sm rounded-full border`}>
             <Brain className="w-3 h-3 text-clarity-secondary" />
             <span className={`text-[10px] font-medium ${isDark ? 'text-clarity-secondary' : 'text-clarity-primary'}`}>AI Pattern Map</span>
           </div>
@@ -512,7 +512,7 @@ const AIPatternMap: React.FC = () => {
         </div>
 
         {/* Flow Direction Indicator */}
-        <div className={`absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'} text-[9px]`}>
+        <div className={`absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'} text-[9px]`}>
           <span>Data Flow</span>
           <motion.div
             animate={{ x: [0, 6, 0] }}
@@ -537,11 +537,11 @@ const AIPatternMap: React.FC = () => {
           ].map((stat) => (
             <div
               key={stat.label}
-              className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-900/5 border-slate-900/10'} backdrop-blur-sm rounded-lg border px-2 py-1.5 text-center`}
+              className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-900/5 border-neutral-900/10'} backdrop-blur-sm rounded-lg border px-2 py-1.5 text-center`}
             >
               <stat.icon className={`w-3 h-3 ${stat.color} mx-auto mb-0.5`} />
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>{stat.value}</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{stat.label}</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>{stat.value}</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -554,21 +554,21 @@ const AIPatternMap: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className={`absolute bottom-0 left-0 right-0 ${isDark ? 'bg-slate-900/95 border-white/10' : 'bg-white/95 border-slate-200'} backdrop-blur-xl rounded-b-2xl border-t p-3`}
+            className={`absolute bottom-0 left-0 right-0 ${isDark ? 'bg-neutral-900/95 border-white/10' : 'bg-white/95 border-neutral-200'} backdrop-blur-xl rounded-b-2xl border-t p-3`}
           >
             <div className="flex items-start gap-3">
               <div className={`p-2 rounded-lg bg-gradient-to-br ${isDark ? nodes[activeNode as keyof typeof nodes].colorDark : nodes[activeNode as keyof typeof nodes].colorLight}`}>
                 {React.createElement(nodes[activeNode as keyof typeof nodes].icon, { className: 'w-4 h-4 text-white' })}
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className={`text-xs font-bold ${isDark ? 'text-white' : 'text-slate-800'} mb-0.5`}>
+                <h3 className={`text-xs font-bold ${isDark ? 'text-white' : 'text-neutral-800'} mb-0.5`}>
                   {nodes[activeNode as keyof typeof nodes].label}
                 </h3>
-                <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-600'} line-clamp-2`}>
+                <p className={`text-[10px] ${isDark ? 'text-neutral-400' : 'text-neutral-600'} line-clamp-2`}>
                   {nodes[activeNode as keyof typeof nodes].description}
                 </p>
               </div>
-              <div className={`inline-flex items-center gap-1 px-2 py-0.5 ${isDark ? 'bg-white/10' : 'bg-slate-100'} rounded-full shrink-0`}>
+              <div className={`inline-flex items-center gap-1 px-2 py-0.5 ${isDark ? 'bg-white/10' : 'bg-neutral-100'} rounded-full shrink-0`}>
                 <BarChart3 className="w-3 h-3 text-clarity-secondary" />
                 <span className="text-[9px] font-medium text-clarity-secondary">
                   {nodes[activeNode as keyof typeof nodes].stats}
@@ -602,7 +602,7 @@ const AIPatternMapMobile: React.FC = () => {
   }, [isInView]);
 
   const steps = [
-    { icon: FileText, label: 'Claims Ingestion', colorDark: 'from-slate-500 to-slate-600', colorLight: 'from-slate-400 to-slate-500', stat: '100K+/day' },
+    { icon: FileText, label: 'Claims Ingestion', colorDark: 'from-neutral-500 to-neutral-600', colorLight: 'from-neutral-400 to-neutral-500', stat: '100K+/day' },
     { icon: Brain, label: 'AI Prediction', colorDark: 'from-violet-500 to-purple-600', colorLight: 'from-violet-400 to-purple-500', stat: '94.2% accuracy' },
     { icon: Database, label: 'RAG Processing', colorDark: 'from-clarity-secondary to-teal-600', colorLight: 'from-clarity-secondary to-teal-500', stat: '200K+ policies' },
     { icon: Sparkles, label: 'Appeal Generation', colorDark: 'from-clarity-accent to-orange-500', colorLight: 'from-amber-400 to-orange-400', stat: '87% win rate' },
@@ -614,8 +614,8 @@ const AIPatternMapMobile: React.FC = () => {
       ref={containerRef} 
       className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] ${
         isDark 
-          ? 'bg-gradient-to-br from-slate-900 to-clarity-primary/20 border-slate-700/80 hover:border-clarity-secondary/50' 
-          : 'bg-gradient-to-br from-slate-50 to-clarity-secondary/10 border-slate-200 hover:border-clarity-secondary/50'
+          ? 'bg-gradient-to-br from-neutral-900 to-clarity-primary/20 border-neutral-700/80 hover:border-clarity-secondary/50' 
+          : 'bg-gradient-to-br from-neutral-50 to-clarity-secondary/10 border-neutral-200 hover:border-clarity-secondary/50'
       }`}
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
@@ -627,7 +627,7 @@ const AIPatternMapMobile: React.FC = () => {
           className="flex items-center gap-2 mb-3"
         >
           <Brain className="w-4 h-4 text-clarity-secondary" />
-          <span className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>AI Pattern Map</span>
+          <span className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>AI Pattern Map</span>
         </motion.div>
 
         <div className="space-y-2">
@@ -644,7 +644,7 @@ const AIPatternMapMobile: React.FC = () => {
                     : 'bg-clarity-secondary/10 border-clarity-secondary/50 scale-[1.02]'
                   : isDark
                     ? 'bg-white/5 border-white/10'
-                    : 'bg-slate-50 border-slate-200'
+                    : 'bg-neutral-50 border-neutral-200'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -652,7 +652,7 @@ const AIPatternMapMobile: React.FC = () => {
                   <step.icon className="w-3 h-3 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className={`text-[11px] font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>{step.label}</h3>
+                  <h3 className={`text-[11px] font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>{step.label}</h3>
                   <p className="text-[9px] text-clarity-secondary">{step.stat}</p>
                 </div>
                 {activeStep === i && (

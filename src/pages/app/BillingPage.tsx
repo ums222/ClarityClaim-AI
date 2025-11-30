@@ -115,10 +115,10 @@ export default function BillingPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-neutral-900 dark:text-white">
             Billing & Subscription
           </h1>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">
+          <p className="mt-2 text-neutral-600 dark:text-neutral-400">
             Manage your subscription, payment methods, and view invoices
           </p>
         </div>
@@ -170,7 +170,7 @@ export default function BillingPage() {
         <div className="mb-8">
           {/* Desktop Tabs */}
           <div className="hidden md:block">
-            <div className="border-b border-slate-200 dark:border-slate-700">
+            <div className="border-b border-neutral-200 dark:border-neutral-700">
               <nav className="flex gap-8" aria-label="Tabs">
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
@@ -183,7 +183,7 @@ export default function BillingPage() {
                       className={`group relative py-4 px-1 transition-colors ${
                         isActive
                           ? 'text-indigo-600 dark:text-indigo-400'
-                          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'
+                          : 'text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300'
                       }`}
                     >
                       <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export default function BillingPage() {
                     className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
                       isActive
                         ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
+                        : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -249,20 +249,20 @@ export default function BillingPage() {
         </AnimatePresence>
 
         {/* Help Card */}
-        <Card className="mt-8 p-6 bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-800/30">
+        <Card className="mt-8 p-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-800/50 dark:to-neutral-800/30">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white">
+              <h3 className="font-semibold text-neutral-900 dark:text-white">
                 Need help with billing?
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
                 Our team is available to answer any questions about your subscription
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <a
                 href="mailto:billing@clarityclaim.ai"
-                className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
+                className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-white dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-600 hover:bg-neutral-50 dark:hover:bg-neutral-600 transition-colors"
               >
                 Contact Billing Support
               </a>

@@ -117,7 +117,7 @@ export function PaymentMethods() {
           </svg>
         );
       default:
-        return <CreditCard className="w-10 h-6 text-slate-400" />;
+        return <CreditCard className="w-10 h-6 text-neutral-400" />;
     }
   };
 
@@ -166,10 +166,10 @@ export function PaymentMethods() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
             Payment Methods
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             Manage your payment methods for billing
           </p>
         </div>
@@ -182,11 +182,11 @@ export function PaymentMethods() {
       {/* Payment Methods List */}
       {paymentMethods.length === 0 ? (
         <Card className="p-8 text-center">
-          <CreditCard className="w-12 h-12 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
-          <h4 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
+          <CreditCard className="w-12 h-12 mx-auto text-neutral-300 dark:text-neutral-600 mb-4" />
+          <h4 className="text-lg font-medium text-neutral-900 dark:text-white mb-2">
             No payment methods
           </h4>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
             Add a payment method to upgrade your plan or enable auto-renewal
           </p>
           <Button onClick={handleAddPaymentMethod}>
@@ -220,7 +220,7 @@ export function PaymentMethods() {
                     {/* Card Details */}
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="font-medium text-slate-900 dark:text-white">
+                        <p className="font-medium text-neutral-900 dark:text-white">
                           {pm.card_brand ? pm.card_brand.charAt(0).toUpperCase() + pm.card_brand.slice(1) : 'Card'} •••• {pm.card_last4}
                         </p>
                         {pm.is_default && (
@@ -230,7 +230,7 @@ export function PaymentMethods() {
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">
                         Expires {pm.card_exp_month?.toString().padStart(2, '0')}/{pm.card_exp_year}
                       </p>
                     </div>
@@ -279,14 +279,14 @@ export function PaymentMethods() {
       )}
 
       {/* Security Notice */}
-      <Card className="p-4 bg-slate-50 dark:bg-slate-800/50">
+      <Card className="p-4 bg-neutral-50 dark:bg-neutral-800/50">
         <div className="flex items-start gap-3">
           <ShieldCheck className="w-5 h-5 text-emerald-500 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+            <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
               Secure payment processing
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
               Your payment information is encrypted and securely processed by Stripe.
               We never store your full card details on our servers.
             </p>

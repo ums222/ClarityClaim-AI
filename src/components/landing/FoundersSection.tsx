@@ -33,7 +33,7 @@ const founders = [
 
 const FoundersSection = () => {
   return (
-    <SectionContainer id="founders"  className="bg-white dark:bg-slate-950">
+    <SectionContainer id="founders"  className="bg-white dark:bg-neutral-950">
       <SectionHeader
         eyebrow="FOUNDING TEAM"
         title="Built by Healthcare, AI & Operations Leaders"
@@ -50,10 +50,10 @@ const FoundersSection = () => {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.4, delay: i * 0.1 }}
           >
-            <Card className="flex h-full flex-col bg-white/70 dark:bg-slate-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all duration-200">
+            <Card className="flex h-full flex-col bg-white/70 dark:bg-neutral-900/70 hover:-translate-y-1 hover:shadow-glow-primary transition-all duration-200">
               <CardHeader>
                 <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 text-sm font-semibold text-neutral-700 dark:text-neutral-200">
                     {f.name
                       .split(" ")
                       .map((n) => n[0])
@@ -71,7 +71,7 @@ const FoundersSection = () => {
               </CardHeader>
 
               <CardContent className="flex flex-1 flex-col justify-between">
-                <CardDescription className="text-sm text-slate-600 dark:text-slate-300">
+                <CardDescription className="text-sm text-neutral-600 dark:text-neutral-300">
                   {f.bio}
                 </CardDescription>
 
@@ -90,7 +90,7 @@ const FoundersSection = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`LinkedIn profile of ${f.name}`}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 hover:border-slate-400 dark:hover:border-slate-500"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-300 dark:border-neutral-700 bg-white/70 dark:bg-neutral-900/70 text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-50 hover:border-neutral-400 dark:hover:border-neutral-500"
                   >
                     <Linkedin className="h-4 w-4" />
                   </a>

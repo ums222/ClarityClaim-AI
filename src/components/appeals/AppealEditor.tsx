@@ -123,19 +123,19 @@ export function AppealEditor({
 
   const containerClasses = isFullscreen
     ? 'fixed inset-0 z-50 bg-white'
-    : 'rounded-xl border border-gray-200 bg-white';
+    : 'rounded-xl border border-neutral-200 bg-white';
 
   return (
     <div className={containerClasses}>
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-gray-50 rounded-t-xl">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-200 bg-neutral-50 rounded-t-xl">
         <div className="flex items-center gap-1">
           {/* Text Formatting */}
           <div className="flex items-center gap-0.5 mr-2">
             <button
               onClick={() => insertText('**', '**')}
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Bold"
             >
               <Bold className="w-4 h-4" />
@@ -143,7 +143,7 @@ export function AppealEditor({
             <button
               onClick={() => insertText('_', '_')}
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Italic"
             >
               <Italic className="w-4 h-4" />
@@ -151,7 +151,7 @@ export function AppealEditor({
             <button
               onClick={() => insertText('<u>', '</u>')}
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Underline"
             >
               <Underline className="w-4 h-4" />
@@ -159,11 +159,11 @@ export function AppealEditor({
           </div>
 
           {/* Lists */}
-          <div className="flex items-center gap-0.5 mr-2 pl-2 border-l border-gray-300">
+          <div className="flex items-center gap-0.5 mr-2 pl-2 border-l border-neutral-300">
             <button
               onClick={() => insertText('• ')}
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Bullet List"
             >
               <List className="w-4 h-4" />
@@ -171,7 +171,7 @@ export function AppealEditor({
             <button
               onClick={() => insertText('1. ')}
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Numbered List"
             >
               <ListOrdered className="w-4 h-4" />
@@ -179,24 +179,24 @@ export function AppealEditor({
           </div>
 
           {/* Alignment */}
-          <div className="flex items-center gap-0.5 pl-2 border-l border-gray-300">
+          <div className="flex items-center gap-0.5 pl-2 border-l border-neutral-300">
             <button
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Align Left"
             >
               <AlignLeft className="w-4 h-4" />
             </button>
             <button
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Align Center"
             >
               <AlignCenter className="w-4 h-4" />
             </button>
             <button
               disabled={readOnly}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded disabled:opacity-50"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded disabled:opacity-50"
               title="Align Right"
             >
               <AlignRight className="w-4 h-4" />
@@ -229,10 +229,10 @@ export function AppealEditor({
           )}
 
           {/* Actions */}
-          <div className="flex items-center gap-1 pl-2 border-l border-gray-300">
+          <div className="flex items-center gap-1 pl-2 border-l border-neutral-300">
             <button
               onClick={handleCopy}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded relative"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded relative"
               title="Copy to clipboard"
             >
               {copied ? (
@@ -243,14 +243,14 @@ export function AppealEditor({
             </button>
             <button
               onClick={handleDownload}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded"
               title="Download as text file"
             >
               <Download className="w-4 h-4" />
             </button>
             <button
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-1.5 text-gray-600 hover:bg-gray-200 rounded"
+              className="p-1.5 text-neutral-600 hover:bg-neutral-200 rounded"
               title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
             >
               {isFullscreen ? (
@@ -311,15 +311,15 @@ export function AppealEditor({
           onChange={(e) => setContent(e.target.value)}
           readOnly={readOnly}
           placeholder={readOnly ? 'No appeal letter content yet...' : 'Start typing your appeal letter here, or use AI to generate one...'}
-          className={`w-full h-full px-6 py-4 text-gray-800 leading-relaxed resize-none focus:outline-none font-mono text-sm ${
-            readOnly ? 'bg-gray-50 cursor-default' : 'bg-white'
+          className={`w-full h-full px-6 py-4 text-neutral-800 leading-relaxed resize-none focus:outline-none font-mono text-sm ${
+            readOnly ? 'bg-neutral-50 cursor-default' : 'bg-white'
           }`}
           style={{ fontFamily: 'Georgia, serif', fontSize: '14px', lineHeight: '1.8' }}
         />
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-2 border-t border-gray-200 bg-gray-50 rounded-b-xl flex items-center justify-between text-xs text-gray-500">
+      <div className="px-4 py-2 border-t border-neutral-200 bg-neutral-50 rounded-b-xl flex items-center justify-between text-xs text-neutral-500">
         <span>{content.length.toLocaleString()} characters</span>
         <span>{content.split(/\s+/).filter(Boolean).length.toLocaleString()} words</span>
       </div>

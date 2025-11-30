@@ -103,7 +103,7 @@ export function RoleBasedAccess() {
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400">
             <Lock className="w-3 h-3" />
             No PHI Access
           </span>
@@ -137,10 +137,10 @@ export function RoleBasedAccess() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
             Role-Based Access Control
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             Define granular permissions for each role
           </p>
         </div>
@@ -159,7 +159,7 @@ export function RoleBasedAccess() {
             {/* Role Header */}
             <div
               className={`p-4 flex items-center justify-between cursor-pointer ${
-                expandedRole === role.id ? 'bg-slate-50 dark:bg-slate-800/50' : ''
+                expandedRole === role.id ? 'bg-neutral-50 dark:bg-neutral-800/50' : ''
               }`}
               onClick={() =>
                 setExpandedRole(expandedRole === role.id ? null : role.id)
@@ -172,7 +172,7 @@ export function RoleBasedAccess() {
                       ? 'bg-amber-100 dark:bg-amber-900/30'
                       : role.role === 'admin'
                       ? 'bg-indigo-100 dark:bg-indigo-900/30'
-                      : 'bg-slate-100 dark:bg-slate-800'
+                      : 'bg-neutral-100 dark:bg-neutral-800'
                   }`}
                 >
                   <Users
@@ -181,22 +181,22 @@ export function RoleBasedAccess() {
                         ? 'text-amber-600 dark:text-amber-400'
                         : role.role === 'admin'
                         ? 'text-indigo-600 dark:text-indigo-400'
-                        : 'text-slate-500'
+                        : 'text-neutral-500'
                     }`}
                   />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="font-semibold text-slate-900 dark:text-white">
+                    <h4 className="font-semibold text-neutral-900 dark:text-white">
                       {role.role_name}
                     </h4>
                     {role.is_system && (
-                      <span className="px-2 py-0.5 rounded text-xs bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                      <span className="px-2 py-0.5 rounded text-xs bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400">
                         System
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">
                     {role.role_description}
                   </p>
                 </div>
@@ -204,9 +204,9 @@ export function RoleBasedAccess() {
               <div className="flex items-center gap-4">
                 {getPhiAccessBadge(role.phi_access_level)}
                 {expandedRole === role.id ? (
-                  <ChevronUp className="w-5 h-5 text-slate-400" />
+                  <ChevronUp className="w-5 h-5 text-neutral-400" />
                 ) : (
-                  <ChevronDown className="w-5 h-5 text-slate-400" />
+                  <ChevronDown className="w-5 h-5 text-neutral-400" />
                 )}
               </div>
             </div>
@@ -221,7 +221,7 @@ export function RoleBasedAccess() {
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-4 border-t border-slate-200 dark:border-slate-700">
+                  <div className="p-4 border-t border-neutral-200 dark:border-neutral-700">
                     {/* Actions */}
                     {canManage && !role.is_system && (
                       <div className="mb-4 flex items-center gap-2">
@@ -275,9 +275,9 @@ export function RoleBasedAccess() {
                         return (
                           <div
                             key={category.key}
-                            className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg"
+                            className="p-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg"
                           >
-                            <h5 className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <h5 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                               {category.label}
                             </h5>
                             <div className="flex flex-wrap gap-2">
@@ -296,7 +296,7 @@ export function RoleBasedAccess() {
                                     className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
                                       hasPermission
                                         ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-                                        : 'bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-500'
+                                        : 'bg-neutral-200 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-500'
                                     } ${
                                       isEditing
                                         ? 'cursor-pointer hover:opacity-80'
@@ -346,7 +346,7 @@ export function RoleBasedAccess() {
 
       {/* Best Practices */}
       <Card className="p-6">
-        <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
           Access Control Best Practices
         </h4>
         <div className="grid gap-4 md:grid-cols-2">
@@ -374,14 +374,14 @@ export function RoleBasedAccess() {
           ].map((practice, index) => (
             <div
               key={index}
-              className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg"
+              className="flex items-start gap-3 p-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg"
             >
               <Shield className="w-5 h-5 text-indigo-500 mt-0.5" />
               <div>
-                <h5 className="font-medium text-slate-900 dark:text-white">
+                <h5 className="font-medium text-neutral-900 dark:text-white">
                   {practice.title}
                 </h5>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
                   {practice.description}
                 </p>
               </div>

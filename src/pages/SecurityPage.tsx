@@ -65,7 +65,7 @@ const SecurityPage = () => {
   ];
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-white"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-neutral-950" : "bg-white"}`}>
       <NavBar />
       
       <main className="pt-24 pb-16">
@@ -79,32 +79,32 @@ const SecurityPage = () => {
                 Enterprise-Grade Security
               </span>
             </div>
-            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Security You Can Trust
             </h1>
-            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Protecting healthcare data is our highest priority. ClarityClaim AI is built from the ground up with security, privacy, and compliance at its core.
             </p>
           </div>
 
           {/* Certifications */}
           <div className="mb-16">
-            <h2 className={`text-2xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               Certifications & Compliance
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {certifications.map((cert) => (
                 <div 
                   key={cert.name}
-                  className={`p-6 rounded-2xl border text-center ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}
+                  className={`p-6 rounded-2xl border text-center ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}
                 >
                   <div className={`inline-flex p-4 rounded-2xl mb-4 ${isDark ? "bg-teal-500/20" : "bg-teal-50"}`}>
                     <cert.icon className={`h-8 w-8 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                   </div>
-                  <h3 className={`text-xl font-semibold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`text-xl font-semibold mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {cert.name}
                   </h3>
-                  <p className={`${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {cert.description}
                   </p>
                 </div>
@@ -114,29 +114,29 @@ const SecurityPage = () => {
 
           {/* Security Features */}
           <div className="mb-16">
-            <h2 className={`text-2xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-neutral-900"}`}>
               How We Protect Your Data
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {securityFeatures.map((feature) => (
                 <div 
                   key={feature.title}
-                  className={`p-6 rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"}`}
+                  className={`p-6 rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"}`}
                 >
-                  <div className={`p-3 rounded-xl inline-block mb-4 ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
+                  <div className={`p-3 rounded-xl inline-block mb-4 ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
                     <feature.icon className={`h-6 w-6 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                   </div>
-                  <h3 className={`text-lg font-semibold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`text-lg font-semibold mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                     {feature.title}
                   </h3>
-                  <p className={`text-sm mb-4 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`text-sm mb-4 ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                     {feature.description}
                   </p>
                   <ul className="space-y-2">
                     {feature.details.map((detail) => (
                       <li key={detail} className="flex items-center gap-2">
                         <CheckCircle2 className={`h-4 w-4 flex-shrink-0 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-                        <span className={`text-sm ${isDark ? "text-slate-300" : "text-slate-700"}`}>{detail}</span>
+                        <span className={`text-sm ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>{detail}</span>
                       </li>
                     ))}
                   </ul>
@@ -146,16 +146,16 @@ const SecurityPage = () => {
           </div>
 
           {/* Data Handling */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 mb-16`}>
-            <h2 className={`text-2xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 mb-16`}>
+            <h2 className={`text-2xl font-bold mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Data Handling Practices
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h3 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h3 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   What We Collect
                 </h3>
-                <ul className={`space-y-3 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`space-y-3 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className={`h-5 w-5 flex-shrink-0 mt-0.5 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
                     <span>Claims data necessary for denial prediction and appeal generation</span>
@@ -171,10 +171,10 @@ const SecurityPage = () => {
                 </ul>
               </div>
               <div>
-                <h3 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h3 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   What We Don't Do
                 </h3>
-                <ul className={`space-y-3 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                <ul className={`space-y-3 ${isDark ? "text-neutral-300" : "text-neutral-700"}`}>
                   <li className="flex items-start gap-2">
                     <span className={`h-5 w-5 flex-shrink-0 mt-0.5 flex items-center justify-center rounded-full ${isDark ? "bg-red-500/20 text-red-400" : "bg-red-100 text-red-600"}`}>✕</span>
                     <span>Sell your data to third parties</span>
@@ -193,25 +193,25 @@ const SecurityPage = () => {
           </div>
 
           {/* Security Team */}
-          <div className={`rounded-2xl border ${isDark ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-50"} p-8 mb-16`}>
+          <div className={`rounded-2xl border ${isDark ? "border-neutral-800 bg-neutral-900/50" : "border-neutral-200 bg-neutral-50"} p-8 mb-16`}>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
-                <h2 className={`text-2xl font-bold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}>
+                <h2 className={`text-2xl font-bold mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
                   Dedicated Security Team
                 </h2>
-                <p className={`${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                <p className={`${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
                   Our security team includes former healthcare CISO's, security engineers, and compliance experts dedicated to protecting your data.
                 </p>
               </div>
-              <div className={`flex items-center gap-4 px-6 py-4 rounded-xl ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
+              <div className={`flex items-center gap-4 px-6 py-4 rounded-xl ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}>
                 <div className="text-center">
                   <p className={`text-3xl font-bold ${isDark ? "text-teal-400" : "text-teal-600"}`}>24/7</p>
-                  <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Monitoring</p>
+                  <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Monitoring</p>
                 </div>
-                <div className={`w-px h-12 ${isDark ? "bg-slate-700" : "bg-slate-300"}`}></div>
+                <div className={`w-px h-12 ${isDark ? "bg-neutral-700" : "bg-neutral-300"}`}></div>
                 <div className="text-center">
                   <p className={`text-3xl font-bold ${isDark ? "text-teal-400" : "text-teal-600"}`}>&lt;15m</p>
-                  <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Response Time</p>
+                  <p className={`text-sm ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>Response Time</p>
                 </div>
               </div>
             </div>
@@ -220,10 +220,10 @@ const SecurityPage = () => {
           {/* Contact Security Team */}
           <div className={`rounded-2xl border ${isDark ? "border-teal-500/30 bg-teal-500/5" : "border-teal-200 bg-teal-50"} p-8 text-center`}>
             <Shield className={`h-12 w-12 mx-auto mb-4 ${isDark ? "text-teal-400" : "text-teal-600"}`} />
-            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <h2 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-neutral-900"}`}>
               Questions About Security?
             </h2>
-            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+            <p className={`mb-6 max-w-2xl mx-auto ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>
               Our security team is available to answer your questions, provide documentation, and schedule security reviews.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -235,7 +235,7 @@ const SecurityPage = () => {
               </a>
               <a 
                 href="#"
-                className={`px-6 py-3 rounded-lg font-medium transition-colors ${isDark ? "border border-slate-700 text-slate-300 hover:bg-slate-800" : "border border-slate-300 text-slate-700 hover:bg-slate-100"}`}
+                className={`px-6 py-3 rounded-lg font-medium transition-colors ${isDark ? "border border-neutral-700 text-neutral-300 hover:bg-neutral-800" : "border border-neutral-300 text-neutral-700 hover:bg-neutral-100"}`}
               >
                 Download Security Whitepaper
               </a>

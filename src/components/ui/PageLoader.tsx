@@ -13,7 +13,7 @@ export function PageLoader({ message = 'Loading...' }: PageLoaderProps) {
   return (
     <div className={cn(
       "min-h-screen flex items-center justify-center",
-      isDark ? "bg-slate-950" : "bg-slate-50"
+      isDark ? "bg-neutral-950" : "bg-neutral-50"
     )}>
       <div className="text-center">
         {/* Animated Logo/Spinner */}
@@ -52,7 +52,7 @@ export function PageLoader({ message = 'Loading...' }: PageLoaderProps) {
         <motion.p
           className={cn(
             "text-sm font-medium",
-            isDark ? "text-slate-400" : "text-slate-600"
+            isDark ? "text-neutral-400" : "text-neutral-600"
           )}
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{

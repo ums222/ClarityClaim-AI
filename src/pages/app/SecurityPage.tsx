@@ -98,11 +98,11 @@ export default function SecurityPage() {
             <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
               <Shield className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
             </div>
-            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-neutral-900 dark:text-white">
               Security & Compliance
             </h1>
           </div>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">
+          <p className="mt-2 text-neutral-600 dark:text-neutral-400">
             Manage security settings, access controls, and HIPAA compliance features
           </p>
         </div>
@@ -155,8 +155,8 @@ export default function SecurityPage() {
                 <Key className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-500">2FA Status</p>
-                <p className="font-semibold text-slate-900 dark:text-white">
+                <p className="text-xs text-neutral-500">2FA Status</p>
+                <p className="font-semibold text-neutral-900 dark:text-white">
                   Recommended
                 </p>
               </div>
@@ -168,8 +168,8 @@ export default function SecurityPage() {
                 <Monitor className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-500">Active Sessions</p>
-                <p className="font-semibold text-slate-900 dark:text-white">1</p>
+                <p className="text-xs text-neutral-500">Active Sessions</p>
+                <p className="font-semibold text-neutral-900 dark:text-white">1</p>
               </div>
             </div>
           </Card>
@@ -179,7 +179,7 @@ export default function SecurityPage() {
                 <Lock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-500">Data Encrypted</p>
+                <p className="text-xs text-neutral-500">Data Encrypted</p>
                 <p className="font-semibold text-emerald-600">100%</p>
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function SecurityPage() {
                 <FileText className="w-5 h-5 text-amber-600 dark:text-amber-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-500">Audit Logging</p>
+                <p className="text-xs text-neutral-500">Audit Logging</p>
                 <p className="font-semibold text-emerald-600">Active</p>
               </div>
             </div>
@@ -201,7 +201,7 @@ export default function SecurityPage() {
         <div className="mb-8">
           {/* Desktop Tabs */}
           <div className="hidden md:block">
-            <div className="border-b border-slate-200 dark:border-slate-700">
+            <div className="border-b border-neutral-200 dark:border-neutral-700">
               <nav className="flex gap-8" aria-label="Tabs">
                 {visibleTabs.map((tab) => {
                   const Icon = tab.icon;
@@ -214,7 +214,7 @@ export default function SecurityPage() {
                       className={`group relative py-4 px-1 transition-colors ${
                         isActive
                           ? 'text-indigo-600 dark:text-indigo-400'
-                          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'
+                          : 'text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300'
                       }`}
                     >
                       <div className="flex items-center gap-2">
@@ -254,7 +254,7 @@ export default function SecurityPage() {
                     className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
                       isActive
                         ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
+                        : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -280,16 +280,16 @@ export default function SecurityPage() {
         </AnimatePresence>
 
         {/* HIPAA Compliance Notice */}
-        <Card className="mt-8 p-6 bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-800/30">
+        <Card className="mt-8 p-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-800/50 dark:to-neutral-800/30">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
               <Shield className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-slate-900 dark:text-white">
+              <h3 className="font-semibold text-neutral-900 dark:text-white">
                 HIPAA Security Rule Compliance
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
                 ClarityClaim AI implements technical safeguards required by the HIPAA Security Rule
                 (45 CFR § 164.312), including access controls, audit controls, integrity controls,
                 and transmission security to protect electronic Protected Health Information (ePHI).

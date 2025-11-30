@@ -49,12 +49,12 @@ export function InvoiceHistory() {
       case 'open':
         return <Clock className="w-4 h-4 text-amber-500" />;
       case 'draft':
-        return <FileText className="w-4 h-4 text-slate-400" />;
+        return <FileText className="w-4 h-4 text-neutral-400" />;
       case 'void':
       case 'uncollectible':
         return <XCircle className="w-4 h-4 text-red-500" />;
       default:
-        return <AlertCircle className="w-4 h-4 text-slate-400" />;
+        return <AlertCircle className="w-4 h-4 text-neutral-400" />;
     }
   };
 
@@ -64,7 +64,7 @@ export function InvoiceHistory() {
       green: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
       yellow: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
       red: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-      gray: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400',
+      gray: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-400',
       blue: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
     };
 
@@ -99,10 +99,10 @@ export function InvoiceHistory() {
       {/* Header with Filters */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
             Invoice History
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             View and download your billing history
           </p>
         </div>
@@ -114,7 +114,7 @@ export function InvoiceHistory() {
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                 filter === f
                   ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300'
-                  : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
+                  : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800'
               }`}
             >
               {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -126,11 +126,11 @@ export function InvoiceHistory() {
       {/* Invoice List */}
       {filteredInvoices.length === 0 ? (
         <Card className="p-8 text-center">
-          <Receipt className="w-12 h-12 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
-          <h4 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
+          <Receipt className="w-12 h-12 mx-auto text-neutral-300 dark:text-neutral-600 mb-4" />
+          <h4 className="text-lg font-medium text-neutral-900 dark:text-white mb-2">
             {filter === 'all' ? 'No invoices yet' : `No ${filter} invoices`}
           </h4>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             {filter === 'all'
               ? 'Invoices will appear here once you subscribe to a paid plan'
               : 'Try selecting a different filter'}
@@ -149,17 +149,17 @@ export function InvoiceHistory() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   {/* Invoice Info */}
                   <div className="flex items-start gap-4">
-                    <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                      <FileText className="w-5 h-5 text-slate-500" />
+                    <div className="p-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                      <FileText className="w-5 h-5 text-neutral-500" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-medium text-slate-900 dark:text-white">
+                        <p className="font-medium text-neutral-900 dark:text-white">
                           {invoice.invoice_number || `INV-${invoice.id.slice(0, 8).toUpperCase()}`}
                         </p>
                         {getStatusBadge(invoice.status)}
                       </div>
-                      <div className="flex items-center gap-4 mt-1 text-sm text-slate-500 dark:text-slate-400">
+                      <div className="flex items-center gap-4 mt-1 text-sm text-neutral-500 dark:text-neutral-400">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3.5 h-3.5" />
                           {formatDate(invoice.invoice_date)}
@@ -176,7 +176,7 @@ export function InvoiceHistory() {
                   {/* Amount & Actions */}
                   <div className="flex items-center gap-4 sm:gap-6">
                     <div className="text-right">
-                      <p className="text-lg font-semibold text-slate-900 dark:text-white">
+                      <p className="text-lg font-semibold text-neutral-900 dark:text-white">
                         {formatPriceDetailed(invoice.total, invoice.currency)}
                       </p>
                       {invoice.status === 'paid' && invoice.paid_at && (
@@ -197,9 +197,9 @@ export function InvoiceHistory() {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Download PDF"
-                          className="inline-flex items-center justify-center h-8 w-8 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                          className="inline-flex items-center justify-center h-8 w-8 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
                         >
-                          <Download className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+                          <Download className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
                         </a>
                       )}
                       {invoice.hosted_invoice_url && (
@@ -208,9 +208,9 @@ export function InvoiceHistory() {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="View Invoice"
-                          className="inline-flex items-center justify-center h-8 w-8 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                          className="inline-flex items-center justify-center h-8 w-8 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
                         >
-                          <ExternalLink className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+                          <ExternalLink className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
                         </a>
                       )}
                       {invoice.status === 'open' && invoice.hosted_invoice_url && (
@@ -229,8 +229,8 @@ export function InvoiceHistory() {
 
                 {/* Line Items (expandable) */}
                 {invoice.line_items && invoice.line_items.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-                    <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
+                  <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+                    <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2">
                       Items
                     </p>
                     <div className="space-y-1">
@@ -239,11 +239,11 @@ export function InvoiceHistory() {
                           key={i}
                           className="flex items-center justify-between text-sm"
                         >
-                          <span className="text-slate-600 dark:text-slate-400">
+                          <span className="text-neutral-600 dark:text-neutral-400">
                             {item.description}
                             {item.quantity > 1 && ` × ${item.quantity}`}
                           </span>
-                          <span className="font-medium text-slate-900 dark:text-white">
+                          <span className="font-medium text-neutral-900 dark:text-white">
                             {formatPriceDetailed(item.amount, item.currency)}
                           </span>
                         </div>
@@ -259,13 +259,13 @@ export function InvoiceHistory() {
 
       {/* Summary Stats */}
       {invoices.length > 0 && (
-        <Card className="p-4 bg-slate-50 dark:bg-slate-800/50">
+        <Card className="p-4 bg-neutral-50 dark:bg-neutral-800/50">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">
+              <p className="text-2xl font-bold text-neutral-900 dark:text-white">
                 {invoices.length}
               </p>
-              <p className="text-xs text-slate-500">Total Invoices</p>
+              <p className="text-xs text-neutral-500">Total Invoices</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-emerald-600">
@@ -276,16 +276,16 @@ export function InvoiceHistory() {
                   'usd'
                 )}
               </p>
-              <p className="text-xs text-slate-500">Total Paid</p>
+              <p className="text-xs text-neutral-500">Total Paid</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-amber-600">
                 {invoices.filter((i) => i.status === 'open').length}
               </p>
-              <p className="text-xs text-slate-500">Pending</p>
+              <p className="text-xs text-neutral-500">Pending</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-600">
+              <p className="text-2xl font-bold text-neutral-600">
                 {formatPriceDetailed(
                   invoices
                     .filter((i) => i.status === 'open')
@@ -293,7 +293,7 @@ export function InvoiceHistory() {
                   'usd'
                 )}
               </p>
-              <p className="text-xs text-slate-500">Outstanding</p>
+              <p className="text-xs text-neutral-500">Outstanding</p>
             </div>
           </div>
         </Card>

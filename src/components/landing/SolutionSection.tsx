@@ -70,7 +70,7 @@ const SolutionSection = () => {
   return (
     <SectionContainer
       id="solution"
-      className="section-bg-solution text-slate-900 dark:text-slate-50"
+      className="section-bg-solution text-neutral-900 dark:text-neutral-50"
     >
       <div ref={ref}>
         <SectionHeader
@@ -96,7 +96,7 @@ const SolutionSection = () => {
                 className="grid gap-6 md:grid-cols-2 md:items-center"
               >
                 <div className={left ? "" : "md:order-2"}>
-                  <Card className="bg-white/80 dark:bg-slate-950/50 hover:shadow-glow-primary transition-all duration-200 border-slate-200 dark:border-slate-800/80">
+                  <Card className="bg-white/80 dark:bg-neutral-950/50 hover:shadow-glow-primary transition-all duration-200 border-neutral-200 dark:border-neutral-800/80">
                     <CardHeader>
                       <div className="mb-3 flex items-center gap-3">
                         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-clarity-secondary/15 text-clarity-secondary">
@@ -113,7 +113,7 @@ const SolutionSection = () => {
                       <Badge>{f.badge}</Badge>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="text-sm text-slate-600 dark:text-slate-300">
+                      <CardDescription className="text-sm text-neutral-600 dark:text-neutral-300">
                         {f.description}
                       </CardDescription>
                       <Link to="/features">
@@ -142,8 +142,8 @@ const SolutionSection = () => {
                   ) : idx === 4 ? (
                     <ExecKPIs />
                   ) : (
-                    <div className="relative h-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:via-slate-900/40 dark:to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
-                      <div className="flex h-full items-center justify-center text-xs text-slate-600 dark:text-slate-300">
+                    <div className="relative h-full rounded-2xl border border-neutral-200 dark:border-neutral-700/80 bg-gradient-to-br from-neutral-50 to-white dark:from-neutral-900 dark:via-neutral-900/40 dark:to-clarity-secondary/20 p-4 hover:shadow-glow-accent transition-shadow">
+                      <div className="flex h-full items-center justify-center text-xs text-neutral-600 dark:text-neutral-300">
                         {f.visualLabel}
                       </div>
                       <div className="pointer-events-none absolute inset-0 rounded-2xl border border-clarity-secondary/20" />

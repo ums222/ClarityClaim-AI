@@ -125,7 +125,7 @@ export function CurrentPlanUsage({ onViewPlans }: CurrentPlanUsageProps) {
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
                   {plan?.name || 'Free'} Plan
                 </h3>
                 {subscription?.status === 'active' && !isCanceling && (
@@ -147,38 +147,38 @@ export function CurrentPlanUsage({ onViewPlans }: CurrentPlanUsageProps) {
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
                 {plan?.description || 'Basic features for getting started'}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">
+              <p className="text-2xl font-bold text-neutral-900 dark:text-white">
                 {formatPrice(plan?.price_monthly || 0)}
               </p>
-              <p className="text-sm text-slate-500">per month</p>
+              <p className="text-sm text-neutral-500">per month</p>
             </div>
           </div>
 
           {/* Billing Period */}
           {subscription?.current_period_end && (
-            <div className="mt-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+            <div className="mt-6 p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-slate-400" />
+                  <Calendar className="w-5 h-5 text-neutral-400" />
                   <div>
-                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                       {isCanceling ? 'Access until' : 'Next billing date'}
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-neutral-500">
                       {formatDate(subscription.current_period_end)}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                     {daysRemaining} days remaining
                   </p>
-                  <div className="w-24 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mt-1">
+                  <div className="w-24 h-1.5 bg-neutral-200 dark:bg-neutral-700 rounded-full mt-1">
                     <div
                       className={`h-full rounded-full ${
                         daysRemaining < 7 ? 'bg-amber-500' : 'bg-indigo-500'
@@ -219,42 +219,42 @@ export function CurrentPlanUsage({ onViewPlans }: CurrentPlanUsageProps) {
 
         {/* Quick Stats */}
         <Card className="p-6">
-          <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4">
+          <h4 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-4">
             This Billing Period
           </h4>
           <div className="space-y-4">
             <div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-600 dark:text-slate-400">Period</span>
-                <span className="font-medium text-slate-900 dark:text-white">
+                <span className="text-neutral-600 dark:text-neutral-400">Period</span>
+                <span className="font-medium text-neutral-900 dark:text-white">
                   {usage?.period_start ? formatDate(usage.period_start) : 'N/A'} -{' '}
                   {usage?.period_end ? formatDate(usage.period_end) : 'N/A'}
                 </span>
               </div>
             </div>
-            <div className="h-px bg-slate-200 dark:bg-slate-700" />
+            <div className="h-px bg-neutral-200 dark:bg-neutral-700" />
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-600 dark:text-slate-400">Claims</span>
-                <span className="font-semibold text-slate-900 dark:text-white">
+                <span className="text-neutral-600 dark:text-neutral-400">Claims</span>
+                <span className="font-semibold text-neutral-900 dark:text-white">
                   {(usage?.claims_processed || 0).toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-600 dark:text-slate-400">Appeals</span>
-                <span className="font-semibold text-slate-900 dark:text-white">
+                <span className="text-neutral-600 dark:text-neutral-400">Appeals</span>
+                <span className="font-semibold text-neutral-900 dark:text-white">
                   {(usage?.appeals_created || 0).toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-600 dark:text-slate-400">AI Predictions</span>
-                <span className="font-semibold text-slate-900 dark:text-white">
+                <span className="text-neutral-600 dark:text-neutral-400">AI Predictions</span>
+                <span className="font-semibold text-neutral-900 dark:text-white">
                   {(usage?.ai_predictions || 0).toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-600 dark:text-slate-400">Storage Used</span>
-                <span className="font-semibold text-slate-900 dark:text-white">
+                <span className="text-neutral-600 dark:text-neutral-400">Storage Used</span>
+                <span className="font-semibold text-neutral-900 dark:text-white">
                   {((usage?.storage_bytes || 0) / (1024 * 1024)).toFixed(1)} MB
                 </span>
               </div>
@@ -265,7 +265,7 @@ export function CurrentPlanUsage({ onViewPlans }: CurrentPlanUsageProps) {
 
       {/* Usage Metrics */}
       <div>
-        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+        <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
           Usage This Period
         </h3>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -299,16 +299,16 @@ export function CurrentPlanUsage({ onViewPlans }: CurrentPlanUsageProps) {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{metric.label}</p>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">{metric.label}</p>
                   <div className="mt-1 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-slate-900 dark:text-white">
+                    <span className="text-2xl font-bold text-neutral-900 dark:text-white">
                       {metric.value.toLocaleString()}
                     </span>
-                    <span className="text-sm text-slate-400">
+                    <span className="text-sm text-neutral-400">
                       / {metric.limit === -1 ? '∞' : metric.limit.toLocaleString()}
                     </span>
                   </div>
-                  <div className="mt-2 w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                  <div className="mt-2 w-full h-2 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min(percentage, 100)}%` }}
@@ -322,7 +322,7 @@ export function CurrentPlanUsage({ onViewPlans }: CurrentPlanUsageProps) {
                       }`}
                     />
                   </div>
-                  <p className="mt-1 text-xs text-slate-400 text-right">
+                  <p className="mt-1 text-xs text-neutral-400 text-right">
                     {metric.limit === -1 ? 'Unlimited' : `${percentage}% used`}
                   </p>
                 </Card>
@@ -340,10 +340,10 @@ export function CurrentPlanUsage({ onViewPlans }: CurrentPlanUsageProps) {
               <TrendingUp className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-slate-900 dark:text-white">
+              <h4 className="font-semibold text-neutral-900 dark:text-white">
                 Need more capacity?
               </h4>
-              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
                 Upgrade to Starter for 10x more claims, advanced AI features, and priority support.
               </p>
               <Button

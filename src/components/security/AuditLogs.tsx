@@ -102,7 +102,7 @@ export function AuditLogs() {
   function getSeverityBadge(severity: string) {
     const level = SEVERITY_LEVELS.find((l) => l.id === severity);
     const colorClasses: Record<string, string> = {
-      gray: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400',
+      gray: 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400',
       yellow: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
       orange: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
       red: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
@@ -135,10 +135,10 @@ export function AuditLogs() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
             Audit Logs
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             Track all security-relevant actions and PHI access
           </p>
         </div>
@@ -175,7 +175,7 @@ export function AuditLogs() {
         <Card className="p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="text-xs font-medium text-slate-500 mb-1 block">
+              <label className="text-xs font-medium text-neutral-500 mb-1 block">
                 Category
               </label>
               <select
@@ -183,7 +183,7 @@ export function AuditLogs() {
                 onChange={(e) =>
                   setFilters({ ...filters, category: e.target.value || undefined })
                 }
-                className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md text-sm"
+                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md text-sm"
               >
                 <option value="">All Categories</option>
                 {ACTION_CATEGORIES.map((cat) => (
@@ -194,7 +194,7 @@ export function AuditLogs() {
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-slate-500 mb-1 block">
+              <label className="text-xs font-medium text-neutral-500 mb-1 block">
                 Severity
               </label>
               <select
@@ -202,7 +202,7 @@ export function AuditLogs() {
                 onChange={(e) =>
                   setFilters({ ...filters, severity: e.target.value || undefined })
                 }
-                className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md text-sm"
+                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md text-sm"
               >
                 <option value="">All Severities</option>
                 {SEVERITY_LEVELS.map((level) => (
@@ -213,7 +213,7 @@ export function AuditLogs() {
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-slate-500 mb-1 block">
+              <label className="text-xs font-medium text-neutral-500 mb-1 block">
                 Start Date
               </label>
               <Input
@@ -225,7 +225,7 @@ export function AuditLogs() {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-slate-500 mb-1 block">
+              <label className="text-xs font-medium text-neutral-500 mb-1 block">
                 End Date
               </label>
               <Input
@@ -248,9 +248,9 @@ export function AuditLogs() {
                     phi_only: e.target.checked ? true : undefined,
                   })
                 }
-                className="rounded border-slate-300"
+                className="rounded border-neutral-300"
               />
-              <span className="text-slate-600 dark:text-slate-400">
+              <span className="text-neutral-600 dark:text-neutral-400">
                 PHI Access Only
               </span>
             </label>
@@ -270,7 +270,7 @@ export function AuditLogs() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
         <Input
           type="text"
           placeholder="Search logs..."
@@ -288,54 +288,54 @@ export function AuditLogs() {
           </div>
         ) : filteredLogs.length === 0 ? (
           <div className="text-center py-12">
-            <FileText className="w-12 h-12 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
-            <p className="text-slate-500 dark:text-slate-400">No audit logs found</p>
+            <FileText className="w-12 h-12 mx-auto text-neutral-300 dark:text-neutral-600 mb-4" />
+            <p className="text-neutral-500 dark:text-neutral-400">No audit logs found</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-slate-50 dark:bg-slate-800/50">
+              <thead className="bg-neutral-50 dark:bg-neutral-800/50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Timestamp
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     User
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Action
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Category
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Severity
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     PHI
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     IP Address
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+              <tbody className="divide-y divide-neutral-200 dark:divide-neutral-700">
                 {filteredLogs.map((log, index) => (
                   <motion.tr
                     key={log.id}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: index * 0.02 }}
-                    className="hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                    className="hover:bg-neutral-50 dark:hover:bg-neutral-800/50"
                   >
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-slate-400" />
+                        <Calendar className="w-4 h-4 text-neutral-400" />
                         <div>
-                          <p className="text-sm text-slate-900 dark:text-white">
+                          <p className="text-sm text-neutral-900 dark:text-white">
                             {formatRelativeTime(log.created_at)}
                           </p>
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-neutral-500">
                             {formatDate(log.created_at)}
                           </p>
                         </div>
@@ -343,20 +343,20 @@ export function AuditLogs() {
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-slate-400" />
+                        <User className="w-4 h-4 text-neutral-400" />
                         <div>
-                          <p className="text-sm text-slate-900 dark:text-white">
+                          <p className="text-sm text-neutral-900 dark:text-white">
                             {log.user_name || 'Unknown'}
                           </p>
-                          <p className="text-xs text-slate-500">{log.user_email}</p>
+                          <p className="text-xs text-neutral-500">{log.user_email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
+                      <p className="text-sm font-medium text-neutral-900 dark:text-white">
                         {log.action_type?.replace(/_/g, ' ')}
                       </p>
-                      <p className="text-xs text-slate-500 max-w-xs truncate">
+                      <p className="text-xs text-neutral-500 max-w-xs truncate">
                         {log.description}
                       </p>
                     </td>
@@ -367,12 +367,12 @@ export function AuditLogs() {
                             ACTION_CATEGORIES.find((c) => c.id === log.action_category)
                               ?.color === 'purple'
                               ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400'
-                              : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                              : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400'
                           }`}
                         >
                           {getCategoryIcon(log.action_category)}
                         </span>
-                        <span className="text-sm text-slate-600 dark:text-slate-400 capitalize">
+                        <span className="text-sm text-neutral-600 dark:text-neutral-400 capitalize">
                           {log.action_category?.replace(/_/g, ' ')}
                         </span>
                       </div>
@@ -387,11 +387,11 @@ export function AuditLogs() {
                           Yes
                         </span>
                       ) : (
-                        <span className="text-xs text-slate-400">No</span>
+                        <span className="text-xs text-neutral-400">No</span>
                       )}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <code className="text-xs text-slate-500 dark:text-slate-400">
+                      <code className="text-xs text-neutral-500 dark:text-neutral-400">
                         {log.ip_address || '-'}
                       </code>
                     </td>
@@ -404,8 +404,8 @@ export function AuditLogs() {
 
         {/* Pagination */}
         {!loading && total > pageSize && (
-          <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
-            <p className="text-sm text-slate-500">
+          <div className="px-4 py-3 border-t border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
+            <p className="text-sm text-neutral-500">
               Showing {(page - 1) * pageSize + 1} to{' '}
               {Math.min(page * pageSize, total)} of {total} entries
             </p>
@@ -418,7 +418,7 @@ export function AuditLogs() {
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <span className="text-sm text-slate-600 dark:text-slate-400">
+              <span className="text-sm text-neutral-600 dark:text-neutral-400">
                 Page {page} of {totalPages}
               </span>
               <Button

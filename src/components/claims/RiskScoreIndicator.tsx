@@ -18,7 +18,7 @@ export function RiskScoreIndicator({
 }: RiskScoreIndicatorProps) {
   if (score === null || score === undefined) {
     return (
-      <span className="text-gray-400 dark:text-gray-500 text-sm">
+      <span className="text-neutral-400 dark:text-neutral-500 text-sm">
         Not calculated
       </span>
     );
@@ -73,7 +73,7 @@ export function RiskScoreIndicator({
             fill="none"
             stroke="currentColor"
             strokeWidth={strokeWidth}
-            className="text-gray-200 dark:text-gray-700"
+            className="text-neutral-200 dark:text-neutral-700"
           />
           {/* Progress circle */}
           <motion.circle
@@ -106,7 +106,7 @@ export function RiskScoreIndicator({
       {showLabel && (
         <div className="flex flex-col">
           <span className={`font-semibold ${config.color}`}>{config.label}</span>
-          <span className="text-xs text-gray-500 dark:text-gray-400">
+          <span className="text-xs text-neutral-500 dark:text-neutral-400">
             Denial Risk Score
           </span>
         </div>
@@ -124,7 +124,7 @@ export function RiskBadge({
   level?: 'low' | 'medium' | 'high' | null;
 }) {
   if (score === null || score === undefined) {
-    return <span className="text-gray-400 text-sm">-</span>;
+    return <span className="text-neutral-400 text-sm">-</span>;
   }
 
   const riskLevel = level || (score >= 60 ? 'high' : score >= 30 ? 'medium' : 'low');
@@ -151,7 +151,7 @@ interface RiskFactorsListProps {
 export function RiskFactorsList({ factors, compact = false }: RiskFactorsListProps) {
   if (!factors?.length) {
     return (
-      <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+      <p className="text-sm text-neutral-500 dark:text-neutral-400 italic">
         No risk factors identified
       </p>
     );
@@ -218,10 +218,10 @@ export function RiskFactorsList({ factors, compact = false }: RiskFactorsListPro
               {impactIcons[factor.impact]}
             </span>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-gray-900 dark:text-white">
+              <p className="font-medium text-neutral-900 dark:text-white">
                 {factor.factor}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-0.5">
                 {factor.description}
               </p>
             </div>

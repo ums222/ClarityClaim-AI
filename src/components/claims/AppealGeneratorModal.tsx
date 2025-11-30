@@ -104,10 +104,10 @@ export function AppealGeneratorModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden"
+            className="relative w-full max-w-4xl bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-600">
+            <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-600">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/20 rounded-lg">
                   <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -133,15 +133,15 @@ export function AppealGeneratorModal({
               </button>
             </div>
 
-            <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-gray-200 dark:divide-gray-700">
+            <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-neutral-200 dark:divide-neutral-700">
               {/* Left Panel - Configuration */}
               <div className="lg:w-1/3 p-6 space-y-4">
-                <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider">
                   Denial Details
                 </h3>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                     Denial Reason
                   </label>
                   <textarea
@@ -149,12 +149,12 @@ export function AppealGeneratorModal({
                     onChange={(e) => setDenialReason(e.target.value)}
                     rows={3}
                     placeholder="Enter the reason given for denial..."
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                    className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                     Denial Code
                   </label>
                   <input
@@ -162,12 +162,12 @@ export function AppealGeneratorModal({
                     value={denialCode}
                     onChange={(e) => setDenialCode(e.target.value)}
                     placeholder="e.g., CO-4, PR-96"
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                     Additional Context
                   </label>
                   <textarea
@@ -175,28 +175,28 @@ export function AppealGeneratorModal({
                     onChange={(e) => setAdditionalContext(e.target.value)}
                     rows={3}
                     placeholder="Any additional information to include..."
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                    className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
                   />
                 </div>
 
                 {/* Claim Summary */}
-                <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-2">
-                  <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">
+                <div className="p-4 bg-neutral-50 dark:bg-neutral-700/50 rounded-lg space-y-2">
+                  <h4 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase">
                     Claim Summary
                   </h4>
                   <div className="text-sm space-y-1">
-                    <p className="text-gray-700 dark:text-gray-300">
-                      <span className="text-gray-500">Patient:</span> {claim.patient_name}
+                    <p className="text-neutral-700 dark:text-neutral-300">
+                      <span className="text-neutral-500">Patient:</span> {claim.patient_name}
                     </p>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      <span className="text-gray-500">Payer:</span> {claim.payer_name}
+                    <p className="text-neutral-700 dark:text-neutral-300">
+                      <span className="text-neutral-500">Payer:</span> {claim.payer_name}
                     </p>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      <span className="text-gray-500">Amount:</span> ${claim.billed_amount?.toLocaleString()}
+                    <p className="text-neutral-700 dark:text-neutral-300">
+                      <span className="text-neutral-500">Amount:</span> ${claim.billed_amount?.toLocaleString()}
                     </p>
                     {claim.procedure_codes?.length > 0 && (
-                      <p className="text-gray-700 dark:text-gray-300">
-                        <span className="text-gray-500">CPT:</span> {claim.procedure_codes.join(', ')}
+                      <p className="text-neutral-700 dark:text-neutral-300">
+                        <span className="text-neutral-500">CPT:</span> {claim.procedure_codes.join(', ')}
                       </p>
                     )}
                   </div>
@@ -229,7 +229,7 @@ export function AppealGeneratorModal({
               {/* Right Panel - Generated Letter */}
               <div className="lg:w-2/3 p-6 flex flex-col">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                  <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider">
                     Generated Letter
                   </h3>
                   {appeal && (
@@ -237,7 +237,7 @@ export function AppealGeneratorModal({
                       <span className={`text-xs px-2 py-1 rounded-full ${
                         appeal.type === 'ai-generated' 
                           ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
-                          : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+                          : 'bg-neutral-100 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-300'
                       }`}>
                         {appeal.type === 'ai-generated' ? '✨ AI Generated' : '📝 Template'}
                       </span>
@@ -256,19 +256,19 @@ export function AppealGeneratorModal({
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6 font-mono text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed"
+                      className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6 font-mono text-sm whitespace-pre-wrap text-neutral-800 dark:text-neutral-200 leading-relaxed"
                     >
                       {appeal.letter}
                     </motion.div>
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full text-center">
-                      <svg className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-16 h-16 text-neutral-300 dark:text-neutral-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      <p className="text-gray-500 dark:text-gray-400 mb-2">
+                      <p className="text-neutral-500 dark:text-neutral-400 mb-2">
                         No appeal letter generated yet
                       </p>
-                      <p className="text-sm text-gray-400 dark:text-gray-500">
+                      <p className="text-sm text-neutral-400 dark:text-neutral-500">
                         Fill in the denial details and click Generate
                       </p>
                     </div>
@@ -277,10 +277,10 @@ export function AppealGeneratorModal({
 
                 {/* Actions */}
                 {appeal && (
-                  <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center gap-3 mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
                     <button
                       onClick={handleCopy}
-                      className="flex-1 py-2 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                      className="flex-1 py-2 px-4 bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
                     >
                       {copied ? (
                         <>
@@ -300,7 +300,7 @@ export function AppealGeneratorModal({
                     </button>
                     <button
                       onClick={handleDownload}
-                      className="flex-1 py-2 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                      className="flex-1 py-2 px-4 bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

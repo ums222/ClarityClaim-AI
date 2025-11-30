@@ -251,16 +251,16 @@ export function ClaimUploadModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-3xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden"
+            className="relative w-full max-w-3xl bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
                 {editClaim ? 'Edit Claim' : 'New Claim'}
               </h2>
               <button
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="p-2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -271,13 +271,13 @@ export function ClaimUploadModal({
             {/* Tabs */}
             {!editClaim && (
               <div className="px-6 pt-4">
-                <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-700 rounded-lg w-fit">
+                <div className="flex gap-2 p-1 bg-neutral-100 dark:bg-neutral-700 rounded-lg w-fit">
                   <button
                     onClick={() => setActiveTab('manual')}
                     className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                       activeTab === 'manual'
-                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                        ? 'bg-white dark:bg-neutral-600 text-neutral-900 dark:text-white shadow'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
                     }`}
                   >
                     Manual Entry
@@ -286,8 +286,8 @@ export function ClaimUploadModal({
                     onClick={() => setActiveTab('import')}
                     className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                       activeTab === 'import'
-                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                        ? 'bg-white dark:bg-neutral-600 text-neutral-900 dark:text-white shadow'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
                     }`}
                   >
                     Import CSV
@@ -302,12 +302,12 @@ export function ClaimUploadModal({
                   <div className="space-y-6">
                     {/* Patient Information */}
                     <section>
-                      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-3">
+                      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-3">
                         Patient Information
                       </h3>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Patient Name <span className="text-red-500">*</span>
                           </label>
                           <input
@@ -316,12 +316,12 @@ export function ClaimUploadModal({
                             value={formData.patient_name || ''}
                             onChange={handleChange}
                             required
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="John Doe"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Patient ID
                           </label>
                           <input
@@ -329,12 +329,12 @@ export function ClaimUploadModal({
                             name="patient_id"
                             value={formData.patient_id || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="PT-12345"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Date of Birth
                           </label>
                           <input
@@ -342,11 +342,11 @@ export function ClaimUploadModal({
                             name="patient_dob"
                             value={formData.patient_dob || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Member ID
                           </label>
                           <input
@@ -354,7 +354,7 @@ export function ClaimUploadModal({
                             name="patient_member_id"
                             value={formData.patient_member_id || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="MEM-12345"
                           />
                         </div>
@@ -363,12 +363,12 @@ export function ClaimUploadModal({
 
                     {/* Payer Information */}
                     <section>
-                      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-3">
+                      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-3">
                         Payer Information
                       </h3>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Payer Name <span className="text-red-500">*</span>
                           </label>
                           <input
@@ -377,19 +377,19 @@ export function ClaimUploadModal({
                             value={formData.payer_name || ''}
                             onChange={handleChange}
                             required
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Blue Cross Blue Shield"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Plan Type
                           </label>
                           <select
                             name="plan_type"
                             value={formData.plan_type || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           >
                             <option value="">Select plan type</option>
                             <option value="Commercial">Commercial</option>
@@ -399,7 +399,7 @@ export function ClaimUploadModal({
                           </select>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Payer ID
                           </label>
                           <input
@@ -407,12 +407,12 @@ export function ClaimUploadModal({
                             name="payer_id"
                             value={formData.payer_id || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="BCBS01"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Plan Name
                           </label>
                           <input
@@ -420,7 +420,7 @@ export function ClaimUploadModal({
                             name="plan_name"
                             value={formData.plan_name || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="PPO Gold"
                           />
                         </div>
@@ -429,12 +429,12 @@ export function ClaimUploadModal({
 
                     {/* Provider Information */}
                     <section>
-                      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-3">
+                      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-3">
                         Provider Information
                       </h3>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Provider Name
                           </label>
                           <input
@@ -442,12 +442,12 @@ export function ClaimUploadModal({
                             name="provider_name"
                             value={formData.provider_name || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Dr. Jane Smith"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Provider NPI
                           </label>
                           <input
@@ -455,12 +455,12 @@ export function ClaimUploadModal({
                             name="provider_npi"
                             value={formData.provider_npi || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="1234567890"
                           />
                         </div>
                         <div className="col-span-2">
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Facility Name
                           </label>
                           <input
@@ -468,7 +468,7 @@ export function ClaimUploadModal({
                             name="facility_name"
                             value={formData.facility_name || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="General Hospital"
                           />
                         </div>
@@ -477,12 +477,12 @@ export function ClaimUploadModal({
 
                     {/* Service Information */}
                     <section>
-                      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-3">
+                      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-3">
                         Service Information
                       </h3>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Service Date
                           </label>
                           <input
@@ -490,11 +490,11 @@ export function ClaimUploadModal({
                             name="service_date"
                             value={formData.service_date || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Service End Date
                           </label>
                           <input
@@ -502,50 +502,50 @@ export function ClaimUploadModal({
                             name="service_date_end"
                             value={formData.service_date_end || ''}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Procedure Codes (CPT)
                           </label>
                           <input
                             type="text"
                             value={formData.procedure_codes?.join(', ') || ''}
                             onChange={(e) => handleArrayChange('procedure_codes', e.target.value)}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="99213, 99214"
                           />
-                          <p className="mt-1 text-xs text-gray-500">Separate multiple codes with commas</p>
+                          <p className="mt-1 text-xs text-neutral-500">Separate multiple codes with commas</p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Diagnosis Codes (ICD-10)
                           </label>
                           <input
                             type="text"
                             value={formData.diagnosis_codes?.join(', ') || ''}
                             onChange={(e) => handleArrayChange('diagnosis_codes', e.target.value)}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="J06.9, R05"
                           />
-                          <p className="mt-1 text-xs text-gray-500">Separate multiple codes with commas</p>
+                          <p className="mt-1 text-xs text-neutral-500">Separate multiple codes with commas</p>
                         </div>
                       </div>
                     </section>
 
                     {/* Financial Information */}
                     <section>
-                      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-3">
+                      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-3">
                         Financial Information
                       </h3>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Billed Amount <span className="text-red-500">*</span>
                           </label>
                           <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">$</span>
                             <input
                               type="number"
                               name="billed_amount"
@@ -554,20 +554,20 @@ export function ClaimUploadModal({
                               step="0.01"
                               min="0"
                               required
-                              className="w-full pl-7 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              className="w-full pl-7 pr-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               placeholder="0.00"
                             />
                           </div>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Priority
                           </label>
                           <select
                             name="priority"
                             value={formData.priority || 'normal'}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           >
                             <option value="low">Low</option>
                             <option value="normal">Normal</option>
@@ -580,7 +580,7 @@ export function ClaimUploadModal({
 
                     {/* Notes */}
                     <section>
-                      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-3">
+                      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-3">
                         Notes
                       </h3>
                       <textarea
@@ -588,7 +588,7 @@ export function ClaimUploadModal({
                         value={formData.notes || ''}
                         onChange={handleChange}
                         rows={3}
-                        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                        className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                         placeholder="Add any additional notes..."
                       />
                     </section>
@@ -598,7 +598,7 @@ export function ClaimUploadModal({
                       <button
                         type="button"
                         onClick={() => setShowRiskAnalysis(!showRiskAnalysis)}
-                        className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-3"
+                        className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-3"
                       >
                         <svg 
                           className={`w-4 h-4 transition-transform ${showRiskAnalysis ? 'rotate-90' : ''}`} 
@@ -619,7 +619,7 @@ export function ClaimUploadModal({
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden"
                           >
-                            <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-4">
+                            <div className="p-4 bg-neutral-50 dark:bg-neutral-700/50 rounded-lg space-y-4">
                               <RiskScoreIndicator 
                                 score={riskAnalysis.score} 
                                 level={riskAnalysis.level}
@@ -643,7 +643,7 @@ export function ClaimUploadModal({
                         border-2 border-dashed rounded-xl p-8 text-center transition-colors
                         ${importFile 
                           ? 'border-green-500 bg-green-50 dark:bg-green-900/20' 
-                          : 'border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                          : 'border-neutral-300 dark:border-neutral-600 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                         }
                       `}
                     >
@@ -652,8 +652,8 @@ export function ClaimUploadModal({
                           <svg className="w-12 h-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
-                          <p className="font-medium text-gray-900 dark:text-white">{importFile.name}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="font-medium text-neutral-900 dark:text-white">{importFile.name}</p>
+                          <p className="text-sm text-neutral-500">
                             {importPreview.length} claim(s) ready to import
                           </p>
                           <button
@@ -669,10 +669,10 @@ export function ClaimUploadModal({
                         </div>
                       ) : (
                         <div className="flex flex-col items-center gap-3">
-                          <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="w-12 h-12 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                           </svg>
-                          <p className="text-gray-600 dark:text-gray-400">
+                          <p className="text-neutral-600 dark:text-neutral-400">
                             Drag and drop your CSV file here, or
                           </p>
                           <button
@@ -694,13 +694,13 @@ export function ClaimUploadModal({
                     </div>
 
                     {/* CSV Format Help */}
-                    <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                    <div className="bg-neutral-50 dark:bg-neutral-700/50 rounded-lg p-4">
+                      <h4 className="font-medium text-neutral-900 dark:text-white mb-2">
                         CSV Format Requirements
                       </h4>
-                      <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                        <li>• Required columns: <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">patient_name</code>, <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">payer_name</code></li>
-                        <li>• Optional columns: <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">claim_number</code>, <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">billed_amount</code>, <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">service_date</code>, <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">procedure_codes</code>, <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">diagnosis_codes</code></li>
+                      <ul className="text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
+                        <li>• Required columns: <code className="bg-neutral-200 dark:bg-neutral-600 px-1 rounded">patient_name</code>, <code className="bg-neutral-200 dark:bg-neutral-600 px-1 rounded">payer_name</code></li>
+                        <li>• Optional columns: <code className="bg-neutral-200 dark:bg-neutral-600 px-1 rounded">claim_number</code>, <code className="bg-neutral-200 dark:bg-neutral-600 px-1 rounded">billed_amount</code>, <code className="bg-neutral-200 dark:bg-neutral-600 px-1 rounded">service_date</code>, <code className="bg-neutral-200 dark:bg-neutral-600 px-1 rounded">procedure_codes</code>, <code className="bg-neutral-200 dark:bg-neutral-600 px-1 rounded">diagnosis_codes</code></li>
                         <li>• Use semicolons (;) to separate multiple codes</li>
                       </ul>
                     </div>
@@ -708,26 +708,26 @@ export function ClaimUploadModal({
                     {/* Import Preview */}
                     {importPreview.length > 0 && (
                       <div>
-                        <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                        <h4 className="font-medium text-neutral-900 dark:text-white mb-2">
                           Preview (First {importPreview.length} claims)
                         </h4>
-                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div className="border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden">
                           <table className="w-full text-sm">
-                            <thead className="bg-gray-50 dark:bg-gray-700">
+                            <thead className="bg-neutral-50 dark:bg-neutral-700">
                               <tr>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Patient</th>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Payer</th>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Amount</th>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Date</th>
+                                <th className="px-3 py-2 text-left text-xs font-medium text-neutral-500 dark:text-neutral-400">Patient</th>
+                                <th className="px-3 py-2 text-left text-xs font-medium text-neutral-500 dark:text-neutral-400">Payer</th>
+                                <th className="px-3 py-2 text-left text-xs font-medium text-neutral-500 dark:text-neutral-400">Amount</th>
+                                <th className="px-3 py-2 text-left text-xs font-medium text-neutral-500 dark:text-neutral-400">Date</th>
                               </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody className="divide-y divide-neutral-200 dark:divide-neutral-700">
                               {importPreview.map((claim, index) => (
                                 <tr key={index}>
-                                  <td className="px-3 py-2 text-gray-900 dark:text-white">{claim.patient_name}</td>
-                                  <td className="px-3 py-2 text-gray-600 dark:text-gray-400">{claim.payer_name}</td>
-                                  <td className="px-3 py-2 text-gray-600 dark:text-gray-400">${claim.billed_amount || 0}</td>
-                                  <td className="px-3 py-2 text-gray-600 dark:text-gray-400">{claim.service_date || '-'}</td>
+                                  <td className="px-3 py-2 text-neutral-900 dark:text-white">{claim.patient_name}</td>
+                                  <td className="px-3 py-2 text-neutral-600 dark:text-neutral-400">{claim.payer_name}</td>
+                                  <td className="px-3 py-2 text-neutral-600 dark:text-neutral-400">${claim.billed_amount || 0}</td>
+                                  <td className="px-3 py-2 text-neutral-600 dark:text-neutral-400">{claim.service_date || '-'}</td>
                                 </tr>
                               ))}
                             </tbody>
@@ -750,11 +750,11 @@ export function ClaimUploadModal({
               </div>
 
               {/* Footer */}
-              <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between bg-gray-50 dark:bg-gray-700/50">
+              <div className="px-6 py-4 border-t border-neutral-200 dark:border-neutral-700 flex items-center justify-between bg-neutral-50 dark:bg-neutral-700/50">
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium"
+                  className="px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium"
                 >
                   Reset
                 </button>
@@ -762,7 +762,7 @@ export function ClaimUploadModal({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors"
+                    className="px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-600 rounded-lg font-medium transition-colors"
                   >
                     Cancel
                   </button>

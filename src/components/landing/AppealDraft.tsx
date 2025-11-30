@@ -136,7 +136,7 @@ ClarityClaim AI`;
       case 'complete':
         return { label: 'Complete', icon: CheckCircle2, color: 'text-emerald-500' };
       default:
-        return { label: 'Ready', icon: Sparkles, color: isDark ? 'text-slate-400' : 'text-slate-500' };
+        return { label: 'Ready', icon: Sparkles, color: isDark ? 'text-neutral-400' : 'text-neutral-500' };
     }
   };
 
@@ -148,8 +148,8 @@ ClarityClaim AI`;
       ref={containerRef} 
       className={`animation-container relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.02] group cursor-pointer ${
         isDark 
-          ? 'bg-gradient-to-br from-slate-900 via-slate-900/95 to-amber-900/20 border-slate-700/80 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20' 
-          : 'bg-gradient-to-br from-slate-50 via-white to-amber-50/50 border-slate-200 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20'
+          ? 'bg-gradient-to-br from-neutral-900 via-neutral-900/95 to-amber-900/20 border-neutral-700/80 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20' 
+          : 'bg-gradient-to-br from-neutral-50 via-white to-amber-50/50 border-neutral-200 hover:border-clarity-accent/50 hover:shadow-lg hover:shadow-clarity-accent/20'
       }`}
       style={{ height: '520px' }}
       whileHover={{ scale: 1.02 }}
@@ -171,22 +171,22 @@ ClarityClaim AI`;
 
       <div className="relative p-4 h-full overflow-y-auto scrollbar-thin">
         {/* Header */}
-        <div className={`rounded-xl ${isDark ? 'bg-slate-800/80' : 'bg-slate-100'} px-3 py-2 mb-3`}>
+        <div className={`rounded-xl ${isDark ? 'bg-neutral-800/80' : 'bg-neutral-100'} px-3 py-2 mb-3`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className={`w-7 h-7 rounded-lg bg-gradient-to-br from-clarity-accent to-orange-500 flex items-center justify-center shadow-sm`}>
                 <Wand2 className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>Appeal Generator</h3>
-                <p className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>RAG-Powered</p>
+                <h3 className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-neutral-800'}`}>Appeal Generator</h3>
+                <p className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>RAG-Powered</p>
               </div>
             </div>
             <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full ${
               phase === 'complete' 
                 ? isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'
                 : phase === 'idle' 
-                  ? isDark ? 'bg-slate-700/50' : 'bg-slate-200'
+                  ? isDark ? 'bg-neutral-700/50' : 'bg-neutral-200'
                   : isDark ? 'bg-clarity-accent/20' : 'bg-amber-100'
             }`}>
               {phase !== 'idle' && phase !== 'complete' ? (
@@ -207,14 +207,14 @@ ClarityClaim AI`;
 
           {/* Progress Bar */}
           <div className="mt-2">
-            <div className={`h-1 ${isDark ? 'bg-slate-700' : 'bg-slate-200'} rounded-full overflow-hidden`}>
+            <div className={`h-1 ${isDark ? 'bg-neutral-700' : 'bg-neutral-200'} rounded-full overflow-hidden`}>
               <motion.div
                 className="h-full bg-gradient-to-r from-clarity-accent to-orange-500"
                 style={{ width: `${progress}%` }}
                 transition={{ duration: 0.3 }}
               />
             </div>
-            <div className={`flex justify-between mt-1 text-[8px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+            <div className={`flex justify-between mt-1 text-[8px] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
               <span>{Math.round(progress)}%</span>
               {phase === 'complete' && <span className="text-emerald-500">{elapsedTime}s</span>}
             </div>
@@ -222,11 +222,11 @@ ClarityClaim AI`;
         </div>
 
         {/* Claim Info */}
-        <div className={`rounded-lg ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'} border p-2.5 mb-3`}>
+        <div className={`rounded-lg ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'} border p-2.5 mb-3`}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5">
-              <FileText className={`w-3 h-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`} />
-              <span className={`text-[10px] font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Denied Claim</span>
+              <FileText className={`w-3 h-3 ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`} />
+              <span className={`text-[10px] font-medium ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>Denied Claim</span>
             </div>
             <span className="text-[8px] text-red-400 bg-red-500/20 px-1.5 py-0.5 rounded-full">
               {claimData.denialReason}
@@ -234,20 +234,20 @@ ClarityClaim AI`;
           </div>
           <div className="grid grid-cols-2 gap-2 text-[9px]">
             <div className="flex items-center gap-1.5">
-              <Hash className={`w-2.5 h-2.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>{claimData.claimId}</span>
+              <Hash className={`w-2.5 h-2.5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
+              <span className={isDark ? 'text-neutral-400' : 'text-neutral-500'}>{claimData.claimId}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <User className={`w-2.5 h-2.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>{claimData.patient}</span>
+              <User className={`w-2.5 h-2.5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
+              <span className={isDark ? 'text-neutral-400' : 'text-neutral-500'}>{claimData.patient}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <FileText className={`w-2.5 h-2.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>{claimData.procedure}</span>
+              <FileText className={`w-2.5 h-2.5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
+              <span className={isDark ? 'text-neutral-400' : 'text-neutral-500'}>{claimData.procedure}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <DollarSign className={`w-2.5 h-2.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>{claimData.amount}</span>
+              <DollarSign className={`w-2.5 h-2.5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
+              <span className={isDark ? 'text-neutral-400' : 'text-neutral-500'}>{claimData.amount}</span>
             </div>
           </div>
         </div>
@@ -260,7 +260,7 @@ ClarityClaim AI`;
         >
           <div className="flex items-center gap-1.5 mb-2">
             <BookOpen className="w-3 h-3 text-clarity-secondary" />
-            <span className={`text-[10px] font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Sources</span>
+            <span className={`text-[10px] font-medium ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>Sources</span>
           </div>
           <div className="space-y-1.5">
             {citations.map((citation, i) => (
@@ -269,7 +269,7 @@ ClarityClaim AI`;
                 initial={{ opacity: 0, x: -5 }}
                 animate={showCitations ? { opacity: 1, x: 0 } : { opacity: 0, x: -5 }}
                 transition={{ delay: i * 0.1 }}
-                className={`flex items-center justify-between p-2 rounded-lg ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-white border-slate-200'} border`}
+                className={`flex items-center justify-between p-2 rounded-lg ${isDark ? 'bg-neutral-800/50 border-neutral-700/50' : 'bg-white border-neutral-200'} border`}
               >
                 <div className="flex items-center gap-2">
                   <span className={`text-[8px] px-1.5 py-0.5 rounded-full ${
@@ -281,7 +281,7 @@ ClarityClaim AI`;
                   }`}>
                     {citation.type}
                   </span>
-                  <span className={`text-[9px] ${isDark ? 'text-slate-400' : 'text-slate-500'} truncate max-w-[100px]`}>
+                  <span className={`text-[9px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'} truncate max-w-[100px]`}>
                     {citation.source}
                   </span>
                 </div>
@@ -295,10 +295,10 @@ ClarityClaim AI`;
         <div className="relative">
           <div className="flex items-center gap-1.5 mb-2">
             <PenTool className="w-3 h-3 text-clarity-accent" />
-            <span className={`text-[10px] font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Generated Appeal</span>
+            <span className={`text-[10px] font-medium ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>Generated Appeal</span>
           </div>
           
-          <div className={`relative rounded-lg ${isDark ? 'bg-slate-100' : 'bg-white border border-slate-200'} p-2.5 h-28 overflow-hidden`}>
+          <div className={`relative rounded-lg ${isDark ? 'bg-neutral-100' : 'bg-white border border-neutral-200'} p-2.5 h-28 overflow-hidden`}>
             {/* Paper lines */}
             <div className="absolute inset-0 opacity-30" style={{
               backgroundImage: `repeating-linear-gradient(transparent, transparent 14px, #e5e7eb 15px)`
@@ -306,12 +306,12 @@ ClarityClaim AI`;
             
             <div className="relative h-full overflow-y-auto">
               {phase === 'idle' ? (
-                <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                <div className="flex flex-col items-center justify-center h-full text-neutral-400">
                   <FileText className="w-6 h-6 mb-1 opacity-30" />
                   <span className="text-[9px]">Appeal will appear here...</span>
                 </div>
               ) : (
-                <pre className="text-[8px] text-slate-700 whitespace-pre-wrap font-sans leading-relaxed">
+                <pre className="text-[8px] text-neutral-700 whitespace-pre-wrap font-sans leading-relaxed">
                   {typedText}
                   {phase === 'generating' && (
                     <motion.span
@@ -323,7 +323,7 @@ ClarityClaim AI`;
                 </pre>
               )}
             </div>
-            <div className={`absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t ${isDark ? 'from-slate-100' : 'from-white'} to-transparent pointer-events-none`} />
+            <div className={`absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t ${isDark ? 'from-neutral-100' : 'from-white'} to-transparent pointer-events-none`} />
           </div>
         </div>
 
@@ -334,22 +334,22 @@ ClarityClaim AI`;
           transition={{ delay: 0.5 }}
           className="mt-3 flex justify-between gap-2"
         >
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center`}>
               <Zap className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>&lt;3s</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Generation</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>&lt;3s</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Generation</div>
             </div>
           </div>
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border`}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200'} border`}>
             <div className={`w-6 h-6 rounded-md bg-gradient-to-br from-clarity-accent to-orange-500 flex items-center justify-center`}>
               <BadgeCheck className="w-3 h-3 text-white" />
             </div>
             <div>
-              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>87%</div>
-              <div className={`text-[8px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Win Rate</div>
+              <div className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-neutral-800'}`}>87%</div>
+              <div className={`text-[8px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Win Rate</div>
             </div>
           </div>
         </motion.div>

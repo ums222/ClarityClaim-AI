@@ -122,7 +122,7 @@ export function ClaimDetailPage() {
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-gray-500 dark:text-gray-400">Loading claim...</p>
+            <p className="text-neutral-500 dark:text-neutral-400">Loading claim...</p>
           </div>
         </div>
       </AppLayout>
@@ -133,10 +133,10 @@ export function ClaimDetailPage() {
     return (
       <AppLayout>
         <div className="flex flex-col items-center justify-center h-96 gap-4">
-          <svg className="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-16 h-16 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p className="text-gray-600 dark:text-gray-400">{error || 'Claim not found'}</p>
+          <p className="text-neutral-600 dark:text-neutral-400">{error || 'Claim not found'}</p>
           <Link
             to="/app/claims"
             className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
@@ -156,7 +156,7 @@ export function ClaimDetailPage() {
           <div className="flex items-start gap-4">
             <Link
               to="/app/claims"
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors mt-1"
+              className="p-2 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors mt-1"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -164,13 +164,13 @@ export function ClaimDetailPage() {
             </Link>
             <div>
               <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white font-mono">
+                <h1 className="text-2xl font-bold text-neutral-900 dark:text-white font-mono">
                   {claim.claim_number}
                 </h1>
                 <StatusBadge status={claim.status} size="lg" animated />
                 <PriorityBadge priority={claim.priority} />
               </div>
-              <div className="flex items-center gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-4 mt-2 text-sm text-neutral-500 dark:text-neutral-400">
                 <span>Created {formatDateTime(claim.created_at)}</span>
                 <span>•</span>
                 <span>Last updated {formatDateTime(claim.updated_at)}</span>
@@ -184,7 +184,7 @@ export function ClaimDetailPage() {
               <button
                 onClick={() => setShowStatusMenu(!showStatusMenu)}
                 disabled={isUpdatingStatus}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
               >
                 {isUpdatingStatus ? (
                   <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -213,17 +213,17 @@ export function ClaimDetailPage() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-20 py-1 max-h-64 overflow-y-auto"
+                      className="absolute right-0 mt-2 w-48 bg-white dark:bg-neutral-800 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 z-20 py-1 max-h-64 overflow-y-auto"
                     >
                       {STATUS_ORDER.map(status => (
                         <button
                           key={status}
                           onClick={() => handleStatusChange(status)}
                           disabled={status === claim.status}
-                          className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 ${
+                          className={`w-full px-4 py-2 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors flex items-center gap-2 ${
                             status === claim.status
                               ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                              : 'text-gray-700 dark:text-gray-300'
+                              : 'text-neutral-700 dark:text-neutral-300'
                           }`}
                         >
                           <StatusBadge status={status} size="sm" showDot={false} />
@@ -257,8 +257,8 @@ export function ClaimDetailPage() {
         </div>
 
         {/* Workflow Progress */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-4">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 border border-neutral-200 dark:border-neutral-700">
+          <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-4">
             Claim Progress
           </h3>
           <ClaimWorkflow currentStatus={claim.status} />
@@ -269,7 +269,7 @@ export function ClaimDetailPage() {
           {/* Left Column - Main Info */}
           <div className="lg:col-span-2 space-y-6">
             {/* Tabs */}
-            <div className="border-b border-gray-200 dark:border-gray-700">
+            <div className="border-b border-neutral-200 dark:border-neutral-700">
               <div className="flex gap-6">
                 {(['details', 'history', 'documents', 'ai'] as TabType[]).map(tab => (
                   <button
@@ -278,7 +278,7 @@ export function ClaimDetailPage() {
                     className={`pb-3 text-sm font-medium border-b-2 transition-colors capitalize ${
                       activeTab === tab
                         ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                        : 'border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
                     }`}
                   >
                     {tab === 'ai' ? 'AI Insights' : tab}
@@ -335,7 +335,7 @@ export function ClaimDetailPage() {
                         <InfoField label="Place of Service" value={claim.place_of_service} />
                         <div />
                         <div className="col-span-2">
-                          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
+                          <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1">
                             Procedure Codes (CPT)
                           </label>
                           <div className="flex flex-wrap gap-2">
@@ -349,12 +349,12 @@ export function ClaimDetailPage() {
                                 </span>
                               ))
                             ) : (
-                              <span className="text-gray-400">-</span>
+                              <span className="text-neutral-400">-</span>
                             )}
                           </div>
                         </div>
                         <div className="col-span-2">
-                          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
+                          <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1">
                             Diagnosis Codes (ICD-10)
                           </label>
                           <div className="flex flex-wrap gap-2">
@@ -368,7 +368,7 @@ export function ClaimDetailPage() {
                                 </span>
                               ))
                             ) : (
-                              <span className="text-gray-400">-</span>
+                              <span className="text-neutral-400">-</span>
                             )}
                           </div>
                         </div>
@@ -378,7 +378,7 @@ export function ClaimDetailPage() {
                     {/* Notes */}
                     {claim.notes && (
                       <InfoSection title="Notes">
-                        <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                        <p className="text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap">
                           {claim.notes}
                         </p>
                       </InfoSection>
@@ -390,14 +390,14 @@ export function ClaimDetailPage() {
                   <div className="space-y-4">
                     {activities.length === 0 ? (
                       <div className="text-center py-12">
-                        <svg className="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-12 h-12 text-neutral-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <p className="text-gray-500 dark:text-gray-400">No activity history yet</p>
+                        <p className="text-neutral-500 dark:text-neutral-400">No activity history yet</p>
                       </div>
                     ) : (
                       <div className="relative">
-                        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700" />
+                        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-neutral-200 dark:bg-neutral-700" />
                         <div className="space-y-4">
                           {activities.map((activity, index) => (
                             <motion.div
@@ -407,15 +407,15 @@ export function ClaimDetailPage() {
                               transition={{ delay: index * 0.05 }}
                               className="relative pl-10"
                             >
-                              <div className="absolute left-2.5 w-3 h-3 bg-blue-500 rounded-full border-2 border-white dark:border-gray-800" />
-                              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+                              <div className="absolute left-2.5 w-3 h-3 bg-blue-500 rounded-full border-2 border-white dark:border-neutral-800" />
+                              <div className="bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 p-4">
                                 <div className="flex items-start justify-between">
                                   <div>
-                                    <p className="font-medium text-gray-900 dark:text-white capitalize">
+                                    <p className="font-medium text-neutral-900 dark:text-white capitalize">
                                       {activity.action.replace(/_/g, ' ')}
                                     </p>
                                     {activity.action === 'status_changed' && activity.action_details && (
-                                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                      <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
                                         Changed from{' '}
                                         <StatusBadge status={activity.action_details.from as ClaimStatus} size="sm" showDot={false} />
                                         {' → '}
@@ -423,12 +423,12 @@ export function ClaimDetailPage() {
                                       </p>
                                     )}
                                     {activity.user && (
-                                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                      <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
                                         by {activity.user.full_name}
                                       </p>
                                     )}
                                   </div>
-                                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  <span className="text-xs text-neutral-500 dark:text-neutral-400">
                                     {formatDateTime(activity.created_at)}
                                   </span>
                                 </div>
@@ -443,10 +443,10 @@ export function ClaimDetailPage() {
 
                 {activeTab === 'documents' && (
                   <div className="text-center py-12">
-                    <svg className="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-12 h-12 text-neutral-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
-                    <p className="text-gray-500 dark:text-gray-400 mb-4">
+                    <p className="text-neutral-500 dark:text-neutral-400 mb-4">
                       No documents attached yet
                     </p>
                     <button className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
@@ -503,7 +503,7 @@ export function ClaimDetailPage() {
                           ))}
                         </div>
                       ) : (
-                        <p className="text-gray-500 dark:text-gray-400 italic">
+                        <p className="text-neutral-500 dark:text-neutral-400 italic">
                           No AI recommendations available yet. Run analysis to get suggestions.
                         </p>
                       )}
@@ -517,28 +517,28 @@ export function ClaimDetailPage() {
           {/* Right Column - Summary & Quick Actions */}
           <div className="space-y-6">
             {/* Financial Summary */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-4">
+            <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+              <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-4">
                 Financial Summary
               </h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-500 dark:text-gray-400">Billed Amount</span>
-                  <span className="text-xl font-bold text-gray-900 dark:text-white">
+                  <span className="text-neutral-500 dark:text-neutral-400">Billed Amount</span>
+                  <span className="text-xl font-bold text-neutral-900 dark:text-white">
                     {formatCurrency(claim.billed_amount)}
                   </span>
                 </div>
                 {claim.allowed_amount !== null && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-500 dark:text-gray-400">Allowed Amount</span>
-                    <span className="font-medium text-gray-900 dark:text-white">
+                    <span className="text-neutral-500 dark:text-neutral-400">Allowed Amount</span>
+                    <span className="font-medium text-neutral-900 dark:text-white">
                       {formatCurrency(claim.allowed_amount)}
                     </span>
                   </div>
                 )}
                 {claim.paid_amount !== null && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-500 dark:text-gray-400">Paid Amount</span>
+                    <span className="text-neutral-500 dark:text-neutral-400">Paid Amount</span>
                     <span className="font-medium text-emerald-600 dark:text-emerald-400">
                       {formatCurrency(claim.paid_amount)}
                     </span>
@@ -546,16 +546,16 @@ export function ClaimDetailPage() {
                 )}
                 {claim.adjustment_amount !== null && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-500 dark:text-gray-400">Adjustment</span>
+                    <span className="text-neutral-500 dark:text-neutral-400">Adjustment</span>
                     <span className="font-medium text-red-600 dark:text-red-400">
                       -{formatCurrency(Math.abs(claim.adjustment_amount))}
                     </span>
                   </div>
                 )}
                 {claim.patient_responsibility !== null && (
-                  <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <span className="text-gray-500 dark:text-gray-400">Patient Responsibility</span>
-                    <span className="font-medium text-gray-900 dark:text-white">
+                  <div className="flex justify-between items-center pt-3 border-t border-neutral-200 dark:border-neutral-700">
+                    <span className="text-neutral-500 dark:text-neutral-400">Patient Responsibility</span>
+                    <span className="font-medium text-neutral-900 dark:text-white">
                       {formatCurrency(claim.patient_responsibility)}
                     </span>
                   </div>
@@ -564,8 +564,8 @@ export function ClaimDetailPage() {
             </div>
 
             {/* Key Dates */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-4">
+            <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+              <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-4">
                 Key Dates
               </h3>
               <div className="space-y-3">
@@ -619,8 +619,8 @@ export function ClaimDetailPage() {
             )}
 
             {/* Quick Actions */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-4">
+            <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+              <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-4">
                 Quick Actions
               </h3>
               <div className="space-y-2">
@@ -648,7 +648,7 @@ export function ClaimDetailPage() {
                   )}
                 </button>
                 
-                <button className="w-full px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-2">
+                <button className="w-full px-4 py-2 text-left text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
@@ -656,20 +656,20 @@ export function ClaimDetailPage() {
                 </button>
                 <button 
                   onClick={() => setIsAppealModalOpen(true)}
-                  className="w-full px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors flex items-center gap-2"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                   Generate Appeal Letter
                 </button>
-                <button className="w-full px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-2">
+                <button className="w-full px-4 py-2 text-left text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                   Duplicate Claim
                 </button>
-                <button className="w-full px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-2">
+                <button className="w-full px-4 py-2 text-left text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
@@ -705,8 +705,8 @@ export function ClaimDetailPage() {
 // Helper Components
 function InfoSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-4">
+    <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-4">
         {title}
       </h3>
       {children}
@@ -725,11 +725,11 @@ function InfoField({
 }) {
   return (
     <div className={className}>
-      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
+      <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1">
         {label}
       </label>
-      <p className="text-gray-900 dark:text-white">
-        {value || <span className="text-gray-400">-</span>}
+      <p className="text-neutral-900 dark:text-white">
+        {value || <span className="text-neutral-400">-</span>}
       </p>
     </div>
   );
@@ -749,14 +749,14 @@ function DateRow({
 
   return (
     <div className="flex justify-between items-center">
-      <span className="text-gray-500 dark:text-gray-400 text-sm">{label}</span>
+      <span className="text-neutral-500 dark:text-neutral-400 text-sm">{label}</span>
       <span 
         className={`text-sm font-medium ${
           isOverdue 
             ? 'text-red-600 dark:text-red-400' 
             : highlight 
             ? 'text-amber-600 dark:text-amber-400'
-            : 'text-gray-900 dark:text-white'
+            : 'text-neutral-900 dark:text-white'
         }`}
       >
         {formattedDate}

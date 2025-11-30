@@ -159,10 +159,10 @@ export function ClaimsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">
               Claims Management
             </h1>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
               Track, manage, and analyze all your healthcare claims
             </p>
           </div>
@@ -222,12 +222,12 @@ export function ClaimsPage() {
         )}
 
         {/* Search and Filters Bar */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700 p-4">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <svg 
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" 
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" 
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
@@ -239,7 +239,7 @@ export function ClaimsPage() {
                 value={searchQuery}
                 onChange={handleSearch}
                 placeholder="Search by claim #, patient name, or payer..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -250,7 +250,7 @@ export function ClaimsPage() {
                 className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
                   showFilters || hasActiveFilters
                     ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                    : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    : 'border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700'
                 }`}
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -267,7 +267,7 @@ export function ClaimsPage() {
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="px-3 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                  className="px-3 py-2.5 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
                 >
                   Clear all
                 </button>
@@ -284,10 +284,10 @@ export function ClaimsPage() {
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
-                <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="pt-4 mt-4 border-t border-neutral-200 dark:border-neutral-700 grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Status Filter */}
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</h4>
+                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Status</h4>
                     <div className="flex flex-wrap gap-2">
                       {(['draft', 'pending_review', 'submitted', 'in_process', 'denied', 'paid', 'appealed'] as ClaimStatus[]).map(status => (
                         <button
@@ -296,7 +296,7 @@ export function ClaimsPage() {
                           className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-colors ${
                             statusFilter.includes(status)
                               ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                              : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'
+                              : 'border-neutral-300 dark:border-neutral-600 text-neutral-600 dark:text-neutral-400 hover:border-neutral-400'
                           }`}
                         >
                           {STATUS_LABELS[status]}
@@ -307,7 +307,7 @@ export function ClaimsPage() {
 
                   {/* Priority Filter */}
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Priority</h4>
+                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Priority</h4>
                     <div className="flex flex-wrap gap-2">
                       {['low', 'normal', 'high', 'urgent'].map(priority => (
                         <button
@@ -316,7 +316,7 @@ export function ClaimsPage() {
                           className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-colors capitalize ${
                             priorityFilter.includes(priority)
                               ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                              : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'
+                              : 'border-neutral-300 dark:border-neutral-600 text-neutral-600 dark:text-neutral-400 hover:border-neutral-400'
                           }`}
                         >
                           {priority}
@@ -327,7 +327,7 @@ export function ClaimsPage() {
 
                   {/* Risk Level Filter */}
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Denial Risk</h4>
+                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Denial Risk</h4>
                     <div className="flex flex-wrap gap-2">
                       {['low', 'medium', 'high'].map(risk => (
                         <button
@@ -340,7 +340,7 @@ export function ClaimsPage() {
                                 : risk === 'medium'
                                 ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'
                                 : 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
-                              : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'
+                              : 'border-neutral-300 dark:border-neutral-600 text-neutral-600 dark:text-neutral-400 hover:border-neutral-400'
                           } capitalize`}
                         >
                           {risk} Risk
@@ -355,7 +355,7 @@ export function ClaimsPage() {
         </div>
 
         {/* Claims Table */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700 overflow-hidden">
           {/* Table Header with Bulk Actions */}
           {selectedClaims.size > 0 && (
             <div className="px-4 py-3 bg-blue-50 dark:bg-blue-900/30 border-b border-blue-200 dark:border-blue-800 flex items-center gap-4">
@@ -378,68 +378,68 @@ export function ClaimsPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-gray-700/50">
+              <thead className="bg-neutral-50 dark:bg-neutral-700/50">
                 <tr>
                   <th className="px-4 py-3 text-left">
                     <input
                       type="checkbox"
                       checked={claims.length > 0 && selectedClaims.size === claims.length}
                       onChange={(e) => handleSelectAll(e.target.checked)}
-                      className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                      className="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-blue-600 focus:ring-blue-500"
                     />
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Claim #
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Patient
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Payer
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Amount
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Risk
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Service Date
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
                     Progress
                   </th>
                   <th className="px-4 py-3"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              <tbody className="divide-y divide-neutral-200 dark:divide-neutral-700">
                 {isLoading ? (
                   // Loading skeleton
                   Array.from({ length: 5 }).map((_, i) => (
                     <tr key={i} className="animate-pulse">
-                      <td className="px-4 py-4"><div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-4 w-28 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-6 w-20 bg-gray-200 dark:bg-gray-700 rounded-full" /></td>
-                      <td className="px-4 py-4"><div className="h-5 w-12 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-2 w-16 bg-gray-200 dark:bg-gray-700 rounded" /></td>
-                      <td className="px-4 py-4"><div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="w-4 h-4 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-24 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-32 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-28 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-20 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-6 w-20 bg-neutral-200 dark:bg-neutral-700 rounded-full" /></td>
+                      <td className="px-4 py-4"><div className="h-5 w-12 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-24 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-2 w-16 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
+                      <td className="px-4 py-4"><div className="h-8 w-8 bg-neutral-200 dark:bg-neutral-700 rounded" /></td>
                     </tr>
                   ))
                 ) : claims.length === 0 ? (
                   <tr>
                     <td colSpan={10} className="px-4 py-12 text-center">
                       <div className="flex flex-col items-center gap-3">
-                        <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-12 h-12 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-neutral-500 dark:text-neutral-400">
                           {hasActiveFilters ? 'No claims match your filters' : 'No claims yet'}
                         </p>
                         {!hasActiveFilters && (
@@ -460,14 +460,14 @@ export function ClaimsPage() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.03 }}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                      className="hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors"
                     >
                       <td className="px-4 py-4">
                         <input
                           type="checkbox"
                           checked={selectedClaims.has(claim.id)}
                           onChange={(e) => handleSelectClaim(claim.id, e.target.checked)}
-                          className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                          className="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-blue-600 focus:ring-blue-500"
                         />
                       </td>
                       <td className="px-4 py-4">
@@ -480,11 +480,11 @@ export function ClaimsPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-gray-900 dark:text-white">
+                          <span className="text-sm font-medium text-neutral-900 dark:text-white">
                             {claim.patient_name}
                           </span>
                           {claim.patient_id && (
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                            <span className="text-xs text-neutral-500 dark:text-neutral-400">
                               ID: {claim.patient_id}
                             </span>
                           )}
@@ -492,11 +492,11 @@ export function ClaimsPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex flex-col">
-                          <span className="text-sm text-gray-900 dark:text-white">
+                          <span className="text-sm text-neutral-900 dark:text-white">
                             {claim.payer_name}
                           </span>
                           {claim.plan_type && (
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                            <span className="text-xs text-neutral-500 dark:text-neutral-400">
                               {claim.plan_type}
                             </span>
                           )}
@@ -504,7 +504,7 @@ export function ClaimsPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-gray-900 dark:text-white">
+                          <span className="text-sm font-medium text-neutral-900 dark:text-white">
                             {formatCurrency(claim.billed_amount)}
                           </span>
                           {claim.paid_amount !== null && claim.paid_amount > 0 && (
@@ -520,7 +520,7 @@ export function ClaimsPage() {
                       <td className="px-4 py-4">
                         <RiskBadge score={claim.denial_risk_score} level={claim.denial_risk_level} />
                       </td>
-                      <td className="px-4 py-4 text-sm text-gray-600 dark:text-gray-400">
+                      <td className="px-4 py-4 text-sm text-neutral-600 dark:text-neutral-400">
                         {formatDate(claim.service_date)}
                       </td>
                       <td className="px-4 py-4">
@@ -530,7 +530,7 @@ export function ClaimsPage() {
                         <div className="flex items-center gap-1">
                           <Link
                             to={`/app/claims/${claim.id}`}
-                            className="p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                            className="p-2 text-neutral-500 hover:text-blue-600 dark:text-neutral-400 dark:hover:text-blue-400 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
                           >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -538,7 +538,7 @@ export function ClaimsPage() {
                             </svg>
                           </Link>
                           <button
-                            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                            className="p-2 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
                             onClick={() => {/* TODO: Open edit modal */}}
                           >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -556,25 +556,25 @@ export function ClaimsPage() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="px-4 py-3 border-t border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
                 Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, totalClaims)} of {totalClaims} claims
               </p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
-                <span className="px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
+                <span className="px-3 py-1.5 text-sm text-neutral-700 dark:text-neutral-300">
                   Page {currentPage} of {totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>
@@ -636,14 +636,14 @@ function StatsCard({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+    <div className="bg-white dark:bg-neutral-800 rounded-xl p-4 border border-neutral-200 dark:border-neutral-700">
       <div className="flex items-center gap-3">
         <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
           {icon}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{label}</p>
-          <p className="text-lg font-bold text-gray-900 dark:text-white truncate">{value}</p>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">{label}</p>
+          <p className="text-lg font-bold text-neutral-900 dark:text-white truncate">{value}</p>
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@ export function StatusBadge({
   };
 
   const colorClasses: Record<string, string> = {
-    gray: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
+    gray: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300',
     yellow: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
     blue: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
     indigo: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300',
@@ -40,11 +40,11 @@ export function StatusBadge({
     purple: 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
     emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300',
     rose: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300',
-    slate: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+    slate: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300',
   };
 
   const dotColorClasses: Record<string, string> = {
-    gray: 'bg-gray-500',
+    gray: 'bg-neutral-500',
     yellow: 'bg-amber-500',
     blue: 'bg-blue-500',
     indigo: 'bg-indigo-500',
@@ -54,7 +54,7 @@ export function StatusBadge({
     purple: 'bg-purple-500',
     emerald: 'bg-emerald-500',
     rose: 'bg-rose-500',
-    slate: 'bg-slate-500',
+    slate: 'bg-neutral-500',
   };
 
   const Wrapper = animated ? motion.span : 'span';
@@ -108,7 +108,7 @@ export function PriorityBadge({ priority, size = 'md' }: PriorityBadgeProps) {
   };
 
   const colors: Record<string, string> = {
-    low: 'text-slate-500 dark:text-slate-400',
+    low: 'text-neutral-500 dark:text-neutral-400',
     normal: 'text-blue-600 dark:text-blue-400',
     high: 'text-orange-600 dark:text-orange-400',
     urgent: 'text-red-600 dark:text-red-400',

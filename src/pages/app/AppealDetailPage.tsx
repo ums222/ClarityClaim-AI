@@ -47,7 +47,7 @@ import { OutcomeRecorder } from '../../components/appeals/OutcomeRecorder';
 // Status Badge Component
 function StatusBadge({ status, size = 'md' }: { status: AppealStatus; size?: 'sm' | 'md' | 'lg' }) {
   const colorMap: Record<string, string> = {
-    gray: 'bg-gray-100 text-gray-700 border-gray-200',
+    gray: 'bg-neutral-100 text-neutral-700 border-neutral-200',
     yellow: 'bg-amber-50 text-amber-700 border-amber-200',
     blue: 'bg-blue-50 text-blue-700 border-blue-200',
     indigo: 'bg-indigo-50 text-indigo-700 border-indigo-200',
@@ -55,7 +55,7 @@ function StatusBadge({ status, size = 'md' }: { status: AppealStatus; size?: 'sm
     green: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     lime: 'bg-lime-50 text-lime-700 border-lime-200',
     red: 'bg-red-50 text-red-700 border-red-200',
-    slate: 'bg-slate-100 text-slate-700 border-slate-200',
+    slate: 'bg-neutral-100 text-neutral-700 border-neutral-200',
     orange: 'bg-orange-50 text-orange-700 border-orange-200',
   };
 
@@ -88,7 +88,7 @@ function ActivityItem({ activity }: { activity: AppealActivity }) {
       case 'letter_generated':
         return <Sparkles className="w-4 h-4 text-amber-500" />;
       default:
-        return <Clock className="w-4 h-4 text-gray-400" />;
+        return <Clock className="w-4 h-4 text-neutral-400" />;
     }
   };
 
@@ -115,8 +115,8 @@ function ActivityItem({ activity }: { activity: AppealActivity }) {
         {getActivityIcon(activity.action)}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-gray-900">{getActivityDescription(activity)}</p>
-        <p className="text-xs text-gray-500 mt-0.5">
+        <p className="text-sm text-neutral-900">{getActivityDescription(activity)}</p>
+        <p className="text-xs text-neutral-500 mt-0.5">
           {new Date(activity.created_at).toLocaleString()}
         </p>
       </div>
@@ -207,7 +207,7 @@ export default function AppealDetailPage() {
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-gray-500">Loading appeal...</p>
+            <p className="text-neutral-500">Loading appeal...</p>
           </div>
         </div>
       </AppLayout>
@@ -220,8 +220,8 @@ export default function AppealDetailPage() {
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Appeal Not Found</h2>
-            <p className="text-gray-500 mb-4">{error || 'The appeal you\'re looking for doesn\'t exist.'}</p>
+            <h2 className="text-xl font-semibold text-neutral-900 mb-2">Appeal Not Found</h2>
+            <p className="text-neutral-500 mb-4">{error || 'The appeal you\'re looking for doesn\'t exist.'}</p>
             <button
               onClick={() => navigate('/app/appeals')}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -249,13 +249,13 @@ export default function AppealDetailPage() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/app/appeals')}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-gray-900">{appeal.appeal_number}</h1>
+                <h1 className="text-2xl font-bold text-neutral-900">{appeal.appeal_number}</h1>
                 <StatusBadge status={appeal.status} size="lg" />
                 {appeal.ai_generated && (
                   <span className="flex items-center gap-1 px-2.5 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
@@ -264,7 +264,7 @@ export default function AppealDetailPage() {
                   </span>
                 )}
               </div>
-              <p className="text-gray-500 mt-1">
+              <p className="text-neutral-500 mt-1">
                 Level {appeal.appeal_level} {APPEAL_TYPE_LABELS[appeal.appeal_type]} Appeal
               </p>
             </div>
@@ -297,21 +297,21 @@ export default function AppealDetailPage() {
             <div className="relative">
               <button
                 onClick={() => setShowMenu(!showMenu)}
-                className="p-2.5 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                className="p-2.5 text-neutral-600 bg-white border border-neutral-200 rounded-xl hover:bg-neutral-50 transition-colors"
               >
                 <MoreVertical className="w-5 h-5" />
               </button>
               {showMenu && (
-                <div className="absolute right-0 mt-1 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-10">
-                  <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+                <div className="absolute right-0 mt-1 w-48 bg-white rounded-xl shadow-lg border border-neutral-100 py-1 z-10">
+                  <button className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center">
                     <Edit className="w-4 h-4 mr-2" />
                     Edit Details
                   </button>
-                  <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+                  <button className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center">
                     <Copy className="w-4 h-4 mr-2" />
                     Duplicate
                   </button>
-                  <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+                  <button className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center">
                     <Download className="w-4 h-4 mr-2" />
                     Export PDF
                   </button>
@@ -330,8 +330,8 @@ export default function AppealDetailPage() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Tabs */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-              <div className="border-b border-gray-100">
+            <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+              <div className="border-b border-neutral-100">
                 <nav className="flex">
                   {[
                     { id: 'letter', label: 'Appeal Letter', icon: FileText },
@@ -345,7 +345,7 @@ export default function AppealDetailPage() {
                       className={`flex items-center gap-2 px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
                         activeTab === tab.id
                           ? 'text-blue-600 border-blue-600 bg-blue-50/50'
-                          : 'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'
+                          : 'text-neutral-500 border-transparent hover:text-neutral-700 hover:border-neutral-300'
                       }`}
                     >
                       <tab.icon className="w-4 h-4" />
@@ -360,7 +360,7 @@ export default function AppealDetailPage() {
                 {activeTab === 'letter' && (
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-medium text-gray-900">Appeal Letter</h3>
+                      <h3 className="font-medium text-neutral-900">Appeal Letter</h3>
                       <button
                         onClick={() => setShowTemplateSelector(true)}
                         className="flex items-center gap-2 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
@@ -384,7 +384,7 @@ export default function AppealDetailPage() {
                 {activeTab === 'details' && appeal.claim && (
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-medium text-gray-900">Linked Claim</h3>
+                      <h3 className="font-medium text-neutral-900">Linked Claim</h3>
                       <Link
                         to={`/app/claims/${appeal.claim_id}`}
                         className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
@@ -397,22 +397,22 @@ export default function AppealDetailPage() {
                     <div className="grid grid-cols-2 gap-6">
                       <div className="space-y-4">
                         <div>
-                          <label className="text-sm text-gray-500">Claim Number</label>
-                          <p className="font-medium text-gray-900">{appeal.claim.claim_number}</p>
+                          <label className="text-sm text-neutral-500">Claim Number</label>
+                          <p className="font-medium text-neutral-900">{appeal.claim.claim_number}</p>
                         </div>
                         <div>
-                          <label className="text-sm text-gray-500">Patient Name</label>
-                          <p className="font-medium text-gray-900">{appeal.claim.patient_name}</p>
+                          <label className="text-sm text-neutral-500">Patient Name</label>
+                          <p className="font-medium text-neutral-900">{appeal.claim.patient_name}</p>
                         </div>
                         <div>
-                          <label className="text-sm text-gray-500">Payer</label>
-                          <p className="font-medium text-gray-900">{appeal.claim.payer_name}</p>
+                          <label className="text-sm text-neutral-500">Payer</label>
+                          <p className="font-medium text-neutral-900">{appeal.claim.payer_name}</p>
                         </div>
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <label className="text-sm text-gray-500">Service Date</label>
-                          <p className="font-medium text-gray-900">
+                          <label className="text-sm text-neutral-500">Service Date</label>
+                          <p className="font-medium text-neutral-900">
                             {appeal.claim.service_date
                               ? new Date(appeal.claim.service_date).toLocaleDateString()
                               : 'N/A'
@@ -420,8 +420,8 @@ export default function AppealDetailPage() {
                           </p>
                         </div>
                         <div>
-                          <label className="text-sm text-gray-500">Billed Amount</label>
-                          <p className="font-medium text-gray-900">
+                          <label className="text-sm text-neutral-500">Billed Amount</label>
+                          <p className="font-medium text-neutral-900">
                             ${appeal.claim.billed_amount?.toLocaleString() || '0'}
                           </p>
                         </div>
@@ -433,11 +433,11 @@ export default function AppealDetailPage() {
                 {/* History Tab */}
                 {activeTab === 'history' && (
                   <div>
-                    <h3 className="font-medium text-gray-900 mb-4">Activity Timeline</h3>
+                    <h3 className="font-medium text-neutral-900 mb-4">Activity Timeline</h3>
                     {activities.length === 0 ? (
-                      <p className="text-gray-500 text-center py-8">No activity yet</p>
+                      <p className="text-neutral-500 text-center py-8">No activity yet</p>
                     ) : (
-                      <div className="divide-y divide-gray-100">
+                      <div className="divide-y divide-neutral-100">
                         {activities.map((activity) => (
                           <ActivityItem key={activity.id} activity={activity} />
                         ))}
@@ -450,16 +450,16 @@ export default function AppealDetailPage() {
                 {activeTab === 'documents' && (
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-medium text-gray-900">Supporting Documents</h3>
+                      <h3 className="font-medium text-neutral-900">Supporting Documents</h3>
                       <button className="flex items-center gap-2 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                         <Paperclip className="w-4 h-4" />
                         Attach File
                       </button>
                     </div>
-                    <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-xl">
-                      <Paperclip className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                      <p className="text-gray-500">No documents attached</p>
-                      <p className="text-sm text-gray-400 mt-1">
+                    <div className="text-center py-12 border-2 border-dashed border-neutral-200 rounded-xl">
+                      <Paperclip className="w-12 h-12 text-neutral-300 mx-auto mb-3" />
+                      <p className="text-neutral-500">No documents attached</p>
+                      <p className="text-sm text-neutral-400 mt-1">
                         Drag and drop files here or click to browse
                       </p>
                     </div>
@@ -472,44 +472,44 @@ export default function AppealDetailPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Appeal Summary */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-              <h3 className="font-semibold text-gray-900 mb-4">Appeal Summary</h3>
+            <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-6">
+              <h3 className="font-semibold text-neutral-900 mb-4">Appeal Summary</h3>
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">Priority</span>
+                  <span className="text-sm text-neutral-500">Priority</span>
                   <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
                     appeal.priority === 'urgent' ? 'bg-red-100 text-red-700' :
                     appeal.priority === 'high' ? 'bg-orange-100 text-orange-700' :
                     appeal.priority === 'normal' ? 'bg-blue-100 text-blue-700' :
-                    'bg-gray-100 text-gray-700'
+                    'bg-neutral-100 text-neutral-700'
                   }`}>
                     {PRIORITY_LABELS[appeal.priority]}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">Appeal Level</span>
-                  <span className="text-sm font-medium text-gray-900">Level {appeal.appeal_level}</span>
+                  <span className="text-sm text-neutral-500">Appeal Level</span>
+                  <span className="text-sm font-medium text-neutral-900">Level {appeal.appeal_level}</span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">Type</span>
-                  <span className="text-sm font-medium text-gray-900">{APPEAL_TYPE_LABELS[appeal.appeal_type]}</span>
+                  <span className="text-sm text-neutral-500">Type</span>
+                  <span className="text-sm font-medium text-neutral-900">{APPEAL_TYPE_LABELS[appeal.appeal_type]}</span>
                 </div>
 
-                <hr className="border-gray-100" />
+                <hr className="border-neutral-100" />
 
                 <div>
-                  <span className="text-sm text-gray-500">Amount Appealed</span>
-                  <p className="text-xl font-bold text-gray-900 mt-1">
+                  <span className="text-sm text-neutral-500">Amount Appealed</span>
+                  <p className="text-xl font-bold text-neutral-900 mt-1">
                     ${(appeal.amount_appealed || 0).toLocaleString()}
                   </p>
                 </div>
 
                 {appeal.amount_recovered !== null && appeal.amount_recovered !== undefined && appeal.amount_recovered > 0 && (
                   <div>
-                    <span className="text-sm text-gray-500">Amount Recovered</span>
+                    <span className="text-sm text-neutral-500">Amount Recovered</span>
                     <p className="text-xl font-bold text-green-600 mt-1">
                       ${appeal.amount_recovered.toLocaleString()}
                     </p>
@@ -523,7 +523,7 @@ export default function AppealDetailPage() {
               <div className={`rounded-2xl border p-6 ${
                 isPastDeadline ? 'bg-red-50 border-red-200' :
                 isUrgent ? 'bg-amber-50 border-amber-200' :
-                'bg-white border-gray-100'
+                'bg-white border-neutral-100'
               }`}>
                 <div className="flex items-center gap-3 mb-3">
                   {isPastDeadline ? (
@@ -531,12 +531,12 @@ export default function AppealDetailPage() {
                   ) : isUrgent ? (
                     <AlertCircle className="w-5 h-5 text-amber-600" />
                   ) : (
-                    <Calendar className="w-5 h-5 text-gray-600" />
+                    <Calendar className="w-5 h-5 text-neutral-600" />
                   )}
                   <span className={`font-semibold ${
                     isPastDeadline ? 'text-red-800' :
                     isUrgent ? 'text-amber-800' :
-                    'text-gray-900'
+                    'text-neutral-900'
                   }`}>
                     Filing Deadline
                   </span>
@@ -544,14 +544,14 @@ export default function AppealDetailPage() {
                 <p className={`text-2xl font-bold ${
                   isPastDeadline ? 'text-red-600' :
                   isUrgent ? 'text-amber-600' :
-                  'text-gray-900'
+                  'text-neutral-900'
                 }`}>
                   {new Date(appeal.deadline).toLocaleDateString()}
                 </p>
                 <p className={`text-sm mt-1 ${
                   isPastDeadline ? 'text-red-600' :
                   isUrgent ? 'text-amber-600' :
-                  'text-gray-500'
+                  'text-neutral-500'
                 }`}>
                   {isPastDeadline
                     ? `${Math.abs(daysToDeadline!)} days overdue`
@@ -564,21 +564,21 @@ export default function AppealDetailPage() {
             )}
 
             {/* Denial Information */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-              <h3 className="font-semibold text-gray-900 mb-4">Denial Information</h3>
+            <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-6">
+              <h3 className="font-semibold text-neutral-900 mb-4">Denial Information</h3>
               
               <div className="space-y-4">
                 <div>
-                  <span className="text-sm text-gray-500">Denial Reason</span>
-                  <p className="text-sm font-medium text-gray-900 mt-1">
+                  <span className="text-sm text-neutral-500">Denial Reason</span>
+                  <p className="text-sm font-medium text-neutral-900 mt-1">
                     {appeal.original_denial_reason || 'Not specified'}
                   </p>
                 </div>
 
                 {appeal.original_denial_code && (
                   <div>
-                    <span className="text-sm text-gray-500">Denial Code</span>
-                    <p className="text-sm font-medium text-gray-900 mt-1">
+                    <span className="text-sm text-neutral-500">Denial Code</span>
+                    <p className="text-sm font-medium text-neutral-900 mt-1">
                       {appeal.original_denial_code}
                     </p>
                   </div>
@@ -586,8 +586,8 @@ export default function AppealDetailPage() {
 
                 {appeal.original_denial_date && (
                   <div>
-                    <span className="text-sm text-gray-500">Denial Date</span>
-                    <p className="text-sm font-medium text-gray-900 mt-1">
+                    <span className="text-sm text-neutral-500">Denial Date</span>
+                    <p className="text-sm font-medium text-neutral-900 mt-1">
                       {new Date(appeal.original_denial_date).toLocaleDateString()}
                     </p>
                   </div>
@@ -608,7 +608,7 @@ export default function AppealDetailPage() {
                   ) : (
                     <XCircle className="w-5 h-5 text-red-600" />
                   )}
-                  <span className="font-semibold text-gray-900">Appeal Outcome</span>
+                  <span className="font-semibold text-neutral-900">Appeal Outcome</span>
                 </div>
                 <p className={`text-xl font-bold ${
                   appeal.outcome === 'approved' ? 'text-green-700' :
@@ -618,12 +618,12 @@ export default function AppealDetailPage() {
                   {OUTCOME_LABELS[appeal.outcome]}
                 </p>
                 {appeal.outcome_date && (
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-neutral-600 mt-1">
                     Decided on {new Date(appeal.outcome_date).toLocaleDateString()}
                   </p>
                 )}
                 {appeal.outcome_reason && (
-                  <p className="text-sm text-gray-700 mt-3">
+                  <p className="text-sm text-neutral-700 mt-3">
                     {appeal.outcome_reason}
                   </p>
                 )}
@@ -631,29 +631,29 @@ export default function AppealDetailPage() {
             )}
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-              <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
+            <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-6">
+              <h3 className="font-semibold text-neutral-900 mb-4">Quick Actions</h3>
               
               <div className="space-y-2">
                 <button
                   onClick={() => setShowTemplateSelector(true)}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-neutral-700 hover:bg-neutral-50 rounded-xl transition-colors"
                 >
-                  <FileText className="w-5 h-5 text-gray-400" />
+                  <FileText className="w-5 h-5 text-neutral-400" />
                   <span>Apply Template</span>
-                  <ChevronRight className="w-4 h-4 text-gray-300 ml-auto" />
+                  <ChevronRight className="w-4 h-4 text-neutral-300 ml-auto" />
                 </button>
 
-                <button className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-xl transition-colors">
-                  <Paperclip className="w-5 h-5 text-gray-400" />
+                <button className="w-full flex items-center gap-3 px-4 py-3 text-left text-neutral-700 hover:bg-neutral-50 rounded-xl transition-colors">
+                  <Paperclip className="w-5 h-5 text-neutral-400" />
                   <span>Attach Documents</span>
-                  <ChevronRight className="w-4 h-4 text-gray-300 ml-auto" />
+                  <ChevronRight className="w-4 h-4 text-neutral-300 ml-auto" />
                 </button>
 
-                <button className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-xl transition-colors">
-                  <MessageSquare className="w-5 h-5 text-gray-400" />
+                <button className="w-full flex items-center gap-3 px-4 py-3 text-left text-neutral-700 hover:bg-neutral-50 rounded-xl transition-colors">
+                  <MessageSquare className="w-5 h-5 text-neutral-400" />
                   <span>Add Note</span>
-                  <ChevronRight className="w-4 h-4 text-gray-300 ml-auto" />
+                  <ChevronRight className="w-4 h-4 text-neutral-300 ml-auto" />
                 </button>
               </div>
             </div>
@@ -700,10 +700,10 @@ export default function AppealDetailPage() {
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Send className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">
+                <h3 className="text-lg font-semibold text-neutral-900 text-center mb-2">
                   Submit Appeal?
                 </h3>
-                <p className="text-gray-500 text-center mb-6">
+                <p className="text-neutral-500 text-center mb-6">
                   This will mark the appeal as submitted. Make sure all documents and the appeal letter are complete.
                 </p>
 
@@ -711,32 +711,32 @@ export default function AppealDetailPage() {
                   <button
                     onClick={() => handleSubmitAppeal('portal')}
                     disabled={saving}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-left hover:bg-gray-50 transition-colors"
+                    className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-left hover:bg-neutral-50 transition-colors"
                   >
-                    <p className="font-medium text-gray-900">Submit via Payer Portal</p>
-                    <p className="text-sm text-gray-500">Manually submit through the payer's online portal</p>
+                    <p className="font-medium text-neutral-900">Submit via Payer Portal</p>
+                    <p className="text-sm text-neutral-500">Manually submit through the payer's online portal</p>
                   </button>
                   <button
                     onClick={() => handleSubmitAppeal('fax')}
                     disabled={saving}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-left hover:bg-gray-50 transition-colors"
+                    className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-left hover:bg-neutral-50 transition-colors"
                   >
-                    <p className="font-medium text-gray-900">Submit via Fax</p>
-                    <p className="text-sm text-gray-500">Fax the appeal to the payer</p>
+                    <p className="font-medium text-neutral-900">Submit via Fax</p>
+                    <p className="text-sm text-neutral-500">Fax the appeal to the payer</p>
                   </button>
                   <button
                     onClick={() => handleSubmitAppeal('mail')}
                     disabled={saving}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-left hover:bg-gray-50 transition-colors"
+                    className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-left hover:bg-neutral-50 transition-colors"
                   >
-                    <p className="font-medium text-gray-900">Submit via Mail</p>
-                    <p className="text-sm text-gray-500">Send the appeal by postal mail</p>
+                    <p className="font-medium text-neutral-900">Submit via Mail</p>
+                    <p className="text-sm text-neutral-500">Send the appeal by postal mail</p>
                   </button>
                 </div>
 
                 <button
                   onClick={() => setShowSubmitConfirm(false)}
-                  className="w-full px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                  className="w-full px-4 py-2 text-neutral-600 hover:text-neutral-800 transition-colors"
                 >
                   Cancel
                 </button>

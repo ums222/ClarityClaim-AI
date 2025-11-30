@@ -138,10 +138,10 @@ export function SessionManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
             Active Sessions
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             Manage your active sessions and login history
           </p>
         </div>
@@ -201,19 +201,19 @@ export function SessionManagement() {
                     className={`p-3 rounded-lg ${
                       session.is_current
                         ? 'bg-emerald-100 dark:bg-emerald-900/30'
-                        : 'bg-slate-100 dark:bg-slate-800'
+                        : 'bg-neutral-100 dark:bg-neutral-800'
                     }`}
                   >
                     {getDeviceIcon(session.device_type)}
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="font-medium text-slate-900 dark:text-white">
+                      <h4 className="font-medium text-neutral-900 dark:text-white">
                         {session.device_name || `${session.browser} on ${session.os}`}
                       </h4>
                       {getStatusBadge(session)}
                     </div>
-                    <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500 dark:text-slate-400">
+                    <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400">
                       <span className="flex items-center gap-1">
                         <Globe className="w-4 h-4" />
                         {session.ip_address || 'Unknown IP'}
@@ -231,7 +231,7 @@ export function SessionManagement() {
                         Last active {formatRelativeTime(session.last_active_at)}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-neutral-400 mt-1">
                       Session started {formatDate(session.created_at)}
                     </p>
                   </div>
@@ -263,8 +263,8 @@ export function SessionManagement() {
 
         {sessions.length === 0 && (
           <Card className="p-8 text-center">
-            <Monitor className="w-12 h-12 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
-            <p className="text-slate-500 dark:text-slate-400">
+            <Monitor className="w-12 h-12 mx-auto text-neutral-300 dark:text-neutral-600 mb-4" />
+            <p className="text-neutral-500 dark:text-neutral-400">
               No active sessions found
             </p>
           </Card>
@@ -280,13 +280,13 @@ export function SessionManagement() {
             exit={{ opacity: 0, height: 0 }}
           >
             <Card className="p-6">
-              <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+              <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
                 Recent Login History
               </h4>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    <tr className="text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                       <th className="pb-3">Time</th>
                       <th className="pb-3">Status</th>
                       <th className="pb-3">Method</th>
@@ -295,10 +295,10 @@ export function SessionManagement() {
                       <th className="pb-3">2FA</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                  <tbody className="divide-y divide-neutral-200 dark:divide-neutral-700">
                     {loginHistory.map((entry) => (
                       <tr key={entry.id}>
-                        <td className="py-3 text-sm text-slate-900 dark:text-white">
+                        <td className="py-3 text-sm text-neutral-900 dark:text-white">
                           {formatRelativeTime(entry.created_at)}
                         </td>
                         <td className="py-3">
@@ -314,16 +314,16 @@ export function SessionManagement() {
                             {entry.status}
                           </span>
                         </td>
-                        <td className="py-3 text-sm text-slate-600 dark:text-slate-400 capitalize">
+                        <td className="py-3 text-sm text-neutral-600 dark:text-neutral-400 capitalize">
                           {entry.login_type}
                         </td>
-                        <td className="py-3 text-sm text-slate-600 dark:text-slate-400">
+                        <td className="py-3 text-sm text-neutral-600 dark:text-neutral-400">
                           {[entry.location_city, entry.location_country]
                             .filter(Boolean)
                             .join(', ') || '-'}
                         </td>
                         <td className="py-3">
-                          <code className="text-xs text-slate-500">
+                          <code className="text-xs text-neutral-500">
                             {entry.ip_address || '-'}
                           </code>
                         </td>
@@ -333,7 +333,7 @@ export function SessionManagement() {
                               <Check className="w-4 h-4" />
                             </span>
                           ) : (
-                            <span className="text-slate-400">-</span>
+                            <span className="text-neutral-400">-</span>
                           )}
                         </td>
                       </tr>
@@ -348,43 +348,43 @@ export function SessionManagement() {
 
       {/* Session Timeout Settings Info */}
       <Card className="p-6">
-        <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
           Session Security Settings
         </h4>
         <div className="grid gap-4 md:grid-cols-3">
-          <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+          <div className="p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="w-5 h-5 text-indigo-500" />
-              <h5 className="font-medium text-slate-900 dark:text-white">
+              <h5 className="font-medium text-neutral-900 dark:text-white">
                 Idle Timeout
               </h5>
             </div>
             <p className="text-2xl font-bold text-indigo-600">30 min</p>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-neutral-500 mt-1">
               Sessions expire after 30 minutes of inactivity
             </p>
           </div>
-          <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+          <div className="p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="w-5 h-5 text-purple-500" />
-              <h5 className="font-medium text-slate-900 dark:text-white">
+              <h5 className="font-medium text-neutral-900 dark:text-white">
                 Max Duration
               </h5>
             </div>
             <p className="text-2xl font-bold text-purple-600">12 hours</p>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-neutral-500 mt-1">
               Sessions auto-expire after 12 hours maximum
             </p>
           </div>
-          <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+          <div className="p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <Monitor className="w-5 h-5 text-emerald-500" />
-              <h5 className="font-medium text-slate-900 dark:text-white">
+              <h5 className="font-medium text-neutral-900 dark:text-white">
                 Concurrent Sessions
               </h5>
             </div>
             <p className="text-2xl font-bold text-emerald-600">3 max</p>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-neutral-500 mt-1">
               Maximum 3 active sessions per user
             </p>
           </div>
