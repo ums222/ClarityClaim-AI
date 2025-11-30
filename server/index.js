@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { existsSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 import { isSupabaseConfigured } from './lib/supabase.js';
 import { demoRequestsService, contactSubmissionsService, newsletterService } from './lib/database.js';
 import { isHubSpotConfigured, syncDemoRequestToHubSpot } from './lib/hubspot.js';
@@ -30,12 +30,36 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files in production
 const distPath = join(__dirname, '..', 'dist');
-if (isProduction && existsSync(distPath)) {
-  app.use(express.static(distPath));
+console.log('📂 Static files path:', distPath);
+console.log('📂 Dist exists:', existsSync(distPath));
+
+if (existsSync(distPath)) {
+  // Serve static files with proper MIME types
+  app.use(express.static(distPath, {
+    maxAge: isProduction ? '1d' : 0,
+    etag: true,
+    index: false, // Don't auto-serve index.html, let SPA fallback handle it
+  }));
+  console.log('✅ Static file middleware registered');
 }
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+  let distFiles = [];
+  let assetsFiles = [];
+  
+  try {
+    if (existsSync(distPath)) {
+      distFiles = readdirSync(distPath);
+    }
+    const assetsPath = join(distPath, 'assets');
+    if (existsSync(assetsPath)) {
+      assetsFiles = readdirSync(assetsPath);
+    }
+  } catch (e) {
+    distFiles = ['error: ' + e.message];
+  }
+  
   res.json({ 
     status: 'ok', 
     timestamp: new Date().toISOString(),
@@ -44,7 +68,9 @@ app.get('/api/health', (req, res) => {
     hubspot: isHubSpotConfigured() ? 'connected' : 'not configured',
     environment: process.env.NODE_ENV || 'development',
     distExists: existsSync(distPath),
-    distPath: distPath
+    distPath: distPath,
+    distFiles: distFiles,
+    assetsFiles: assetsFiles
   });
 });
 
@@ -295,13 +321,21 @@ app.use((err, req, res, next) => {
 // SPA fallback - serve index.html for client-side routing in production
 if (isProduction && existsSync(distPath)) {
   app.get('*', (req, res) => {
-    // Don't serve index.html for API routes
+    // Don't serve index.html for API routes or static assets
     if (req.path.startsWith('/api')) {
       return res.status(404).json({
         error: 'Not found',
         message: `Route ${req.method} ${req.path} not found`
       });
     }
+    
+    // Check if it's a static file request (has file extension)
+    if (req.path.match(/\.\w+$/)) {
+      // It's a file request but file wasn't found by static middleware
+      return res.status(404).send('File not found');
+    }
+    
+    // For all other routes, serve index.html (SPA routing)
     res.sendFile(join(distPath, 'index.html'));
   });
 } else {
