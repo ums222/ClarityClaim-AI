@@ -41,7 +41,10 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     service: 'ClarityClaim AI Backend',
     database: isSupabaseConfigured() ? 'connected' : 'not configured',
-    hubspot: isHubSpotConfigured() ? 'connected' : 'not configured'
+    hubspot: isHubSpotConfigured() ? 'connected' : 'not configured',
+    environment: process.env.NODE_ENV || 'development',
+    distExists: existsSync(distPath),
+    distPath: distPath
   });
 });
 
