@@ -1,20 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Bot,
   X,
   Send,
   Sparkles,
-  FileText,
   AlertTriangle,
-  CheckCircle2,
   Loader2,
   Scale,
   TrendingUp,
   Zap,
   Copy,
   Download,
-  ChevronDown,
   Brain,
 } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
@@ -28,7 +24,7 @@ interface Message {
   content: string;
   timestamp: Date;
   type?: 'text' | 'appeal' | 'analysis' | 'action';
-  data?: Record<string, unknown>;
+  data?: { letter?: string; [key: string]: unknown };
 }
 
 interface QuickAction {
@@ -425,13 +421,13 @@ export function AIAssistant({ isOpen, onClose, claimId, claimData }: AIAssistant
                 </div>
                 
                 {/* Action buttons for appeal messages */}
-                {message.type === 'appeal' && message.data?.letter && (
+                {message.type === 'appeal' && message.data?.letter && typeof message.data.letter === 'string' && (
                   <div className="flex gap-2 mt-3 pt-3 border-t border-current/20">
                     <Button
                       size="sm"
                       variant="ghost"
                       className="text-xs"
-                      onClick={() => handleCopyAppeal(message.data?.letter as string)}
+                      onClick={() => handleCopyAppeal(message.data!.letter as string)}
                     >
                       <Copy className="h-3 w-3 mr-1" />
                       Copy
@@ -440,7 +436,7 @@ export function AIAssistant({ isOpen, onClose, claimId, claimData }: AIAssistant
                       size="sm"
                       variant="ghost"
                       className="text-xs"
-                      onClick={() => handleDownloadAppeal(message.data?.letter as string)}
+                      onClick={() => handleDownloadAppeal(message.data!.letter as string)}
                     >
                       <Download className="h-3 w-3 mr-1" />
                       Download
