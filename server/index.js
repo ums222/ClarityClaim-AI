@@ -40,6 +40,92 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === 'production';
 
+// Ensure correct IP detection when behind proxies/load balancers
+app.set('trust proxy', 1);
+
+// Lightweight in-memory rate limiter (fallback for environments without external cache)
+const createRateLimiter = ({ windowMs, max, message, name }) => {
+  const hits = new Map();
+  const cleanup = () => {
+    const threshold = Date.now() - windowMs;
+    for (const [key, entry] of hits.entries()) {
+      if (entry.firstRequestTime < threshold) {
+        hits.delete(key);
+      }
+    }
+  };
+
+  setInterval(cleanup, windowMs).unref?.();
+
+  return (req, res, next) => {
+    const now = Date.now();
+    const key = req.ip || req.connection.remoteAddress;
+    const windowStart = now - windowMs;
+
+    const entry = hits.get(key) || { count: 0, firstRequestTime: now };
+    if (entry.firstRequestTime < windowStart) {
+      entry.count = 0;
+      entry.firstRequestTime = now;
+    }
+
+    entry.count += 1;
+    hits.set(key, entry);
+
+    if (entry.count > max) {
+      return res.status(429).json({
+        error: 'Too many requests',
+        message: message || `Too many ${name || 'requests'} from this IP. Please try again later.`,
+      });
+    }
+
+    return next();
+  };
+};
+
+const formLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  name: 'form submissions',
+  message: 'Too many form submissions from this IP. Please try again in 15 minutes.',
+});
+
+const newsletterLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  name: 'newsletter actions',
+  message: 'Too many newsletter requests from this IP. Please slow down and try again soon.',
+});
+
+const billingLimiter = createRateLimiter({
+  windowMs: 5 * 60 * 1000,
+  max: 30,
+  name: 'billing requests',
+  message: 'Too many billing requests from this IP. Please wait a few minutes before trying again.',
+});
+
+// Optional, lightweight verification layer to filter bot submissions without breaking existing clients.
+// Enable by setting REQUIRE_FORM_VERIFICATION=true and providing a captchaToken or email verification flow on the frontend.
+const requireFormVerification = (req, res, next) => {
+  // Honeypot field check to block basic bots while remaining invisible to legitimate clients
+  if (req.body?.honeypot || req.body?.botField) {
+    return res.status(400).json({
+      error: 'Invalid submission detected',
+      message: 'Bot-like activity detected. If this is a mistake, please resubmit.',
+    });
+  }
+
+  if (process.env.REQUIRE_FORM_VERIFICATION === 'true') {
+    if (!req.body?.captchaToken && !req.body?.emailVerificationCode) {
+      return res.status(400).json({
+        error: 'Verification required',
+        message: 'Please complete the verification challenge before submitting.',
+      });
+    }
+  }
+
+  return next();
+};
+
 // Middleware
 app.use(cors({
   origin: isProduction ? true : (process.env.FRONTEND_URL || 'http://localhost:5173'),
@@ -64,7 +150,7 @@ if (existsSync(distPath)) {
 }
 
 // Demo request endpoint
-app.post('/api/demo-request', async (req, res) => {
+app.post('/api/demo-request', formLimiter, requireFormVerification, async (req, res) => {
   try {
     const { 
       fullName, 
@@ -155,7 +241,7 @@ app.post('/api/demo-request', async (req, res) => {
 });
 
 // Contact form endpoint
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', formLimiter, requireFormVerification, async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
 
@@ -212,7 +298,7 @@ app.post('/api/contact', async (req, res) => {
 });
 
 // Newsletter subscription endpoint
-app.post('/api/newsletter/subscribe', async (req, res) => {
+app.post('/api/newsletter/subscribe', newsletterLimiter, requireFormVerification, async (req, res) => {
   try {
     const { email, name } = req.body;
 
@@ -266,7 +352,7 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
 });
 
 // Newsletter unsubscribe endpoint
-app.post('/api/newsletter/unsubscribe', async (req, res) => {
+app.post('/api/newsletter/unsubscribe', newsletterLimiter, requireFormVerification, async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -3213,7 +3299,7 @@ app.get('/api/security/encryption', async (req, res) => {
 // ============================================
 
 // Get subscription plans
-app.get('/api/billing/plans', async (req, res) => {
+app.get('/api/billing/plans', billingLimiter, async (req, res) => {
   try {
     const supabase = getSupabaseClient();
     if (!supabase) {
@@ -3235,7 +3321,7 @@ app.get('/api/billing/plans', async (req, res) => {
 });
 
 // Get current subscription
-app.get('/api/billing/subscription', async (req, res) => {
+app.get('/api/billing/subscription', billingLimiter, async (req, res) => {
   try {
     const supabase = getSupabaseClient();
     if (!supabase) {
@@ -3290,7 +3376,7 @@ app.get('/api/billing/subscription', async (req, res) => {
 });
 
 // Get usage for current billing period
-app.get('/api/billing/usage', async (req, res) => {
+app.get('/api/billing/usage', billingLimiter, async (req, res) => {
   try {
     const supabase = getSupabaseClient();
     if (!supabase) {
@@ -3354,7 +3440,7 @@ app.get('/api/billing/usage', async (req, res) => {
 });
 
 // Create checkout session
-app.post('/api/billing/checkout', async (req, res) => {
+app.post('/api/billing/checkout', billingLimiter, async (req, res) => {
   try {
     if (!isStripeConfigured()) {
       return res.status(503).json({ error: 'Payment processing not configured' });
@@ -3432,7 +3518,7 @@ app.post('/api/billing/checkout', async (req, res) => {
 });
 
 // Create portal session
-app.post('/api/billing/portal', async (req, res) => {
+app.post('/api/billing/portal', billingLimiter, async (req, res) => {
   try {
     if (!isStripeConfigured()) {
       return res.status(503).json({ error: 'Payment processing not configured' });
@@ -3492,7 +3578,7 @@ app.post('/api/billing/portal', async (req, res) => {
 });
 
 // Get invoices
-app.get('/api/billing/invoices', async (req, res) => {
+app.get('/api/billing/invoices', billingLimiter, async (req, res) => {
   try {
     const supabase = getSupabaseClient();
     if (!supabase) {
@@ -3589,7 +3675,7 @@ app.get('/api/billing/invoices', async (req, res) => {
 });
 
 // Get payment methods
-app.get('/api/billing/payment-methods', async (req, res) => {
+app.get('/api/billing/payment-methods', billingLimiter, async (req, res) => {
   try {
     const supabase = getSupabaseClient();
     if (!supabase) {
@@ -3684,7 +3770,7 @@ app.get('/api/billing/payment-methods', async (req, res) => {
 });
 
 // Create setup intent for adding payment method
-app.post('/api/billing/setup-intent', async (req, res) => {
+app.post('/api/billing/setup-intent', billingLimiter, async (req, res) => {
   try {
     if (!isStripeConfigured()) {
       return res.status(503).json({ error: 'Payment processing not configured' });
@@ -3760,7 +3846,7 @@ app.post('/api/billing/setup-intent', async (req, res) => {
 });
 
 // Set default payment method
-app.post('/api/billing/payment-methods/:id/default', async (req, res) => {
+app.post('/api/billing/payment-methods/:id/default', billingLimiter, async (req, res) => {
   try {
     if (!isStripeConfigured()) {
       return res.status(503).json({ error: 'Payment processing not configured' });
@@ -3832,7 +3918,7 @@ app.post('/api/billing/payment-methods/:id/default', async (req, res) => {
 });
 
 // Delete payment method
-app.delete('/api/billing/payment-methods/:id', async (req, res) => {
+app.delete('/api/billing/payment-methods/:id', billingLimiter, async (req, res) => {
   try {
     if (!isStripeConfigured()) {
       return res.status(503).json({ error: 'Payment processing not configured' });
@@ -3892,7 +3978,7 @@ app.delete('/api/billing/payment-methods/:id', async (req, res) => {
 });
 
 // Cancel subscription
-app.post('/api/billing/cancel', async (req, res) => {
+app.post('/api/billing/cancel', billingLimiter, async (req, res) => {
   try {
     if (!isStripeConfigured()) {
       return res.status(503).json({ error: 'Payment processing not configured' });
@@ -3954,7 +4040,7 @@ app.post('/api/billing/cancel', async (req, res) => {
 });
 
 // Resume subscription
-app.post('/api/billing/resume', async (req, res) => {
+app.post('/api/billing/resume', billingLimiter, async (req, res) => {
   try {
     if (!isStripeConfigured()) {
       return res.status(503).json({ error: 'Payment processing not configured' });
@@ -4014,6 +4100,7 @@ app.post('/api/billing/resume', async (req, res) => {
 });
 
 // Stripe webhook handler
+// Stripe webhooks rely on retries; keep route unrestricted while still validating signatures.
 app.post('/api/billing/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
     const sig = req.headers['stripe-signature'];
@@ -4102,7 +4189,7 @@ app.post('/api/billing/webhook', express.raw({ type: 'application/json' }), asyn
 });
 
 // Billing status endpoint
-app.get('/api/billing/status', (req, res) => {
+app.get('/api/billing/status', billingLimiter, (req, res) => {
   res.json({
     stripe_configured: isStripeConfigured(),
     webhook_configured: !!process.env.STRIPE_WEBHOOK_SECRET,
