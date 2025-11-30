@@ -39,13 +39,29 @@ import TermsPage from "./pages/TermsPage";
 import HipaaPage from "./pages/HipaaPage";
 import CookiesPage from "./pages/CookiesPage";
 
+// Check if we're on the app subdomain (app.apclaims.net or Railway URL)
+const isAppSubdomain = () => {
+  const hostname = window.location.hostname;
+  return hostname.startsWith('app.') || 
+         hostname.includes('railway.app') ||
+         import.meta.env.VITE_IS_APP === 'true';
+};
+
+// Home page component - shows login on app subdomain, landing page on www
+const HomePage = () => {
+  if (isAppSubdomain()) {
+    return <Navigate to="/login" replace />;
+  }
+  return <LandingPage />;
+};
+
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <Routes>
-          {/* Public Landing/Marketing Routes */}
-          <Route path="/" element={<LandingPage />} />
+          {/* Home - redirects to login on app subdomain, shows landing on www */}
+          <Route path="/" element={<HomePage />} />
           
           {/* Auth Routes */}
           <Route path="/login" element={<LoginPage />} />
