@@ -19,6 +19,7 @@ import AppealDetailPage from "./pages/app/AppealDetailPage";
 import AppealTemplatesPage from "./pages/app/AppealTemplatesPage";
 import SettingsPage from "./pages/app/SettingsPage";
 import AppIntegrationsPage from "./pages/app/IntegrationsPage";
+import BillingPage from "./pages/app/BillingPage";
 
 // Protected Route
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -155,6 +156,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AppIntegrationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/billing"
+            element={
+              <ProtectedRoute>
+                <BillingPage />
               </ProtectedRoute>
             }
           />

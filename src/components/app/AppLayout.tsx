@@ -17,6 +17,7 @@ import {
   Bell,
   User,
   Plug,
+  CreditCard,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
@@ -35,6 +36,7 @@ const navigation = [
 ];
 
 const bottomNavigation = [
+  { name: 'Billing', href: '/app/billing', icon: CreditCard },
   { name: 'Settings', href: '/app/settings', icon: Settings },
   { name: 'Help', href: '/app/help', icon: HelpCircle },
 ];

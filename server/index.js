@@ -8,6 +8,25 @@ import { isSupabaseConfigured, getSupabaseClient } from './lib/supabase.js';
 import { demoRequestsService, contactSubmissionsService, newsletterService } from './lib/database.js';
 import { isHubSpotConfigured, syncDemoRequestToHubSpot } from './lib/hubspot.js';
 import { isAIConfigured, predictDenialRisk, generateAppealLetter, analyzePatterns, getRiskFactorDefinitions } from './lib/ai.js';
+import {
+  isStripeConfigured,
+  getStripeClient,
+  getOrCreateCustomer,
+  createCheckoutSession,
+  createPortalSession,
+  createSetupIntent,
+  getSubscription,
+  updateSubscription,
+  cancelSubscription,
+  resumeSubscription,
+  getCustomerInvoices,
+  getPaymentMethods,
+  setDefaultPaymentMethod,
+  deletePaymentMethod,
+  verifyWebhookSignature,
+  getUpcomingInvoice,
+  PLANS,
+} from './lib/stripe.js';
 
 // Load environment variables from server directory
 const __filename = fileURLToPath(import.meta.url);
@@ -2206,6 +2225,907 @@ app.get('/api/settings/audit-logs', async (req, res) => {
     console.error('Error fetching audit logs:', error);
     res.status(500).json({ error: 'Failed to fetch audit logs', message: error.message });
   }
+});
+
+// ============================================
+// Billing & Subscription API Endpoints
+// ============================================
+
+// Get subscription plans
+app.get('/api/billing/plans', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const { data: plans, error } = await supabase
+      .from('subscription_plans')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true });
+
+    if (error) throw error;
+    res.json(plans || Object.keys(PLANS).map(id => ({ id, ...PLANS[id] })));
+  } catch (error) {
+    console.error('Error fetching plans:', error);
+    res.status(500).json({ error: 'Failed to fetch plans' });
+  }
+});
+
+// Get current subscription
+app.get('/api/billing/subscription', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    const { data: subscription, error: subError } = await supabase
+      .from('subscriptions')
+      .select(`
+        *,
+        plan:subscription_plans(*)
+      `)
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (subError && subError.code !== 'PGRST116') throw subError;
+
+    // If no subscription, return free plan
+    if (!subscription) {
+      return res.json({
+        plan_id: 'free',
+        status: 'active',
+        plan: { id: 'free', name: 'Free', ...PLANS.free },
+      });
+    }
+
+    res.json(subscription);
+  } catch (error) {
+    console.error('Error fetching subscription:', error);
+    res.status(500).json({ error: 'Failed to fetch subscription' });
+  }
+});
+
+// Get usage for current billing period
+app.get('/api/billing/usage', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    // Get current usage record
+    const { data: usage, error: usageError } = await supabase
+      .from('usage_records')
+      .select('*')
+      .eq('organization_id', profile.organization_id)
+      .eq('is_current', true)
+      .single();
+
+    if (usageError && usageError.code !== 'PGRST116') throw usageError;
+
+    // If no usage record, return zeros
+    if (!usage) {
+      const now = new Date();
+      const periodStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      const periodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      
+      return res.json({
+        period_start: periodStart.toISOString(),
+        period_end: periodEnd.toISOString(),
+        claims_processed: 0,
+        claims_submitted: 0,
+        appeals_created: 0,
+        appeals_submitted: 0,
+        ai_predictions: 0,
+        ai_letters_generated: 0,
+        api_requests: 0,
+      });
+    }
+
+    res.json(usage);
+  } catch (error) {
+    console.error('Error fetching usage:', error);
+    res.status(500).json({ error: 'Failed to fetch usage' });
+  }
+});
+
+// Create checkout session
+app.post('/api/billing/checkout', async (req, res) => {
+  try {
+    if (!isStripeConfigured()) {
+      return res.status(503).json({ error: 'Payment processing not configured' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { priceId, successUrl, cancelUrl } = req.body;
+    if (!priceId || !successUrl || !cancelUrl) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { data: organization } = await supabase
+      .from('organizations')
+      .select('*')
+      .eq('id', profile.organization_id)
+      .single();
+
+    // Get or create Stripe customer
+    const customer = await getOrCreateCustomer(
+      profile.organization_id,
+      organization,
+      user.email
+    );
+
+    // Update subscription with Stripe customer ID
+    await supabase
+      .from('subscriptions')
+      .upsert({
+        organization_id: profile.organization_id,
+        stripe_customer_id: customer.id,
+      }, { onConflict: 'organization_id' });
+
+    // Create checkout session
+    const session = await createCheckoutSession(
+      customer.id,
+      priceId,
+      profile.organization_id,
+      successUrl,
+      cancelUrl
+    );
+
+    res.json({ sessionId: session.id, url: session.url });
+  } catch (error) {
+    console.error('Error creating checkout session:', error);
+    res.status(500).json({ error: 'Failed to create checkout session' });
+  }
+});
+
+// Create portal session
+app.post('/api/billing/portal', async (req, res) => {
+  try {
+    if (!isStripeConfigured()) {
+      return res.status(503).json({ error: 'Payment processing not configured' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { returnUrl } = req.body;
+    if (!returnUrl) {
+      return res.status(400).json({ error: 'Return URL required' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('stripe_customer_id')
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (!subscription?.stripe_customer_id) {
+      return res.status(404).json({ error: 'No billing account found' });
+    }
+
+    const session = await createPortalSession(subscription.stripe_customer_id, returnUrl);
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error('Error creating portal session:', error);
+    res.status(500).json({ error: 'Failed to create portal session' });
+  }
+});
+
+// Get invoices
+app.get('/api/billing/invoices', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    // Get from database first
+    const { data: invoices, error: invoicesError } = await supabase
+      .from('invoices')
+      .select('*')
+      .eq('organization_id', profile.organization_id)
+      .order('invoice_date', { ascending: false })
+      .limit(20);
+
+    if (invoicesError) throw invoicesError;
+
+    // If Stripe is configured and we have a customer, get latest from Stripe
+    if (isStripeConfigured()) {
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('stripe_customer_id')
+        .eq('organization_id', profile.organization_id)
+        .single();
+
+      if (subscription?.stripe_customer_id) {
+        try {
+          const stripeInvoices = await getCustomerInvoices(subscription.stripe_customer_id, 20);
+          
+          // Sync Stripe invoices to database
+          for (const inv of stripeInvoices) {
+            await supabase
+              .from('invoices')
+              .upsert({
+                organization_id: profile.organization_id,
+                stripe_invoice_id: inv.id,
+                invoice_number: inv.number,
+                status: inv.status,
+                subtotal: inv.subtotal,
+                tax: inv.tax || 0,
+                total: inv.total,
+                amount_due: inv.amount_due,
+                amount_paid: inv.amount_paid,
+                currency: inv.currency,
+                invoice_date: new Date(inv.created * 1000).toISOString(),
+                due_date: inv.due_date ? new Date(inv.due_date * 1000).toISOString() : null,
+                paid_at: inv.status_transitions?.paid_at ? new Date(inv.status_transitions.paid_at * 1000).toISOString() : null,
+                period_start: new Date(inv.period_start * 1000).toISOString(),
+                period_end: new Date(inv.period_end * 1000).toISOString(),
+                hosted_invoice_url: inv.hosted_invoice_url,
+                invoice_pdf_url: inv.invoice_pdf,
+              }, { onConflict: 'stripe_invoice_id' });
+          }
+
+          // Refresh from database
+          const { data: refreshedInvoices } = await supabase
+            .from('invoices')
+            .select('*')
+            .eq('organization_id', profile.organization_id)
+            .order('invoice_date', { ascending: false })
+            .limit(20);
+
+          return res.json(refreshedInvoices || []);
+        } catch (stripeError) {
+          console.error('Error fetching Stripe invoices:', stripeError);
+        }
+      }
+    }
+
+    res.json(invoices || []);
+  } catch (error) {
+    console.error('Error fetching invoices:', error);
+    res.status(500).json({ error: 'Failed to fetch invoices' });
+  }
+});
+
+// Get payment methods
+app.get('/api/billing/payment-methods', async (req, res) => {
+  try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    // Get from database first
+    const { data: paymentMethods, error: pmError } = await supabase
+      .from('payment_methods')
+      .select('*')
+      .eq('organization_id', profile.organization_id)
+      .order('is_default', { ascending: false });
+
+    if (pmError) throw pmError;
+
+    // If Stripe is configured, sync from Stripe
+    if (isStripeConfigured()) {
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('stripe_customer_id')
+        .eq('organization_id', profile.organization_id)
+        .single();
+
+      if (subscription?.stripe_customer_id) {
+        try {
+          const stripePMs = await getPaymentMethods(subscription.stripe_customer_id);
+          
+          // Get default payment method
+          const stripe = getStripeClient();
+          const customer = await stripe.customers.retrieve(subscription.stripe_customer_id);
+          const defaultPM = customer.invoice_settings?.default_payment_method;
+
+          // Sync to database
+          for (const pm of stripePMs) {
+            await supabase
+              .from('payment_methods')
+              .upsert({
+                organization_id: profile.organization_id,
+                stripe_payment_method_id: pm.id,
+                type: pm.type,
+                card_brand: pm.card?.brand,
+                card_last4: pm.card?.last4,
+                card_exp_month: pm.card?.exp_month,
+                card_exp_year: pm.card?.exp_year,
+                is_default: pm.id === defaultPM,
+              }, { onConflict: 'stripe_payment_method_id' });
+          }
+
+          // Refresh from database
+          const { data: refreshedPMs } = await supabase
+            .from('payment_methods')
+            .select('*')
+            .eq('organization_id', profile.organization_id)
+            .order('is_default', { ascending: false });
+
+          return res.json(refreshedPMs || []);
+        } catch (stripeError) {
+          console.error('Error fetching Stripe payment methods:', stripeError);
+        }
+      }
+    }
+
+    res.json(paymentMethods || []);
+  } catch (error) {
+    console.error('Error fetching payment methods:', error);
+    res.status(500).json({ error: 'Failed to fetch payment methods' });
+  }
+});
+
+// Create setup intent for adding payment method
+app.post('/api/billing/setup-intent', async (req, res) => {
+  try {
+    if (!isStripeConfigured()) {
+      return res.status(503).json({ error: 'Payment processing not configured' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('stripe_customer_id')
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    let customerId = subscription?.stripe_customer_id;
+
+    // Create customer if doesn't exist
+    if (!customerId) {
+      const { data: organization } = await supabase
+        .from('organizations')
+        .select('*')
+        .eq('id', profile.organization_id)
+        .single();
+
+      const customer = await getOrCreateCustomer(
+        profile.organization_id,
+        organization,
+        user.email
+      );
+      customerId = customer.id;
+
+      await supabase
+        .from('subscriptions')
+        .upsert({
+          organization_id: profile.organization_id,
+          stripe_customer_id: customerId,
+        }, { onConflict: 'organization_id' });
+    }
+
+    const setupIntent = await createSetupIntent(customerId);
+
+    res.json({ clientSecret: setupIntent.client_secret });
+  } catch (error) {
+    console.error('Error creating setup intent:', error);
+    res.status(500).json({ error: 'Failed to create setup intent' });
+  }
+});
+
+// Set default payment method
+app.post('/api/billing/payment-methods/:id/default', async (req, res) => {
+  try {
+    if (!isStripeConfigured()) {
+      return res.status(503).json({ error: 'Payment processing not configured' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('stripe_customer_id')
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (!subscription?.stripe_customer_id) {
+      return res.status(404).json({ error: 'No billing account found' });
+    }
+
+    const { data: paymentMethod } = await supabase
+      .from('payment_methods')
+      .select('stripe_payment_method_id')
+      .eq('id', req.params.id)
+      .single();
+
+    if (!paymentMethod) {
+      return res.status(404).json({ error: 'Payment method not found' });
+    }
+
+    await setDefaultPaymentMethod(subscription.stripe_customer_id, paymentMethod.stripe_payment_method_id);
+
+    // Update database
+    await supabase
+      .from('payment_methods')
+      .update({ is_default: false })
+      .eq('organization_id', profile.organization_id);
+
+    await supabase
+      .from('payment_methods')
+      .update({ is_default: true })
+      .eq('id', req.params.id);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error setting default payment method:', error);
+    res.status(500).json({ error: 'Failed to set default payment method' });
+  }
+});
+
+// Delete payment method
+app.delete('/api/billing/payment-methods/:id', async (req, res) => {
+  try {
+    if (!isStripeConfigured()) {
+      return res.status(503).json({ error: 'Payment processing not configured' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { data: paymentMethod } = await supabase
+      .from('payment_methods')
+      .select('stripe_payment_method_id, is_default')
+      .eq('id', req.params.id)
+      .single();
+
+    if (!paymentMethod) {
+      return res.status(404).json({ error: 'Payment method not found' });
+    }
+
+    if (paymentMethod.is_default) {
+      return res.status(400).json({ error: 'Cannot delete default payment method' });
+    }
+
+    await deletePaymentMethod(paymentMethod.stripe_payment_method_id);
+
+    await supabase
+      .from('payment_methods')
+      .delete()
+      .eq('id', req.params.id);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting payment method:', error);
+    res.status(500).json({ error: 'Failed to delete payment method' });
+  }
+});
+
+// Cancel subscription
+app.post('/api/billing/cancel', async (req, res) => {
+  try {
+    if (!isStripeConfigured()) {
+      return res.status(503).json({ error: 'Payment processing not configured' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { reason, immediate } = req.body;
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('stripe_subscription_id')
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (!subscription?.stripe_subscription_id) {
+      return res.status(404).json({ error: 'No active subscription' });
+    }
+
+    await cancelSubscription(subscription.stripe_subscription_id, !immediate);
+
+    await supabase
+      .from('subscriptions')
+      .update({
+        cancel_at_period_end: !immediate,
+        canceled_at: new Date().toISOString(),
+        cancellation_reason: reason,
+      })
+      .eq('organization_id', profile.organization_id);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error canceling subscription:', error);
+    res.status(500).json({ error: 'Failed to cancel subscription' });
+  }
+});
+
+// Resume subscription
+app.post('/api/billing/resume', async (req, res) => {
+  try {
+    if (!isStripeConfigured()) {
+      return res.status(503).json({ error: 'Payment processing not configured' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization required' });
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    if (authError || !user) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('organization_id, role')
+      .eq('id', user.id)
+      .single();
+
+    if (!['owner', 'admin'].includes(profile.role)) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('stripe_subscription_id')
+      .eq('organization_id', profile.organization_id)
+      .single();
+
+    if (!subscription?.stripe_subscription_id) {
+      return res.status(404).json({ error: 'No subscription to resume' });
+    }
+
+    await resumeSubscription(subscription.stripe_subscription_id);
+
+    await supabase
+      .from('subscriptions')
+      .update({
+        cancel_at_period_end: false,
+        canceled_at: null,
+        cancellation_reason: null,
+      })
+      .eq('organization_id', profile.organization_id);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error resuming subscription:', error);
+    res.status(500).json({ error: 'Failed to resume subscription' });
+  }
+});
+
+// Stripe webhook handler
+app.post('/api/billing/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  try {
+    const sig = req.headers['stripe-signature'];
+    const event = verifyWebhookSignature(req.body, sig);
+
+    if (!event) {
+      return res.status(400).json({ error: 'Invalid signature' });
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database not configured' });
+    }
+
+    // Log the event
+    await supabase
+      .from('billing_events')
+      .insert({
+        event_type: event.type,
+        stripe_event_id: event.id,
+        data: event.data,
+      });
+
+    // Handle specific events
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object;
+        const orgId = session.metadata?.organization_id;
+        
+        if (orgId && session.subscription) {
+          const stripeSubscription = await getSubscription(session.subscription);
+          
+          await supabase
+            .from('subscriptions')
+            .update({
+              stripe_subscription_id: session.subscription,
+              status: stripeSubscription.status,
+              current_period_start: new Date(stripeSubscription.current_period_start * 1000).toISOString(),
+              current_period_end: new Date(stripeSubscription.current_period_end * 1000).toISOString(),
+            })
+            .eq('organization_id', orgId);
+        }
+        break;
+      }
+      
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object;
+        const orgId = subscription.metadata?.organization_id;
+        
+        if (orgId) {
+          await supabase
+            .from('subscriptions')
+            .update({
+              status: subscription.status,
+              current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+              current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+              cancel_at_period_end: subscription.cancel_at_period_end,
+            })
+            .eq('organization_id', orgId);
+        }
+        break;
+      }
+      
+      case 'invoice.paid':
+      case 'invoice.payment_failed': {
+        const invoice = event.data.object;
+        
+        await supabase
+          .from('invoices')
+          .upsert({
+            stripe_invoice_id: invoice.id,
+            status: invoice.status,
+            amount_paid: invoice.amount_paid,
+            paid_at: invoice.status === 'paid' ? new Date().toISOString() : null,
+          }, { onConflict: 'stripe_invoice_id' });
+        break;
+      }
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Webhook error:', error);
+    res.status(400).json({ error: 'Webhook processing failed' });
+  }
+});
+
+// Billing status endpoint
+app.get('/api/billing/status', (req, res) => {
+  res.json({
+    stripe_configured: isStripeConfigured(),
+    webhook_configured: !!process.env.STRIPE_WEBHOOK_SECRET,
+  });
 });
 
 // Error handling middleware
