@@ -16,6 +16,7 @@ import {
   Moon,
   Bell,
   User,
+  Plug,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
@@ -30,6 +31,7 @@ const navigation = [
   { name: 'Claims', href: '/app/claims', icon: FileText },
   { name: 'Appeals', href: '/app/appeals', icon: Scale },
   { name: 'Analytics', href: '/app/analytics', icon: BarChart3 },
+  { name: 'Integrations', href: '/app/integrations', icon: Plug },
 ];
 
 const bottomNavigation = [
