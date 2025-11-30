@@ -40,6 +40,30 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === 'production';
 
+const getUserOrganizationContext = async (req, supabase) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return { error: { status: 401, body: { error: 'Authorization required' } } };
+  }
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+  if (authError || !user) {
+    return { error: { status: 401, body: { error: 'Invalid token' } } };
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from('user_profiles')
+    .select('organization_id')
+    .eq('id', user.id)
+    .single();
+
+  if (profileError || !profile?.organization_id) {
+    return { error: { status: 404, body: { error: 'Organization not found' } } };
+  }
+
+  return { user, organizationId: profile.organization_id };
+};
+
 // Middleware
 app.use(cors({
   origin: isProduction ? true : (process.env.FRONTEND_URL || 'http://localhost:5173'),
@@ -339,22 +363,41 @@ app.post('/api/claims/:id/predict-denial', async (req, res) => {
   try {
     const { id } = req.params;
     const supabase = getSupabaseClient();
-    
+
     if (!supabase) {
       return res.status(503).json({
         error: 'Database not configured',
         message: 'Supabase is not configured. Cannot fetch claim data.'
       });
     }
-    
+
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     // Fetch claim data
     const { data: claim, error } = await supabase
       .from('claims')
       .select('*')
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .single();
-    
+
     if (error || !claim) {
+      const { data: claimOrg } = await supabase
+        .from('claims')
+        .select('organization_id')
+        .eq('id', id)
+        .single();
+
+      if (claimOrg && claimOrg.organization_id !== organizationId) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'This claim does not belong to your organization.'
+        });
+      }
+
       return res.status(404).json({
         error: 'Claim not found',
         message: `No claim found with ID: ${id}`
@@ -374,7 +417,8 @@ app.post('/api/claims/:id/predict-denial', async (req, res) => {
         ai_recommendations: prediction.recommendations,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', id);
+      .eq('id', id)
+      .eq('organization_id', organizationId);
     
     res.json({
       success: true,
@@ -397,22 +441,41 @@ app.post('/api/claims/:id/generate-appeal', async (req, res) => {
     const { id } = req.params;
     const { denial_reason, denial_code, additional_context } = req.body;
     const supabase = getSupabaseClient();
-    
+
     if (!supabase) {
       return res.status(503).json({
         error: 'Database not configured',
         message: 'Supabase is not configured. Cannot fetch claim data.'
       });
     }
-    
+
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     // Fetch claim data
     const { data: claim, error } = await supabase
       .from('claims')
       .select('*')
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .single();
-    
+
     if (error || !claim) {
+      const { data: claimOrg } = await supabase
+        .from('claims')
+        .select('organization_id')
+        .eq('id', id)
+        .single();
+
+      if (claimOrg && claimOrg.organization_id !== organizationId) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'This claim does not belong to your organization.'
+        });
+      }
+
       return res.status(404).json({
         error: 'Claim not found',
         message: `No claim found with ID: ${id}`
@@ -530,30 +593,59 @@ app.post('/api/claims/bulk-predict', async (req, res) => {
         message: 'claimIds array is required'
       });
     }
-    
+
     const supabase = getSupabaseClient();
-    
+
     if (!supabase) {
       return res.status(503).json({
         error: 'Database not configured'
       });
     }
-    
+
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     // Fetch claims
     const { data: claims, error } = await supabase
       .from('claims')
       .select('*')
-      .in('id', claimIds);
-    
+      .in('id', claimIds)
+      .eq('organization_id', organizationId);
+
     if (error) {
       throw error;
     }
-    
+
+    const missingIds = claimIds.filter(id => !claims?.some(claim => claim.id === id));
+    if (missingIds.length > 0) {
+      const { data: missingClaims } = await supabase
+        .from('claims')
+        .select('id, organization_id')
+        .in('id', missingIds);
+
+      const unauthorizedIds = missingClaims?.filter(claim => claim.organization_id !== organizationId).map(claim => claim.id) || [];
+
+      if (unauthorizedIds.length > 0) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'One or more claims do not belong to your organization.',
+          unauthorizedIds,
+        });
+      }
+
+      return res.status(404).json({
+        error: 'Claims not found',
+        missingIds,
+      });
+    }
+
     // Process predictions in parallel (limit to 10 at a time)
     const results = [];
     for (const claim of claims) {
       const prediction = await predictDenialRisk(claim);
-      
+
       // Update claim
       await supabase
         .from('claims')
@@ -564,7 +656,8 @@ app.post('/api/claims/bulk-predict', async (req, res) => {
           ai_recommendations: prediction.recommendations,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', claim.id);
+        .eq('id', claim.id)
+        .eq('organization_id', organizationId);
       
       results.push({
         claimId: claim.id,
@@ -618,9 +711,14 @@ app.get('/api/appeals', async (req, res) => {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
-    const { 
-      status, 
-      outcome, 
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
+    const {
+      status,
+      outcome,
       priority,
       page = 1, 
       pageSize = 20,
@@ -635,6 +733,8 @@ app.get('/api/appeals', async (req, res) => {
         *,
         claim:claims(claim_number, patient_name, payer_name, service_date, billed_amount)
       `, { count: 'exact' });
+
+    query = query.eq('organization_id', organizationId);
 
     // Apply filters
     if (status) {
@@ -681,6 +781,11 @@ app.get('/api/appeals/:id', async (req, res) => {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     const { id } = req.params;
     const { data, error } = await supabase
       .from('appeals')
@@ -689,10 +794,23 @@ app.get('/api/appeals/:id', async (req, res) => {
         claim:claims(*)
       `)
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.code !== 'PGRST116') throw error;
+    }
     if (!data) {
+      const { data: appealOrg } = await supabase
+        .from('appeals')
+        .select('organization_id')
+        .eq('id', id)
+        .single();
+
+      if (appealOrg && appealOrg.organization_id !== organizationId) {
+        return res.status(403).json({ error: 'Forbidden', message: 'This appeal does not belong to your organization.' });
+      }
+
       return res.status(404).json({ error: 'Appeal not found' });
     }
 
@@ -751,6 +869,11 @@ app.put('/api/appeals/:id', async (req, res) => {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     const { id } = req.params;
     const updates = req.body;
 
@@ -759,12 +882,28 @@ app.put('/api/appeals/:id', async (req, res) => {
       .from('appeals')
       .select('*')
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .single();
+
+    if (!oldAppeal) {
+      const { data: appealOrg } = await supabase
+        .from('appeals')
+        .select('organization_id')
+        .eq('id', id)
+        .single();
+
+      if (appealOrg && appealOrg.organization_id !== organizationId) {
+        return res.status(403).json({ error: 'Forbidden', message: 'This appeal does not belong to your organization.' });
+      }
+
+      return res.status(404).json({ error: 'Appeal not found' });
+    }
 
     const { data, error } = await supabase
       .from('appeals')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .select()
       .single();
 
@@ -808,8 +947,27 @@ app.post('/api/appeals/:id/submit', async (req, res) => {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     const { id } = req.params;
     const { submission_method = 'portal' } = req.body;
+
+    const { data: appealOrg } = await supabase
+      .from('appeals')
+      .select('organization_id')
+      .eq('id', id)
+      .single();
+
+    if (!appealOrg) {
+      return res.status(404).json({ error: 'Appeal not found' });
+    }
+
+    if (appealOrg.organization_id !== organizationId) {
+      return res.status(403).json({ error: 'Forbidden', message: 'This appeal does not belong to your organization.' });
+    }
 
     const { data, error } = await supabase
       .from('appeals')
@@ -820,6 +978,7 @@ app.post('/api/appeals/:id/submit', async (req, res) => {
         updated_at: new Date().toISOString(),
       })
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .select()
       .single();
 
@@ -847,13 +1006,32 @@ app.post('/api/appeals/:id/outcome', async (req, res) => {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     const { id } = req.params;
     const { outcome, outcome_reason, amount_approved, amount_recovered, payer_response } = req.body;
 
-    const newStatus = outcome === 'approved' ? 'approved' 
+    const newStatus = outcome === 'approved' ? 'approved'
       : outcome === 'partially_approved' ? 'partially_approved'
       : outcome === 'denied' ? 'denied'
       : 'under_review';
+
+    const { data: appealOrg } = await supabase
+      .from('appeals')
+      .select('organization_id, claim_id')
+      .eq('id', id)
+      .single();
+
+    if (!appealOrg) {
+      return res.status(404).json({ error: 'Appeal not found' });
+    }
+
+    if (appealOrg.organization_id !== organizationId) {
+      return res.status(403).json({ error: 'Forbidden', message: 'This appeal does not belong to your organization.' });
+    }
 
     const { data, error } = await supabase
       .from('appeals')
@@ -869,6 +1047,7 @@ app.post('/api/appeals/:id/outcome', async (req, res) => {
         updated_at: new Date().toISOString(),
       })
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .select()
       .single();
 
@@ -889,7 +1068,8 @@ app.post('/api/appeals/:id/outcome', async (req, res) => {
           status: outcome === 'approved' ? 'appeal_won' : 'partially_paid',
           updated_at: new Date().toISOString(),
         })
-        .eq('id', data.claim_id);
+        .eq('id', data.claim_id)
+        .eq('organization_id', organizationId);
     }
 
     res.json({ success: true, appeal: data });
@@ -907,7 +1087,27 @@ app.get('/api/appeals/:id/activities', async (req, res) => {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     const { id } = req.params;
+
+    const { data: appealOrg } = await supabase
+      .from('appeals')
+      .select('organization_id')
+      .eq('id', id)
+      .single();
+
+    if (!appealOrg) {
+      return res.status(404).json({ error: 'Appeal not found' });
+    }
+
+    if (appealOrg.organization_id !== organizationId) {
+      return res.status(403).json({ error: 'Forbidden', message: 'This appeal does not belong to your organization.' });
+    }
+
     const { data, error } = await supabase
       .from('appeal_activities')
       .select('*')
@@ -931,6 +1131,11 @@ app.post('/api/appeals/:id/generate-letter', async (req, res) => {
       return res.status(503).json({ error: 'Database not configured' });
     }
 
+    const { error: authError, organizationId } = await getUserOrganizationContext(req, supabase);
+    if (authError) {
+      return res.status(authError.status).json(authError.body);
+    }
+
     const { id } = req.params;
     const { template_id, additional_context } = req.body;
 
@@ -939,9 +1144,20 @@ app.post('/api/appeals/:id/generate-letter', async (req, res) => {
       .from('appeals')
       .select(`*, claim:claims(*)`)
       .eq('id', id)
+      .eq('organization_id', organizationId)
       .single();
 
     if (appealError || !appeal) {
+      const { data: appealOrg } = await supabase
+        .from('appeals')
+        .select('organization_id')
+        .eq('id', id)
+        .single();
+
+      if (appealOrg && appealOrg.organization_id !== organizationId) {
+        return res.status(403).json({ error: 'Forbidden', message: 'This appeal does not belong to your organization.' });
+      }
+
       return res.status(404).json({ error: 'Appeal not found' });
     }
 
@@ -961,7 +1177,8 @@ app.post('/api/appeals/:id/generate-letter', async (req, res) => {
         ai_model: result.model,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', id);
+      .eq('id', id)
+      .eq('organization_id', organizationId);
 
     // Log activity
     await supabase.from('appeal_activities').insert({
