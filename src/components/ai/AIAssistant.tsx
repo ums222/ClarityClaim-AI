@@ -16,7 +16,11 @@ import {
 import { useTheme } from '../../hooks/useTheme';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
+import type { DenialPrediction, PatternAnalysis } from '../../lib/ai';
 import { aiService } from '../../lib/ai';
+
+type AppealData = { letter: string };
+type MessageData = AppealData | DenialPrediction | (PatternAnalysis & { success: boolean });
 
 interface Message {
   id: string;
@@ -24,8 +28,7 @@ interface Message {
   content: string;
   timestamp: Date;
   type?: 'text' | 'appeal' | 'analysis' | 'action';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
+  data?: MessageData;
 }
 
 interface QuickAction {
@@ -299,6 +302,9 @@ export function AIAssistant({ isOpen, onClose, claimId, claimData }: AIAssistant
     URL.revokeObjectURL(url);
   };
 
+  const isAppealData = (data: MessageData | undefined): data is AppealData =>
+    typeof data === 'object' && data !== null && 'letter' in data && typeof data.letter === 'string';
+
   const quickActions: QuickAction[] = [
     {
       id: 'analyze',
@@ -383,70 +389,76 @@ export function AIAssistant({ isOpen, onClose, claimId, claimData }: AIAssistant
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map((message) => (
-            <motion.div
-              key={message.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={cn(
-                "flex",
-                message.role === 'user' ? "justify-end" : "justify-start"
-              )}
-            >
-              <div className={cn(
-                "max-w-[85%] rounded-2xl px-4 py-3",
-                message.role === 'user'
-                  ? isDark
-                    ? "bg-teal-600 text-white"
-                    : "bg-teal-500 text-white"
-                  : isDark
-                    ? "bg-neutral-800 text-neutral-200"
-                    : "bg-neutral-100 text-neutral-800"
-              )}>
-                <div className="text-sm whitespace-pre-wrap prose prose-sm max-w-none dark:prose-invert">
-                  {message.content.split('\n').map((line, i) => {
-                    if (line.startsWith('## ')) {
-                      return <h2 key={i} className="text-base font-bold mt-2 mb-1">{line.replace('## ', '')}</h2>;
-                    }
-                    if (line.startsWith('### ')) {
-                      return <h3 key={i} className="text-sm font-semibold mt-2 mb-1">{line.replace('### ', '')}</h3>;
-                    }
-                    if (line.startsWith('**') && line.endsWith('**')) {
-                      return <p key={i} className="font-semibold">{line.replace(/\*\*/g, '')}</p>;
-                    }
-                    if (line.startsWith('---')) {
-                      return <hr key={i} className="my-2 border-current opacity-20" />;
-                    }
-                    return <p key={i} className="mb-1">{line.replace(/\*\*/g, '')}</p>;
-                  })}
-                </div>
-                
-                {/* Action buttons for appeal messages */}
-                {message.type === 'appeal' && message.data?.letter && typeof message.data.letter === 'string' && (
-                  <div className="flex gap-2 mt-3 pt-3 border-t border-current/20">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-xs"
-                      onClick={() => handleCopyAppeal(message.data!.letter as string)}
-                    >
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-xs"
-                      onClick={() => handleDownloadAppeal(message.data!.letter as string)}
-                    >
-                      <Download className="h-3 w-3 mr-1" />
-                      Download
-                    </Button>
+            {messages.map((message) => {
+              const appealData = message.type === 'appeal' && isAppealData(message.data)
+                ? message.data
+                : null;
+
+              return (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={cn(
+                    "flex",
+                    message.role === 'user' ? "justify-end" : "justify-start"
+                  )}
+                >
+                  <div className={cn(
+                    "max-w-[85%] rounded-2xl px-4 py-3",
+                    message.role === 'user'
+                      ? isDark
+                        ? "bg-teal-600 text-white"
+                        : "bg-teal-500 text-white"
+                      : isDark
+                        ? "bg-neutral-800 text-neutral-200"
+                        : "bg-neutral-100 text-neutral-800"
+                  )}>
+                    <div className="text-sm whitespace-pre-wrap prose prose-sm max-w-none dark:prose-invert">
+                      {message.content.split('\n').map((line, i) => {
+                        if (line.startsWith('## ')) {
+                          return <h2 key={i} className="text-base font-bold mt-2 mb-1">{line.replace('## ', '')}</h2>;
+                        }
+                        if (line.startsWith('### ')) {
+                          return <h3 key={i} className="text-sm font-semibold mt-2 mb-1">{line.replace('### ', '')}</h3>;
+                        }
+                        if (line.startsWith('**') && line.endsWith('**')) {
+                          return <p key={i} className="font-semibold">{line.replace(/\*\*/g, '')}</p>;
+                        }
+                        if (line.startsWith('---')) {
+                          return <hr key={i} className="my-2 border-current opacity-20" />;
+                        }
+                        return <p key={i} className="mb-1">{line.replace(/\*\*/g, '')}</p>;
+                      })}
+                    </div>
+
+                    {/* Action buttons for appeal messages */}
+                    {appealData && (
+                      <div className="flex gap-2 mt-3 pt-3 border-t border-current/20">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-xs"
+                          onClick={() => handleCopyAppeal(appealData.letter)}
+                        >
+                          <Copy className="h-3 w-3 mr-1" />
+                          Copy
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-xs"
+                          onClick={() => handleDownloadAppeal(appealData.letter)}
+                        >
+                          <Download className="h-3 w-3 mr-1" />
+                          Download
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                </motion.div>
+              );
+            })}
           
           {isLoading && (
             <motion.div
