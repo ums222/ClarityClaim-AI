@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Plug,
-  Building2,
   CheckCircle2,
   AlertTriangle,
   XCircle,

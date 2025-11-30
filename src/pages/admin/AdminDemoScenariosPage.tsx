@@ -8,9 +8,7 @@ import {
   ArrowRight,
   Play,
   Star,
-  FileText,
   DollarSign,
-  AlertTriangle,
   CheckCircle2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -375,17 +373,17 @@ const AdminDemoScenariosPage = () => {
                     {/* Actions */}
                     <div className="px-5 pb-5">
                       <div className="flex gap-2">
-                        <Button asChild className="flex-1">
-                          <Link to={scenario.targetUrl}>
+                        <Link to={scenario.targetUrl} className="flex-1">
+                          <Button className="w-full">
                             <Play className="h-4 w-4 mr-2" />
                             Start Demo
-                          </Link>
-                        </Button>
-                        <Button variant="outline" asChild>
-                          <Link to={scenario.targetUrl}>
+                          </Button>
+                        </Link>
+                        <Link to={scenario.targetUrl}>
+                          <Button variant="outline">
                             <ArrowRight className="h-4 w-4" />
-                          </Link>
-                        </Button>
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </Card>
@@ -441,12 +439,12 @@ const AdminDemoScenariosPage = () => {
                             </p>
                           </div>
                         </div>
-                        <Button variant="outline" size="sm" asChild>
-                          <Link to={scenario.targetUrl}>
+                        <Link to={scenario.targetUrl}>
+                          <Button variant="outline" size="sm">
                             View
                             <ArrowRight className="h-4 w-4 ml-1" />
-                          </Link>
-                        </Button>
+                          </Button>
+                        </Link>
                       </div>
                     </Card>
                   </motion.div>

@@ -3,11 +3,9 @@ import { motion } from 'framer-motion';
 import {
   Users,
   Search,
-  Filter,
   MoreVertical,
   Shield,
   ShieldCheck,
-  User,
   Mail,
   Building2,
   Clock,

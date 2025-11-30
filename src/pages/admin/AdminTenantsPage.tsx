@@ -5,7 +5,6 @@ import {
   Search,
   Filter,
   MoreVertical,
-  TrendingUp,
   TrendingDown,
   ExternalLink,
   Settings,
@@ -99,7 +98,7 @@ const AdminTenantsPage = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTenant, setSelectedTenant] = useState<string | null>(null);
+  const [_selectedTenant, setSelectedTenant] = useState<string | null>(null);
 
   const filteredTenants = tenants.filter(tenant =>
     tenant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -238,12 +237,12 @@ const AdminTenantsPage = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm" asChild>
-                        <Link to={`/app/admin/tenants/${tenant.id}`}>
+                      <Link to={`/app/admin/tenants/${tenant.id}`}>
+                        <Button variant="outline" size="sm">
                           <Eye className="h-4 w-4 mr-1" />
                           View
-                        </Link>
-                      </Button>
+                        </Button>
+                      </Link>
                       <Button variant="ghost" size="sm">
                         <MoreVertical className="h-4 w-4" />
                       </Button>
@@ -375,12 +374,12 @@ const AdminTenantsPage = () => {
                       Last activity: {tenant.lastActivity}
                     </p>
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link to="/app" target="_blank">
+                      <Link to="/app" target="_blank">
+                        <Button variant="ghost" size="sm">
                           <ExternalLink className="h-4 w-4 mr-1" />
                           Open as tenant
-                        </Link>
-                      </Button>
+                        </Button>
+                      </Link>
                       <Button variant="ghost" size="sm">
                         <Settings className="h-4 w-4 mr-1" />
                         Settings
