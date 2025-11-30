@@ -18,7 +18,7 @@ const genAI = process.env.GOOGLE_AI_API_KEY
 // Get the Gemini model
 const getModel = () => {
   if (!genAI) return null;
-  return genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  return genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 };
 
 /**
@@ -367,7 +367,7 @@ Format the letter with proper business letter formatting. Do not include any mar
     return {
       letter: letter.trim(),
       generatedAt: new Date().toISOString(),
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       type: 'ai-generated',
     };
   } catch (error) {

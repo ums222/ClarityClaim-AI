@@ -578,7 +578,7 @@ app.get('/api/ai/status', (req, res) => {
       patternAnalysis: true,
       riskScoring: true,
     },
-    model: isAIConfigured() ? 'gemini-1.5-flash' : 'rule-based',
+    model: isAIConfigured() ? 'gemini-2.0-flash' : 'rule-based',
     features: {
       realTimeAnalysis: true,
       bulkProcessing: true,
