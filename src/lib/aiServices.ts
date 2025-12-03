@@ -48,7 +48,7 @@ export const aiServices = {
     claimId: string,
     organizationId: string
   ): Promise<DenialRiskAnalysis> => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase!.auth.getSession();
     
     const response = await fetch(`${FUNCTIONS_URL}/analyze-denial-risk`, {
       method: "POST",
@@ -75,7 +75,7 @@ export const aiServices = {
     claimId?: string,
     title?: string
   ): Promise<ChatSessionResponse> => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase!.auth.getSession();
     
     const response = await fetch(`${FUNCTIONS_URL}/ai-chat-session`, {
       method: "POST",
@@ -106,7 +106,7 @@ export const aiServices = {
     sessionId: string,
     message: string
   ): Promise<ChatSessionResponse> => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase!.auth.getSession();
     
     const response = await fetch(`${FUNCTIONS_URL}/ai-chat-session`, {
       method: "POST",
@@ -132,7 +132,7 @@ export const aiServices = {
 
   // Get Chat History
   getChatHistory: async (sessionId: string): Promise<ChatSessionResponse> => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase!.auth.getSession();
     
     const response = await fetch(`${FUNCTIONS_URL}/ai-chat-session`, {
       method: "POST",
@@ -163,7 +163,7 @@ export const aiServices = {
     filters?: Record<string, any>,
     useCache: boolean = true
   ): Promise<PatternAnalysisResponse> => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase!.auth.getSession();
     
     const response = await fetch(`${FUNCTIONS_URL}/analyze-patterns`, {
       method: "POST",
@@ -191,7 +191,7 @@ export const aiServices = {
 
   // Get Existing Analysis for a Claim
   getClaimAnalysis: async (claimId: string) => {
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from("claim_ai_analysis")
       .select("*")
       .eq("claim_id", claimId)
