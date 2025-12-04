@@ -55,6 +55,10 @@ export function AppLayout({ children }: AppLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { profile, organization, signOut } = useAuth();
+
+    // Extract claim ID from URL for AI Assistant
+  const claimIdMatch = location.pathname.match(/\/app\/claims\/([^\/]+)/);
+  const currentClaimId = claimIdMatch ? claimIdMatch[1] : undefined;
   
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -410,6 +414,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       <AIAssistant 
         isOpen={isAIAssistantOpen} 
         onClose={() => setIsAIAssistantOpen(false)} 
+                claimId={currentClaimId}
       />
     </div>
   );
